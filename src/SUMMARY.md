@@ -1,8 +1,6 @@
 # The Starknet Book
 
-[The Starknet Book](broken-reference)
-
-&#x20;[Introduction](ch00-00-introduction.md)
+&#x20;[معرفی](ch00-00-introduction.md)
 
 ## Getting started
 

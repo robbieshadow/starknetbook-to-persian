@@ -1,10 +1,9 @@
 # Table of contents
 
-* [CHANGELOG](README.md)
-* [کتاب استارکنت](<README (1).md>)
+* [کتاب استارکنت](README.md)
 * [منبع](src/README.md)
   * [The Starknet Book](src/SUMMARY.md)
-  * [introduction](src/ch00-00-introduction.md)
+  * [معرفی](src/ch00-00-introduction.md)
   * [Getting Started](src/ch01-00-getting-started.md)
   * [Starknet Tooling](src/ch02-00-starknet-tooling/README.md)
     * [Installation](src/ch02-00-starknet-tooling/ch02-01-basic-installation.md)
