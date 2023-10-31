@@ -49,7 +49,7 @@ Transaction Status Transition:
 
 1. Accepted on L2 -> Accepted on L1
 
-## [Optional] Transaction Finality in Starknet
+## \[Optional] Transaction Finality in Starknet
 
 Transaction finality refers to the point at which a transaction is considered irreversible and is no longer susceptible to being reversed or undone. It's the assurance that once a transaction is committed, it can't be altered or rolled back, hence securing the integrity of the transaction and the system as a whole.
 
@@ -65,15 +65,13 @@ It is considered to be an average of 6 blocks to reach the finality status; give
 
 Starknet, a Layer-2 (L2) solution on Ethereum, has a two-step transaction finality process. The first step is when the transaction gets accepted on Layer-2 (Starknet), and the second step is when the transaction gets accepted on Layer-1 (Ethereum).
 
-Accepted on L2: When a transaction is processed by the Sequencer and included in a block on Starknet, it reaches L2 finality. However, this finality relies on the L2 consensus and comes with a slight risk of collusion among Sequencers leading to transaction reversal.
-Accepted on L1: The absolute finality comes when the block containing the transaction gets a proof generated, the proof is validated by the Verifier contract on Ethereum, and the state is updated on Ethereum. At this point, the transaction is as secure as the Ethereum's PoW consensus can provide, meaning it becomes computationally infeasible to alter or reverse.
+Accepted on L2: When a transaction is processed by the Sequencer and included in a block on Starknet, it reaches L2 finality. However, this finality relies on the L2 consensus and comes with a slight risk of collusion among Sequencers leading to transaction reversal. Accepted on L1: The absolute finality comes when the block containing the transaction gets a proof generated, the proof is validated by the Verifier contract on Ethereum, and the state is updated on Ethereum. At this point, the transaction is as secure as the Ethereum's PoW consensus can provide, meaning it becomes computationally infeasible to alter or reverse.
 
 ### Comparison
 
 The main difference between Ethereum and Starknet's transaction finality lies in the stages of finality and their reliance on consensus mechanisms.
 
-Ethereum's transaction finality becomes increasingly unlikely to be reversed as more blocks are added.
-Starknet's finality process is two-fold. The initial finality (L2) is quicker but relies on L2 consensus and carries a small risk of collusion. The ultimate finality (L1) is slower, as it involves generation and validation of proofs and updates on Ethereum. However, once reached, it provides the same level of security as an Ethereum transaction.
+Ethereum's transaction finality becomes increasingly unlikely to be reversed as more blocks are added. Starknet's finality process is two-fold. The initial finality (L2) is quicker but relies on L2 consensus and carries a small risk of collusion. The ultimate finality (L1) is slower, as it involves generation and validation of proofs and updates on Ethereum. However, once reached, it provides the same level of security as an Ethereum transaction.
 
 ## Handling of Rejected Transactions
 
@@ -97,7 +95,7 @@ Transaction Status Transition
 
 The following outlines the various steps in a transaction's lifecycle:
 
-<img alt="Transaction flow" src="img/ch03-transaction_flow.png" class="center" style="width: 50%;" />
+![Transaction flow](../../img/ch03-transaction\_flow.png)
 
 ## Conclusion
 

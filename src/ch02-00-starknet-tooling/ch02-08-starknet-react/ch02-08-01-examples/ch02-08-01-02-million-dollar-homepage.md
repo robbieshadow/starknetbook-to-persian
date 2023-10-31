@@ -1,19 +1,19 @@
 # Million Dollar Homepage
 
-[Starknet Homepage](https://github.com/dbejarano820/starknet_homepage) is a decentralized application on the Starknet blockchain. It provides a virtual space where users can claim and personalize sections of a 100x100 grid, known as "Starknet Homepage". Each section is a 10x10 pixel area. Users can acquire these sections by minting non-fungible tokens (NFTs) and then personalizing them with images and other content.
+[Starknet Homepage](https://github.com/dbejarano820/starknet\_homepage) is a decentralized application on the Starknet blockchain. It provides a virtual space where users can claim and personalize sections of a 100x100 grid, known as "Starknet Homepage". Each section is a 10x10 pixel area. Users can acquire these sections by minting non-fungible tokens (NFTs) and then personalizing them with images and other content.
 
 View the live app on testnet [here](https://starknet-homepage-kappa.vercel.app/).
 
-<img alt="homepage" src="img/ch02-starknet-homepage.jpg" class="center" style="width: 75%;" />
+![homepage](../../../img/ch02-starknet-homepage.jpg)
 
 This initiative is an adaptation of the renowned Million Dollar Homepage and was conceived at the Starknet Summit 2023 Hacker House in Palo Alto, California. The following is a guide to understanding how this project was developed using the available tools in the ecosystem.
 
 ### Tools Utilized:
 
-- [Starknet-react](https://github.com/apibara/starknet-react)
-- [Starknet.js](https://github.com/0xs34n/starknet.js)
-- [OpenZeppelin Cairo Contracts](https://github.com/OpenZeppelin/cairo-contracts)
-- [MaterialUI](https://mui.com/material-ui/)
+* [Starknet-react](https://github.com/apibara/starknet-react)
+* [Starknet.js](https://github.com/0xs34n/starknet.js)
+* [OpenZeppelin Cairo Contracts](https://github.com/OpenZeppelin/cairo-contracts)
+* [MaterialUI](https://mui.com/material-ui/)
 
 ## Initial Setup
 
@@ -56,12 +56,12 @@ The core functionality of the Starknet Homepage centers around selecting a 4-sid
 
 The app's primary requirements are:
 
-- Wallet connectivity
-- Grid for displaying existing tokens
-- Cell selection capability
-- Multicall function for token approval and minting
-- Dropdown to view owned tokens
-- On-chain representation of the entire 1 million pixel grid
+* Wallet connectivity
+* Grid for displaying existing tokens
+* Cell selection capability
+* Multicall function for token approval and minting
+* Dropdown to view owned tokens
+* On-chain representation of the entire 1 million pixel grid
 
 A significant aspect to consider is the string limitation in Cairo contracts. To store links of varying sizes, they are stored as arrays of `felt252`s. The contract uses the following logic for this purpose:
 
@@ -137,7 +137,7 @@ struct Cell {
 }
 ```
 
-The OpenZeppelin Cairo Contracts library played a crucial role in speeding up the development of the ERC721 contract for Starknet Homepage. You can find the contract for review [here](https://github.com/dbejarano820/starknet_homepage/blob/main/cairo_contracts/src/ERC721.cairo). Once you have installed the library, you can refer to the following example for typical usage:
+The OpenZeppelin Cairo Contracts library played a crucial role in speeding up the development of the ERC721 contract for Starknet Homepage. You can find the contract for review [here](https://github.com/dbejarano820/starknet\_homepage/blob/main/cairo\_contracts/src/ERC721.cairo). Once you have installed the library, you can refer to the following example for typical usage:
 
 ```rust
 #[starknet::contract]
@@ -210,13 +210,13 @@ link: deserializeFeltArray(tokenObject.link),
 
 Furthermore, the Grid component manages the cell selection process, leading to the minting of a corresponding token. Once an area is chosen, a modal appears displaying the mint details and other necessary inputs for the call data. The intricacies of the multicall will be addressed subsequently.
 
-<img alt="Wallets" src="img/ch02-starknet-homepage-select.jpg" class="center" style="width: 75%;" />
+![Wallets](../../../img/ch02-starknet-homepage-select.jpg)
 
 #### Modals
 
 Modals offer a convenient means to present varied functionalities within the app, such as wallet connection, token minting, and token editing.
 
-<img alt="Wallets" src="img/ch02-starknet-homepage-wallets.jpg" class="center" style="width: 75%;" />
+![Wallets](../../../img/ch02-starknet-homepage-wallets.jpg)
 
 A recognized best practice is to invoke the React hook for shared information at a top-level, ensuring components like the `WalletBar` remain streamlined and focused.
 
@@ -395,7 +395,7 @@ const handleMintClick = async (): Promise<void> => {
 
 Another instructive illustration of a conditional multicall setup is the modal used to modify the data associated with a token.
 
-<img alt="homepage" src="img/ch02-starknet-homepage-edit.jpg" class="center" style="width: 75%;" />
+![homepage](../../../img/ch02-starknet-homepage-edit.jpg)
 
 There are scenarios where the user may wish to alter just one attribute of the token, rather than both. Consequently, a conditional multicall configuration becomes necessary. It's essential to recall that the token id in the Cairo contract is defined as a `u256`, implying it comprises two `felt252` values.
 
@@ -429,9 +429,9 @@ const calls = useMemo(() => {
 
 ## Starknet Homepage Overview
 
-- **Grid Component**: Represents a 100x100 matrix, allowing users to select cells and mint corresponding tokens. It fetches existing tokens using the `getAllTokens` function from the contract and displays them.
-- **Modals**: Serve as the user interface for actions like wallet connection, token minting, and token editing.
-- **Token Dropdown**: Displays tokens associated with a connected wallet. It retrieves these tokens using the `getTokensByOwner` function.
-- **Multicall Contract Interaction**: Enables token minting and editing. This process utilizes conditional multicalls based on user preferences, especially for editing token attributes.
+* **Grid Component**: Represents a 100x100 matrix, allowing users to select cells and mint corresponding tokens. It fetches existing tokens using the `getAllTokens` function from the contract and displays them.
+* **Modals**: Serve as the user interface for actions like wallet connection, token minting, and token editing.
+* **Token Dropdown**: Displays tokens associated with a connected wallet. It retrieves these tokens using the `getTokensByOwner` function.
+* **Multicall Contract Interaction**: Enables token minting and editing. This process utilizes conditional multicalls based on user preferences, especially for editing token attributes.
 
 Throughout the platform, string limitations in Cairo contracts require encoding lengthy strings into arrays of `felt252`s. The OpenZeppelin Cairo Contracts library significantly expedites the development of the ERC721 contract for the Starknet Homepage.
