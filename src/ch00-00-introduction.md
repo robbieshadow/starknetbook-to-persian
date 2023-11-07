@@ -45,65 +45,65 @@ Starknet شکاف بین مقیاس پذیری و اجماع گسترده را �
   * **مقاومت در برابر سانسور**: Starknet نسبت به ماهیت و معنای تراکنش‌های کاربر بی‌اعتنا است.
 * توانمندسازی فردی Starknet در هسته خود بر پایه یک پایگاه کاربر آگاه و مستقل رشد می کند. این امر با پرورش فرهنگی که ریشه در مأموریت و ارزش های اصلی آن دارد، با تأکید شدید بر آموزش به دست می آید.
 
-## Key Features
+### ویژگی های کلیدی
 
-These are some key features of Starknet:
+برخی از ویژگی های کلیدی Starknet عبارتند از:
 
-* Low Costs: Transactions on Starknet cost less than on Ethereum. Future updates like Volition and EIP 4844 will make it even cheaper.
-* Developer-Friendly: Starknet lets developers easily build decentralized apps using its native language, Cairo.
-* Speed and Efficiency: Upcoming releases aim to make transactions even faster and cheaper.
-* CVM: Thanks to Cairo, Starknet runs on it´s own VM, called Cairo VM (CVM), that allow us to innovate beyond the Ethereum Virtual Machine (EVM) and create a new paradigm for decentralized applications.
+* هزینه های پایین: تراکنش های استارک نت کمتر از اتریوم هستند. به روز رسانی های آینده مانند Volition و EIP 4844 آن را حتی ارزان تر خواهد کرد.
+* توسعه‌دهنده دوست: Starknet به توسعه‌دهندگان این امکان را می‌دهد تا با استفاده از زبان مادری خود، قاهره، به راحتی برنامه‌های غیرمتمرکز بسازند.
+* سرعت و کارایی: هدف نسخه‌های آینده این است که تراکنش‌ها را سریع‌تر و ارزان‌تر کنند.
+* CVM: به لطف قاهره، Starknet روی ماشین مجازی خود به نام Cairo VM (CVM) اجرا می‌شود که به ما امکان می‌دهد فراتر از ماشین مجازی اتریوم (EVM) نوآوری کنیم و یک الگوی جدید برای برنامه‌های غیرمتمرکز ایجاد کنیم.
 
-Here some of them:
+در اینجا برخی از آنها:
 
-* Account Abstraction: Implemented at the protocol level, this facilitates diverse signing schemes while ensuring user security and self-custody of assets.
-* Volition: Will be implemented on testnet during Q4 2023 will allow developers to regulate data availability on Ethereum (L1) or on Starknet (L2). Reducing L1 onchain data can radically reduce costs.
-* Paymaster: Starknet will allow users to choose how to pay for transaction fee, follows the guidelines laid out in EIP 4337 and allows the transaction to specify a specific contract, a **Paymaster**, to pay for their transaction. Supports gasless transactions, enhancing user accessibility.
+* انتزاع حساب: در سطح پروتکل پیاده‌سازی می‌شود، این امر طرح‌های امضای متنوعی را تسهیل می‌کند و در عین حال امنیت کاربر و نگهداری از دارایی‌ها را تضمین می‌کند.
+* Volition: در سه ماهه چهارم 2023 در تست نت پیاده سازی می شود و به توسعه دهندگان این امکان را می دهد تا در دسترس بودن داده ها را در اتریوم (L1) یا در Starknet (L2) تنظیم کنند. کاهش داده های زنجیره ای L1 می تواند هزینه ها را به شدت کاهش دهد.
+* Paymaster: Starknet به کاربران این امکان را می دهد که نحوه پرداخت هزینه تراکنش را انتخاب کنند، از دستورالعمل های مندرج در EIP 4337 پیروی می کند و به تراکنش اجازه می دهد یک قرارداد خاص، یک Paymaster، برای پرداخت تراکنش خود مشخص کند. از تراکنش های بدون گاز پشتیبانی می کند و دسترسی کاربر را افزایش می دهد.
 
-## Cairo: The Language of Starknet
+### قاهره: زبان استارکنت
 
-Cairo is tailor-made for creating STARK-based smart contracts. As Starknet’s native language, it’s central to building scalable and secure decentralized apps. To start learning now, check out the [Cairo Book](https://cairo-book.github.io/) and [Starklings](https://github.com/shramee/starklings-cairo1).
+قاهره برای ایجاد قراردادهای هوشمند مبتنی بر STARK طراحی شده است. به‌عنوان زبان مادری Starknet، برای ساختن برنامه‌های غیرمتمرکز مقیاس‌پذیر و ایمن بسیار مهم است. برای شروع یادگیری اکنون، کتاب قاهره و استارکلینگ ها را بررسی کنید.
 
-Inspired by Rust, Cairo lets you write contracts safely and conveniently.
+با الهام از Rust، قاهره به شما امکان می دهد قراردادها را ایمن و راحت بنویسید.
 
-### Why Choose Cairo?
+چرا قاهره را انتخاب کنید؟
 
-Cairo is designed for _Provable Computation,_ a new paradigm that lets programs prove their correctness without re-running them. Here’s why it stands out:
+قاهره برای محاسبات اثبات پذیر طراحی شده است، یک الگوی جدید که به برنامه ها اجازه می دهد درستی خود را بدون اجرای مجدد ثابت کنند. در اینجا دلیل برجسته شدن آن است:
 
-* Purpose-Built: Designed specifically for smart contracts.
-* No EVM Limits: Goes beyond what the Ethereum Virtual Machine can do.
-* Flexibility: Uses traits for more flexibility than inheritance.
+* Purpose-Built: به طور خاص برای قراردادهای هوشمند طراحی شده است.
+* بدون محدودیت EVM: فراتر از آن چیزی است که ماشین مجازی اتریوم می تواند انجام دهد.
+* انعطاف پذیری: از ویژگی ها برای انعطاف پذیری بیشتر از وراثت استفاده می کند.
 
-## Governance
+### حکومت
 
-The Starknet Foundation oversees Starknet’s governance. Its duties include:
+بنیاد Starknet بر حکمرانی Starknet نظارت دارد. وظایف آن عبارتند از:
 
-* Managing Starknet’s development and operations
-* Overseeing the Starknet DAO, which enables community involvement
-* Setting rules to maintain network integrity
+* مدیریت توسعه و عملیات Starknet
+* نظارت بر Starknet DAO، که مشارکت جامعه را امکان پذیر می کند
+* تنظیم قوانین برای حفظ یکپارچگی شبکه
 
-Our focus is on technical input and debate for improving the protocol. While we value all perspectives, it’s often the technical insights that steer us forward.
+تمرکز ما بر ورودی فنی و بحث برای بهبود پروتکل است. در حالی که ما برای همه دیدگاه ها ارزش قائل هستیم، اغلب بینش های فنی است که ما را به جلو هدایت می کند.
 
-Members can influence Starknet by voting on changes. Here’s the process: A new version is tested on the Goerli Testnet. Members then have six days to review it. A Snapshot proposal is made, and the community votes. A majority of _YES_ votes means an upgrade to the Mainnet.
+اعضا می توانند با رای دادن به تغییرات استارک نت را تحت تاثیر قرار دهند. فرآیند به این صورت است: یک نسخه جدید در Goerli Testnet آزمایش می شود. سپس اعضا شش روز فرصت دارند تا آن را بررسی کنند. پیشنهاد Snapshot ارائه می شود و جامعه رای می دهد. اکثریت آرا بله به معنای ارتقاء به Mainnet است.
 
-In short, governance is key to Starknet’s evolution.
+به طور خلاصه، حکمرانی کلید تکامل Starknet است.
 
-To propose an improvement, create a SNIP.
+برای پیشنهاد بهبود، یک SNIP ایجاد کنید.
 
-### SNIP: Starknet Improvement Proposals
+SNIP: پیشنهادهای بهبود Starknet
 
-SNIP is short for Starknet Improvement Proposal. It’s essentially a blueprint that details proposed enhancements or changes to the Starknet ecosystem. A well-crafted SNIP includes both the technical specifications of the change and the reasons behind it. If you’re proposing a SNIP, it’s your job to rally community support and document any objections (more details [here](https://community.starknet.io/t/draft-simp-1-simp-purpose-and-guidelines/1197#what-is-a-snip-2)). Once a SNIP is approved, it becomes a part of the Starknet protocol. All the SNIPs can be found in [this repository](https://github.com/starknet-io/SNIPs).
+SNIP مخفف عبارت Starknet Improvement Proposal است. این اساساً طرحی است که جزئیات پیشرفت‌ها یا تغییرات پیشنهادی در اکوسیستم Starknet را نشان می‌دهد. یک SNIP که به خوبی ساخته شده است، هم مشخصات فنی تغییر و هم دلایل پشت آن را در بر می گیرد. اگر شما یک SNIP را پیشنهاد می کنید، وظیفه شما این است که حمایت جامعه را جمع آوری کرده و هرگونه اعتراض را ثبت کنید (جزئیات بیشتر در اینجا). هنگامی که یک SNIP تأیید شد، به بخشی از پروتکل Starknet تبدیل می شود. تمام SNIP ها را می توان در این مخزن پیدا کرد.
 
-SNIPs serve three crucial roles:
+SNIP ها سه نقش مهم را ایفا می کنند:
 
-1. They are the main avenue for proposing new features or changes.
-2. They act as a platform for technical discussions within the community.
-3. They document the decision-making process, offering a historical view of how Starknet has evolved.
+1. آنها راه اصلی برای پیشنهاد ویژگی ها یا تغییرات جدید هستند.
+2. آنها به عنوان بستری برای بحث های فنی در جامعه عمل می کنند.
+3. آنها فرآیند تصمیم گیری را مستند می کنند و یک دیدگاه تاریخی از چگونگی تکامل Starknet ارائه می دهند.
 
-Because SNIPs are stored as text files in a [version-controlled repository](https://github.com/starknet-io/SNIPs), you can easily track changes and understand the history of proposals.
+از آنجایی که SNIP ها به عنوان فایل های متنی در یک مخزن کنترل شده با نسخه ذخیره می شوند، می توانید به راحتی تغییرات را پیگیری کرده و تاریخچه پیشنهادات را درک کنید.
 
-For those who are building on Starknet, SNIPs aren’t just suggestions—they’re a roadmap. It’s beneficial for implementers to keep a list of the SNIPs they’ve executed. This transparency helps users gauge the state of a particular implementation or software library.
+برای کسانی که در استارک نت کار می کنند، SNIP ها فقط یک پیشنهاد نیستند، بلکه یک نقشه راه هستند. برای پیاده‌کننده‌ها مفید است که فهرستی از SNIP‌هایی را که اجرا کرده‌اند نگه دارند. این شفافیت به کاربران کمک می کند تا وضعیت یک کتابخانه خاص پیاده سازی یا نرم افزار را بسنجند.
 
-## Conclusion
+### نتیجه
 
-In decentralized technology, Starknet offers a solution to challenges that previous systems encountered. It's based on established _protocols_ and _registries_, following the initial concepts introduced by figures such as Satoshi. Through a specific mathematical method, Starknet seeks a balance between scalability and consensus. As this technology progresses, Starknet adheres to principles of inclusivity, neutrality, and user empowerment. It's poised for continuous adaptation and improvement in the field.
+در فناوری غیرمتمرکز، Starknet راه حلی برای چالش هایی که سیستم های قبلی با آن مواجه بودند ارائه می دهد. این بر اساس پروتکل ها و رجیستری های ایجاد شده، پیروی از مفاهیم اولیه معرفی شده توسط چهره هایی مانند ساتوشی است. از طریق یک روش ریاضی خاص، استارک نت به دنبال تعادل بین مقیاس پذیری و اجماع است. همانطور که این فناوری پیشرفت می کند، Starknet به اصول جامعیت، بی طرفی و توانمندسازی کاربر پایبند است. برای سازگاری و بهبود مستمر در این زمینه آماده است.

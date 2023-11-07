@@ -1,27 +1,27 @@
-# Getting Started
+# شروع شدن
 
-Starknet is a scalable Layer-2 solution on Ethereum. This guide will walk you through the process of deploying and interacting with your first Starknet smart contract using the Cairo programming language, a language tailored for creating validity proofs and that Starknet uses. For seasoned developers looking to understand the core concepts and get hands-on experience, this guide offers step-by-step instructions and essential details.
+Starknet یک راه حل لایه 2 مقیاس پذیر در اتریوم است. این راهنما شما را در فرآیند استقرار و تعامل با اولین قرارداد هوشمند Starknet با استفاده از زبان برنامه‌نویسی Cairo راهنمایی می‌کند، زبانی که برای ایجاد اثبات اعتبار طراحی شده و استارک‌نت از آن استفاده می‌کند. برای توسعه دهندگان باتجربه ای که به دنبال درک مفاهیم اصلی و کسب تجربه عملی هستند، این راهنما دستورالعمل های گام به گام و جزئیات ضروری را ارائه می دهد.
 
-We will use the Starknet Remix Plugin to compile, deploy and interact with our smart contract. It is a great tool to get started with Starknet development.
+ما از پلاگین Starknet Remix برای کامپایل، استقرار و تعامل با قرارداد هوشمند خود استفاده خواهیم کرد. این یک ابزار عالی برای شروع توسعه Starknet است.
 
-1. Visit [The Remix Project](https://remix.ethereum.org/).
-2. Navigate to the ‘Plugins’ section in the bottom left corner.
-3. Enable the “Starknet” plugin.
+1. از پروژه ریمیکس دیدن کنید.
+2. به بخش «افزونه‌ها» در گوشه پایین سمت چپ بروید.
+3. افزونه Starknet را فعال کنید.
 
-<img alt="Activate the Starknet Plugin" src="img/ch01-starknet-plugin.png" class="center" style="width: 100%;" />
+![Activate the Starknet Plugin](img/ch01-starknet-plugin.png)
 
-<span class="caption">Activate the Starknet Plugin</span>
+پلاگین Starknet را فعال کنید
 
-4. After enabling, the Starknet logo appears on the left sidebar. Click it to interact with opened Cairo files.
+4. پس از فعال کردن، لوگوی Starknet در نوار کناری سمت چپ ظاهر می شود. برای تعامل با فایل‌های باز شده قاهره روی آن کلیک کنید.
 
-## Introduction to Starknet Smart Contracts
+### مقدمه ای بر قراردادهای هوشمند Starknet
 
-The script below is a simple `Ownable` contract pattern written in Cairo for Starknet. It features:
+اسکریپت زیر یک الگوی قرارداد Ownable ساده است که در قاهره برای Starknet نوشته شده است. ویژگی های آن:
 
-- An ownership system.
-- A method to transfer ownership.
-- A method to check the current owner.
-- An event notification for ownership changes.
+* یک سیستم مالکیت
+* روشی برای انتقال مالکیت
+* روشی برای بررسی مالک فعلی
+* یک اعلان رویداد برای تغییرات مالکیت.
 
 ```rust
 use starknet::ContractAddress;
@@ -88,70 +88,62 @@ mod Ownable {
 }
 ```
 
-### Components Breakdown
+### تجزیه اجزا
 
-The following is a brief description of the components in the contract. We will get into more details when we get deeper into Cairo so feel free to skip this section for now if you are not familiar with smart contract development.
+در ادامه به توضیح مختصری از اجزای قرارداد می پردازیم. وقتی عمیق تر به قاهره برویم به جزئیات بیشتری خواهیم پرداخت، بنابراین اگر با توسعه قراردادهای هوشمند آشنایی ندارید، فعلاً از این بخش صرف نظر کنید.
 
-1. **Dependencies and Interface**:
-   - **`starknet::ContractAddress`**: Represents a Starknet contract address.
-   - **`OwnableTrait`**: Specifies functions for transferring and getting ownership.
-2. **Events**:
-   - **`OwnershipTransferred1`**: Indicates ownership change with previous and new owner details.
-3. **Storage**:
-   - **`Storage`**: Holds the contract's state with the current owner's address.
-4. **Constructor**:
-   - Initializes the contract with a starting owner.
-5. **External Functions**:
-   - Functions for transferring ownership and retrieving the current owner's details.
-6. **Private Methods**:
-   - **`only_owner`**: Validates if the caller is the current owner.
+1. وابستگی ها و رابط:
+   * starknet::ContractAddress: نشان دهنده آدرس قرارداد Starknet است.
+   * OwnableTrait: توابعی را برای انتقال و گرفتن مالکیت مشخص می کند.
+2. مناسبت ها:
+   * OwnershipTransferred1: نشان دهنده تغییر مالکیت با جزئیات مالک قبلی و جدید است.
+3. ذخیره سازی:
+   * ذخیره سازی: وضعیت قرارداد را با آدرس مالک فعلی نگه می دارد.
+4. سازنده:
+   * قرارداد را با مالک اولیه آغاز می کند.
+5. توابع خارجی:
+   * توابع انتقال مالکیت و بازیابی اطلاعات مالک فعلی.
+6. روش های خصوصی:
+   * only\_owner: اگر تماس گیرنده مالک فعلی باشد، اعتبارسنجی می شود.
 
-## Compilation Process
+### فرآیند تدوین
 
-To compile using Remix:
+برای کامپایل با استفاده از Remix:
 
-1. **File Creation**
+1. ایجاد فایل
+   * به تب "File Explorer" در Remix بروید.
+   * یک فایل جدید با نام Ownable.cairo ایجاد کنید و کد قبلی را وارد کنید.
+2. تلفیقی
+   * Choose the `Ownable.cairo` file.
+   * در تب "Starknet"، "Compile Ownable.cairo" را انتخاب کنید.
+   * پس از کامپایل، یک پوشه "مصنوعات" ظاهر می شود که حاوی قرارداد کامپایل شده در دو قالب مجزا است: Sierra (فایل JSON) و CASM. برای استقرار Starknet، Remix از فایل Sierra استفاده خواهد کرد. در حال حاضر نگران این روند نباشید. در فصل بعد به تفصیل به آن خواهیم پرداخت. در حال حاضر، Remix کامپایل و استقرار را برای ما انجام خواهد داد.
 
-   - Navigate to the "File Explorer" tab in Remix.
-   - Create a new file named `Ownable.cairo` and input the previous code.
+![Artifacts folder after compilation](img/ch01-remix-file.png)
 
-2. **Compilation**
+پوشه Artifacts پس از کامپایل
 
-   - Choose the `Ownable.cairo` file.
-   - In the "Starknet" tab, select "Compile Ownable.cairo".
-   - Post-compilation, an "artifacts" folder emerges containing the compiled contract in two distinct formats: Sierra (JSON file) and CASM. For Starknet deployment, Remix will use the Sierra file. Do not worry about this process for now; we will cover it in detail in a later chapter. For now, Remix will handle the compilation and deployment for us.
+### استقرار در شبکه توسعه
 
-<img alt="Artifacts folder after compilation" src="img/ch01-remix-file.png" class="center" style="width: 100%;" />
+برای راه اندازی قرارداد هوشمند خود، باید مالک اولیه تعریف شود. تابع سازنده به این اطلاعات نیاز دارد.
 
-<span class="caption">Artifacts folder after compilation</span>
+در اینجا یک راهنمای گام به گام برای استقرار قرارداد هوشمند خود در شبکه توسعه آورده شده است:
 
-## Deployment on the Development Network
+1. شبکه مناسب را انتخاب کنید
+   * به تب انتخاب محیط بروید.
+   * "Remote Devnet" را برای استقرار قرارداد افتتاحیه خود در یک شبکه توسعه انتخاب کنید.
+2. یک حساب Devnet را انتخاب کنید
+   * در بخش «انتخاب حساب Devnet»، فهرستی از حساب‌های اختصاصی برای devnet انتخاب شده ارائه می‌شود.
+   * هر حسابی را انتخاب کنید و آدرس آن را کپی کنید.
+3. شروع استقرار
+   * به تب "Starknet" بروید.
+   * آدرس کپی شده را در متغیر init\_owner وارد کنید.
+   * روی "Deploy ownable.cairo" کلیک کنید.
 
-To set your smart contract in motion, an initial owner must be defined. The Constructor function needs this information.
+پس از استقرار، ترمینال Remix گزارش های مختلفی را ارسال می کند. این گزارش ها جزئیات مهمی را ارائه می دهند، از جمله:
 
-Here's a step-by-step guide to deploying your smart contract on the development network:
-
-1. **Select the Appropriate Network**
-
-   - Go to the Environment selection tab.
-   - Choose "Remote Devnet" for deploying your inaugural contract on a development network.
-
-2. **Choose a Devnet Account**
-
-   - Under "Devnet account selection", a list of accounts specific to the chosen devnet is presented.
-   - Pick any account and copy its address.
-
-3. **Initiating Deployment**
-
-   - Navigate to the "Starknet" tab.
-   - Input the copied address into the `init_owner` variable.
-   - Click on "Deploy ownable.cairo".
-
-Post-deployment, Remix's terminal will send various logs. These logs provide crucial details, including:
-
-- `transaction_hash`: The unique hash of the transaction. This hash can be used to track the transaction's status.
-- `contract_address`: The address of the deployed contract. Use this address to interact with your contract.
-- `calldata`: Contains the `init_owner` address fed to the constructor.
+* transaction\_hash: هش منحصر به فرد تراکنش. از این هش می توان برای ردیابی وضعیت تراکنش استفاده کرد.
+* contract\_address: آدرس قرارداد مستقر شده. از این آدرس برای تعامل با قرارداد خود استفاده کنید.
+* calldata: حاوی آدرس init\_owner است که به سازنده داده شده است.
 
 ```bash
 {
@@ -165,21 +157,18 @@ Post-deployment, Remix's terminal will send various logs. These logs provide cru
 }
 ```
 
-By following the above process, you successfully deploy your smart contract on the development network.
+با پیروی از فرآیند فوق، قرارداد هوشمند خود را با موفقیت در شبکه توسعه مستقر می کنید.
 
-## Interaction with the Contract
+### تعامل با قرارداد
 
-With the contract now active on the development network, interaction becomes possible. Here's a guide to effectively interact with your contract on Starknet:
+با قراردادی که اکنون در شبکه توسعه فعال است، تعامل امکان پذیر می شود. در اینجا راهنمایی برای تعامل موثر با قرارداد خود در Starknet آمده است:
 
-1. **Initiating Interaction**
-
-   - Navigate to the "Starknet" tab.
-   - Select the "Interact" option.
-
-2. **Calling the `get_owner` Function**
-
-   - Choose the `get_owner` function. Since this function doesn't require arguments, the calldata field remains blank. (This is a read function, hence calling it is termed as a "call".)
-   - Press the "get_owner" button. Your terminal will display the result, revealing the owner's address provided during the contract's deployment as calldata for the constructor:
+1. شروع تعامل
+   * به تب "Starknet" بروید.
+   * گزینه «تعامل» را انتخاب کنید.
+2. فراخوانی تابع get\_owner
+   * تابع get\_owner را انتخاب کنید. از آنجایی که این تابع به آرگومان نیاز ندارد، فیلد calldata خالی می ماند. (این تابع خواندن است، از این رو فراخوانی آن به عنوان "تماس" نامیده می شود.)
+   * دکمه "get\_owner" را فشار دهید. ترمینال شما نتیجه را نمایش می‌دهد و نشانی مالک ارائه‌شده در حین استقرار قرارداد را به‌عنوان داده فراخوانی برای سازنده نشان می‌دهد:
 
 ```json
 {
@@ -193,15 +182,15 @@ With the contract now active on the development network, interaction becomes pos
 }
 ```
 
-This call currently doesn't spend gas because the function does not change the state of the contract.
+این تماس در حال حاضر گاز مصرف نمی کند زیرا عملکرد وضعیت قرارداد را تغییر نمی دهد.
 
-3. **Invoking the `transfer_ownership` Function**
+3. فراخوانی تابع transfer\_ownership
 
-- Now, for the **`transfer_ownership`** function, which requires the new owner's address as input.
-- Enter this address into the calldata field. (For this, use any address from the "Devnet account selection" listed in the Environment tab.)
-- Click the "transfer_ownership" button. The terminal then showcases the transaction hash indicating the contract's state alteration. Since we are altering the contract's state this typo of interaction is called an "invoke" and needs to be signed by the account that is calling the function.
+* اکنون برای تابع transfer\_ownership که به آدرس مالک جدید به عنوان ورودی نیاز دارد.
+* این آدرس را در قسمت calldata وارد کنید. (برای این کار، از هر آدرسی از «انتخاب حساب Devnet» فهرست شده در برگه Environment استفاده کنید.)
+* روی دکمه "transfer\_ownership" کلیک کنید. سپس ترمینال هش تراکنش را نشان می دهد که نشان دهنده تغییر وضعیت قرارداد است. از آنجایی که ما وضعیت قرارداد را تغییر می‌دهیم، این اشتباه تایپی از تعامل «فراخوانی» نامیده می‌شود و باید توسط حسابی که تابع را فراخوانی می‌کند امضا شود.
 
-For these transactions, the terminal logs will exhibit a "status" variable, indicating the transaction's fate. If the status reads "ACCEPTED_ON_L2", the Sequencer has accepted the transaction, pending block inclusion. However, a "REJECTED" status signifies the Sequencer's disapproval, and the transaction won't feature in the upcoming block. More often than not, this transaction gains acceptance, leading to a contract state modification. On calling the **`get_owner`** function again we get this:
+برای این تراکنش‌ها، گزارش‌های پایانه یک متغیر «وضعیت» را نشان می‌دهند که سرنوشت تراکنش را نشان می‌دهد. اگر وضعیت "ACCEPTED\_ON\_L2" خوانده شود، ترتیب‌دهنده تراکنش را پذیرفته است، در حال تعلیق درج بلوک. با این حال، وضعیت "رد شده" به معنای عدم تایید ترتیب‌دهنده است و تراکنش در بلوک آینده نمایش داده نخواهد شد. اغلب اوقات، این معامله مورد پذیرش قرار می گیرد و منجر به اصلاح وضعیت قرارداد می شود. با فراخوانی مجدد تابع get\_owner این را دریافت می کنیم:
 
 ```json
 {
@@ -215,47 +204,46 @@ For these transactions, the terminal logs will exhibit a "status" variable, indi
 }
 ```
 
-You've now adeptly compiled, deployed, and interacted with your inaugural Starknet smart contract. Well done!
+شما اکنون ماهرانه قرارداد هوشمند Starknet خود را کامپایل کرده، مستقر کرده و با آن تعامل کرده اید. آفرین!
 
-## Deploying on Starknet Testnet
+### استقرار در Starknet Testnet
 
-After testing your smart contract on a development network, it's time to deploy it to the Starknet Testnet. Starknet Testnet is a public platform available for everyone, ideal for testing smart contracts and collaborating with fellow developers.
+پس از آزمایش قرارداد هوشمند خود در یک شبکه توسعه، وقت آن است که آن را در Starknet Testnet مستقر کنید. Starknet Testnet یک پلتفرم عمومی برای همه است که برای آزمایش قراردادهای هوشمند و همکاری با توسعه دهندگان همکار ایده آل است.
 
-First you need to create a Starknet account.
+### ابتدا باید یک حساب Starknet ایجاد کنید.
 
-### Smart Wallet Setup
+راه اندازی کیف پول هوشمند
 
-Before deploying your smart contract to Starknet, you must handle the transaction cost. While deploying to the Starknet Goerli Testnet is free, a smart wallet account is essential. You can set up a smart wallet using either:
+قبل از استقرار قرارداد هوشمند خود در Starknet، باید هزینه تراکنش را مدیریت کنید. در حالی که استقرار در Starknet Goerli Testnet رایگان است، یک حساب کیف پول هوشمند ضروری است. شما می توانید یک کیف پول هوشمند با استفاده از یکی از موارد زیر راه اندازی کنید:
 
-- [Braavos](https://braavos.app/)
-- [Argent](https://www.argent.xyz/argent-x/)
+* [Braavos](https://braavos.app/)
+* [Argent](https://www.argent.xyz/argent-x/)
 
-Both are reliable Starknet wallets offering enhanced security and accessibility features thanks to the possibilities that the Cairo VM brings, such as Account Abstraction (keep reading the Book for more on this).
+هر دو کیف پول Starknet قابل اعتماد هستند که به لطف امکاناتی که Cairo VM به ارمغان می‌آورد، مانند Account Abstraction (برای اطلاعات بیشتر در این مورد به خواندن کتاب ادامه دهید) ویژگی‌های امنیتی و دسترسی پیشرفته‌تری را ارائه می‌دهند.
 
-1. Install the recommended chrome/brave extension for your chosen wallet.
-2. Follow your wallet provider's instructions to deploy your account.
-3. Use the [Starknet Faucet](https://faucet.goerli.starknet.io/) to fund your account.
-4. Deploy the account to the network. This usually takes around 10 seconds.
+1. افزونه chrome/brave توصیه شده را برای کیف پول انتخابی خود نصب کنید.
+2. دستورالعمل های ارائه دهنده کیف پول خود را برای استقرار حساب خود دنبال کنید.
+3. از شیر آب Starknet برای تامین مالی حساب خود استفاده کنید.
+4. اکانت را در شبکه مستقر کنید. این معمولاً حدود 10 ثانیه طول می کشد.
 
-Once set up, you're ready to deploy your smart contracts to the Starknet Testnet.
+پس از راه اندازی، آماده استقرار قراردادهای هوشمند خود در Starknet Testnet هستید.
 
-### Deployment and Interaction
+### استقرار و تعامل
 
-1. Follow the previous deployment steps.
-2. In the 'Environment selection' tab, choose 'Wallet Selection'.
-3. Select your Starknet account and continue with deploying and interacting with your contract.
+1. مراحل استقرار قبلی را دنبال کنید.
+2. در برگه «انتخاب محیط»، «انتخاب کیف پول» را انتخاب کنید.
+3. حساب Starknet خود را انتخاب کنید و به استقرار و تعامل با قرارداد خود ادامه دهید.
 
-You can monitor transaction hashes and addresses using any Starknet block explorers like:
+می‌توانید هش‌ها و آدرس‌های تراکنش را با استفاده از هر کاوشگر بلوک Starknet مانند:
 
-- [Starkscan](https://testnet.starkscan.co/)
-- [Voyager](https://goerli.voyager.online/)
+* [Starkscan](https://testnet.starkscan.co/)
+* [Voyager](https://goerli.voyager.online/)
 
-These tools provide a visual representation of transactions and contract state alterations. Notably, when you alter the contract ownership using the `transfer_ownership` function, the event emitted by the contract appears in the block explorer. It's an effective method to track contract events.
+این ابزارها نمایشی بصری از تراکنش ها و تغییرات وضعیت قرارداد را ارائه می دهند. قابل توجه است که وقتی مالکیت قرارداد را با استفاده از تابع transfer\_ownership تغییر می‌دهید، رویداد منتشر شده توسط قرارداد در کاوشگر بلوک ظاهر می‌شود. این یک روش موثر برای پیگیری رویدادهای قرارداد است.
 
-## Your Next Steps
+### مراحل بعدی شما
 
-Decide your direction from the following choices:
+جهت خود را از گزینه های زیر تعیین کنید:
 
-1. **Deepen Your Starknet Knowledge**: For an extensive grasp of Starknet's inner workings and potential use cases, delve into Chapter 3 of the Starknet Book. This chapter details Starknet’s architectural nuances. Then go ahead from there.
-
-2. **Dive into Cairo**: If you're more attuned to coding and wish to craft Starknet contracts, then Cairo is essential. It stands as Starknet's core contract language. Begin with Chapters 1-6 of the [Cairo Book](https://book.cairo-lang.org/title-page.html), ranging from basics in _Getting Started_ to more advanced aspects such as _Enums and Pattern Matching_. Conclude by navigating to the [Starknet Smart Contracts chapter](https://book.cairo-lang.org/ch99-00-starknet-smart-contracts.html), ensuring you have a well-rounded understanding.
+1. دانش Starknet خود را عمیق تر کنید: برای درک گسترده از عملکرد درونی Starknet و موارد استفاده بالقوه، به فصل 3 کتاب Starknet بپردازید. این فصل جزئیات معماری Starknet را شرح می دهد. سپس از آنجا به جلو بروید.
+2. غواصی در قاهره: اگر بیشتر با برنامه نویسی هماهنگ هستید و می خواهید قراردادهای Starknet را ایجاد کنید، قاهره ضروری است. این زبان قرارداد اصلی Starknet است. با فصل های 1-6 کتاب قاهره شروع کنید، از اصول اولیه شروع تا جنبه های پیشرفته تر مانند Enums و تطبیق الگو. با رفتن به فصل قراردادهای هوشمند Starknet، اطمینان حاصل کنید که درک کاملی دارید.

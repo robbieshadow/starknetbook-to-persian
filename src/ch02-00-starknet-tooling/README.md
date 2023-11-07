@@ -1,49 +1,25 @@
-# Starknet Tooling
+# ابزار Starknet
 
-To make the most of this chapter, a basic grasp of the Cairo programming
-language is advised. We suggest reading chapters 1-6 of the [Cairo
-Book](https://book.cairo-lang.org/title-page.html), covering topics from
-_Getting Started_ to _Enums and Pattern Matching._ Follow this by
-studying the [Starknet Smart Contracts
-chapter](https://book.cairo-lang.org/ch99-00-starknet-smart-contracts.html)
-in the same book. With this background, you’ll be well-equipped to
-understand the examples presented here.
+برای استفاده بیشتر از این فصل، درک اولیه زبان برنامه نویسی قاهره توصیه می شود. پیشنهاد می‌کنیم فصل‌های 1-6 کتاب قاهره را بخوانید که موضوعاتی از شروع تا Enums و تطبیق الگو را پوشش می‌دهد. این را با مطالعه فصل قراردادهای هوشمند Starknet در همان کتاب دنبال کنید. با این پیشینه، برای درک مثال های ارائه شده در اینجا به خوبی مجهز خواهید بود.
 
-Today, Starknet provides all essential tools for building decentralized
-applications (dApps), compatible with multiple languages like
-JavaScript, Rust, and Python. You can use the Starknet SDK for
-development. Front-end developers can use Starknet.js with React, while
-Rust and Python work well for back-end tasks.
+امروزه، Starknet همه ابزارهای ضروری را برای ساخت برنامه های غیرمتمرکز (dApps)، سازگار با چندین زبان مانند جاوا اسکریپت، Rust و Python فراهم می کند. می توانید از Starknet SDK برای توسعه استفاده کنید. توسعه‌دهندگان فرانت‌اند می‌توانند از Starknet.js با React استفاده کنند، در حالی که Rust و Python برای کارهای بک‌اند به خوبی کار می‌کنند.
 
-We welcome contributors to enhance existing tools or develop new
-solutions.
+ما از مشارکت کنندگان برای بهبود ابزارهای موجود یا توسعه راه حل های جدید استقبال می کنیم.
 
-In this chapter, you’ll explore:
+در این فصل، شما بررسی خواهید کرد:
 
-- Frameworks: Build using Starknet-Foundry
+* چارچوب ها: با استفاده از Starknet-Foundry بسازید
+* SDK: پشتیبانی چند زبانه را از طریق Starknet.js، Starknet-rs، Starknet\_py و Caigo کشف کنید.
+* توسعه Front-end: از Starknet.js و React استفاده کنید
+* تست: روش های تست را با Starknet-Foundry و Devnet درک کنید
 
-- SDKs: Discover multi-language support through Starknet.js,
-  Starknet-rs, Starknet_py, and Caigo
+تا پایان فصل، درک کاملی از مجموعه ابزار Starknet خواهید داشت که امکان توسعه کارآمد dApp را فراهم می کند.
 
-- Front-end Development: Use Starknet.js and React
+در اینجا خلاصه‌ای از ابزارهایی است که می‌توان برای توسعه Starknet استفاده کرد و در این فصل به آن‌ها خواهیم پرداخت:
 
-- Testing: Understand testing methods with Starknet-Foundry and the Devnet
-
-By chapter’s end, you’ll have a complete grasp of Starknet’s toolset,
-enabling efficient dApp development.
-
-Here’s a quick rundown of the tools that could be used for Starknet
-development and that we’ll cover in this chapter:
-
-1.  Scarb: A package manager that compiles your contracts.
-
-2.  Starkli: A CLI tool for interacting with the Starknet network.
-
-3.  Starknet Foundry: For contract testing.
-
-4.  Katana: Creates a local test node.
-
-5.  SDKs: starknet.js, Starknet.py, and starknet.rs interface with
-    Starknet using common programming languages.
-
-6.  Starknet-react: Builds front-end apps using React.
+1. Scarb: یک مدیر بسته که قراردادهای شما را جمع آوری می کند.
+2. Starkli: یک ابزار CLI برای تعامل با شبکه Starknet.
+3. Starknet Foundry: برای آزمایش قرارداد.
+4. Katana: یک گره تست محلی ایجاد می کند.
+5. SDK ها: starknet.js، Starknet.py و starknet.rs با استفاده از زبان های برنامه نویسی رایج با Starknet ارتباط برقرار می کنند.
+6. Starknet-react: با استفاده از React، اپلیکیشن های فرانت اند را می سازد.

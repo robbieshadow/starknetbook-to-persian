@@ -1,77 +1,68 @@
-# Installation
+# نصب و راه اندازی
 
-This chapter walks you through setting up your Starknet development
-tools.
+این فصل شما را در راه اندازی ابزارهای توسعه Starknet خود راهنمایی می کند.
 
-Essential tools to install:
+ابزارهای ضروری برای نصب:
 
-1.  [Starkli](https://github.com/xJonathanLEI/starkli) - A CLI tool for
-    interacting with Starknet. More tools are discussed in Chapter 2.
+1. [Starkli](https://github.com/xJonathanLEI/starkli) -&#x20;
+   * یک ابزار CLI برای تعامل با Starknet. ابزارهای بیشتر در فصل 2 مورد بحث قرار گرفته است.
+2. [Scarb](https://github.com/software-mansion/scarb) - مدیر بسته قاهره که کد را به Sierra، یک زبان سطح متوسط بین قاهره و CASM، جمع‌آوری می‌کند.
+3. [Katana](https://github.com/dojoengine/dojo) -Katana یک گره Starknet است که برای توسعه محلی ساخته شده است.
 
-2.  [Scarb](https://github.com/software-mansion/scarb) - Cairo’s package
-    manager that compiles code to Sierra, a mid-level language between
-    Cairo and CASM.
+برای پشتیبانی یا سوالات، به مشکلات GitHub ما مراجعه کنید یا با espejelomar در تلگرام تماس بگیرید.
 
-3.  [Katana](https://github.com/dojoengine/dojo) - Katana is a Starknet node, built for local development.
+### نصب استارکلی
 
-For support or queries, visit our [GitHub
-Issues](https://github.com/starknet-edu/starknetbook/issues) or contact
-espejelomar on Telegram.
-
-## Starkli Installation
-
-Easily install Starkli using Starkliup, an installer invoked through the
-command line.
+با استفاده از Starkliup، نصب کننده ای که از طریق خط فرمان فراخوانی می شود، به راحتی Starkli را نصب کنید.
 
 ```bash
 curl https://get.starkli.sh | sh
 starkliup
 ```
 
-Restart your terminal and confirm installation:
+ترمینال خود را مجددا راه اندازی کنید و نصب را تایید کنید:
 
 ```bash
 starkli --version
 ```
 
-To upgrade Starkli, simply repeat the steps.
+برای ارتقای Starkli کافی است مراحل را تکرار کنید.
 
-## Scarb Package Manager Installation
+نصب Scarb Package Manager
 
-We will get deeper into Scarb later in this chapter. For now, we will go over the installation process.
+بعداً در این فصل به اسکارب عمیق تر خواهیم پرداخت. فعلاً مراحل نصب را مرور خواهیم کرد.
 
-For macOS and Linux:
+برای macOS و Linux:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh
 ```
 
-For Windows, follow manual setup in the [Scarb
-documentation](https://docs.swmansion.com/scarb/download.html#windows).
+برای ویندوز، تنظیمات دستی را در مستندات Scarb دنبال کنید.
 
-Restart the terminal and run:
+ترمینال را مجددا راه اندازی کنید و اجرا کنید:
 
 ```bash
 scarb --version
 ```
 
-To upgrade Scarb, rerun the installation command.
+برای ارتقاء Scarb، دستور نصب را دوباره اجرا کنید.
 
-## Katana Node Installation
+### نصب گره کاتانا
 
-To install Katana, use the `dojoup` installer from the command line:
+برای نصب Katana، از نصب کننده dojoup از خط فرمان استفاده کنید:
 
 ```bash
 curl -L https://install.dojoengine.org | bash
 dojoup
 ```
 
-After restarting your terminal, verify the installation with:
+پس از راه اندازی مجدد ترمینال، نصب را با استفاده از:
 
 ```bash
 katana --version
 ```
 
-To upgrade Katana, rerun the installation command.
+برای ارتقای کاتانا، دستور نصب را دوباره اجرا کنید.
 
-You are now set to code in Cairo and deploy to Starknet.
+اکنون می‌توانید در قاهره کدنویسی کنید و در Starknet مستقر شوید.
