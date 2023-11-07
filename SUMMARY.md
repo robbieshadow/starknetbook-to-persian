@@ -7,7 +7,7 @@
   * [شروع شدن](src/ch01-00-getting-started.md)
   * [ابزار Starknet](src/ch02-00-starknet-tooling/README.md)
     * [نصب و راه اندازی](src/ch02-00-starknet-tooling/ch02-01-basic-installation.md)
-    * [Introduction to Starkli, Scarb and Katana](src/ch02-00-starknet-tooling/ch02-02-starkli-scarb-katana.md)
+    * [مقدمه ای بر استارکلی، اسکارب و کاتانا](src/ch02-00-starknet-tooling/ch02-02-starkli-scarb-katana.md)
     * [scarb](src/ch02-00-starknet-tooling/ch02-03-scarb.md)
     * [Katana: A Local Node](src/ch02-00-starknet-tooling/ch02-04-katana.md)
     * [Testnet Deployment](src/ch02-00-starknet-tooling/ch02-05-testnet-deployment.md)

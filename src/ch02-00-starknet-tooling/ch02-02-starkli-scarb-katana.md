@@ -1,10 +1,8 @@
-# Introduction to Starkli, Scarb and Katana
+# مقدمه ای بر استارکلی، اسکارب و کاتانا
 
-In this chapter, you’ll learn how to compile, deploy, and interact with
-a Starknet smart contract written in Cairo using starkli, scarb and katana.
+در این فصل، نحوه کامپایل، استقرار و تعامل با قرارداد هوشمند Starknet که در قاهره با استفاده از starkli، scarb و katana نوشته شده است را خواهید آموخت.
 
-First, confirm that the following commands work on your system. If they
-don’t, refer to Basic Installation in this chapter.
+ابتدا تأیید کنید که دستورات زیر روی سیستم شما کار می کنند. اگر اینطور نیست، به نصب اولیه در این فصل مراجعه کنید.
 
 ```bash
     scarb --version  # For Cairo code compilation
@@ -12,19 +10,18 @@ don’t, refer to Basic Installation in this chapter.
     katana --version # To declare and deploy on local development
 ```
 
-## [OPTIONAL] Checking Supported Compiler Versions
+### \[اختیاری] بررسی نسخه های کامپایلر پشتیبانی شده
 
-If issues arise during the declare or deploy process, ensure that the Starkli compiler version aligns with the Scarb compiler version.
+اگر در طول فرآیند اعلام یا استقرار مشکلاتی پیش آمد، اطمینان حاصل کنید که نسخه کامپایلر Starkli با نسخه کامپایلر Scarb مطابقت دارد.
 
-To check the compiler versions Starkli supports, run:
+برای بررسی نسخه های کامپایلر که Starkli پشتیبانی می کند، اجرا کنید:
 
 ```bash
 starkli declare --help
 
 ```
 
-You’ll see a list of possible compiler versions under the
-`--compiler-version` flag.
+لیستی از نسخه های کامپایلر ممکن را در زیر پرچم --compiler-version مشاهده خواهید کرد.
 
 ```bash
     ...
@@ -33,13 +30,13 @@ You’ll see a list of possible compiler versions under the
     ...
 ```
 
-Be aware: Scarb's compiler version may not match Starkli’s. To verify Scarb's version:
+توجه داشته باشید: نسخه کامپایلر Scarb ممکن است با Starkli مطابقت نداشته باشد. برای تأیید نسخه Scarb:
 
 ```bash
     scarb --version
 ```
 
-The output displays the versions for scarb, cairo, and sierra:
+خروجی نسخه‌های scarb، cairo و sierra را نمایش می‌دهد:
 
 ```bash
     scarb <SCARB VERSION>
@@ -47,25 +44,25 @@ The output displays the versions for scarb, cairo, and sierra:
     sierra: <SIERRA VERSION>
 ```
 
-If the versions don't match, consider installing a version of Scarb compatible with Starkli. Browse [Scarb's GitHub](https://github.com/software-mansion/scarb/releases) repo for earlier releases.
+اگر نسخه ها مطابقت ندارند، نسخه ای از Scarb را که با Starkli سازگار است را نصب کنید. مخزن GitHub Scarb را برای نسخه های قبلی مرور کنید.
 
-To install a specific version, such as `2.3.0`, run:
+برای نصب یک نسخه خاص مانند 2.3.0، اجرا کنید:
 
 ```bash
     curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.3.0
 ```
 
-## Crafting a Starknet Smart Contract
+### ساخت یک قرارداد هوشمند Starknet
 
-Begin by initiating a Scarb project:
+با شروع یک پروژه Scarb شروع کنید:
 
 ```bash
 scarb new my_contract
 ```
 
-## Configure Environment Variables and the `Scarb.toml` File
+### متغیرهای محیط و فایل Scarb.toml را پیکربندی کنید
 
-Review the `my_contract` project. Its structure appears as:
+پروژه my\_contract را مرور کنید. ساختار آن به صورت زیر است:
 
 ```bash
     src/
@@ -74,7 +71,7 @@ Review the `my_contract` project. Its structure appears as:
     Scarb.toml
 ```
 
-Amend the `Scarb.toml` file to integrate the `starknet` dependency and introduce the `starknet-contract` target:
+فایل Scarb.toml را اصلاح کنید تا وابستگی starknet را یکپارچه کرده و هدف قرارداد starknet را معرفی کنید:
 
 ```toml
     [dependencies]
@@ -83,28 +80,28 @@ Amend the `Scarb.toml` file to integrate the `starknet` dependency and introduce
     [[target.starknet-contract]]
 ```
 
-For streamlined Starkli command execution, establish environment variables. Two primary variables are essential:
+برای اجرای ساده دستور Starkli، متغیرهای محیطی را ایجاد کنید. دو متغیر اصلی ضروری است:
 
-- One for your account, a pre-funded account on the local development network
-- Another for designating the network, specifically the local katana devnet
+* یکی برای حساب شما، یک حساب از قبل تامین شده در شبکه توسعه محلی
+* دیگری برای تعیین شبکه، به‌ویژه کاتانا محلی محلی
 
-In the `src/` directory, create a `.env` file with the following:
+در پوشه src/، یک فایل .env با موارد زیر ایجاد کنید:
 
 ```bash
 export STARKNET_ACCOUNT=katana-0
 export STARKNET_RPC=http://0.0.0.0:5050
 ```
 
-These settings streamline Starkli command operations.
+این تنظیمات عملیات فرمان Starkli را ساده می کند.
 
-## Declaring Smart Contracts in Starknet
+### اعلام قراردادهای هوشمند در استارک نت
 
-Deploying a Starknet smart contract requires two primary steps:
+استقرار یک قرارداد هوشمند Starknet به دو مرحله اولیه نیاز دارد:
 
-- Declare the contract's code.
-- Deploy an instance of that declared code.
+* کد قرارداد را اعلام کنید.
+* یک نمونه از آن کد اعلام شده را مستقر کنید.
 
-Begin with the `src/lib.cairo` file, which provides a foundational template. Remove its contents and insert the following:
+با فایل src/lib.cairo شروع کنید که یک الگوی اساسی ارائه می کند. محتویات آن را بردارید و موارد زیر را وارد کنید:
 
 ```rust
 #[starknet::contract]
@@ -131,61 +128,59 @@ mod hello {
 }
 ```
 
-This rudimentary smart contract serves as a starting point.
+این قرارداد هوشمند ابتدایی به عنوان نقطه شروع عمل می کند.
 
-Compile the contract with the Scarb compiler. If Scarb isn't installed, consult the [Installation](ch02-01-basic-installation.md) section.
+قرارداد را با کامپایلر Scarb جمع آوری کنید. اگر Scarb نصب نشده است، به بخش نصب مراجعه کنید.
 
 ```bash
 scarb build
 ```
 
-The above command results in a compiled contract under `target/dev/`, named "`my_contract_hello.contract_class.json`" (check Scarb's subchapter for more details).
+دستور بالا منجر به یک قرارداد کامپایل شده تحت target/dev/ به نام "my\_contract\_hello.contract\_class.json" می شود (برای جزئیات بیشتر، زیرفصل Scarb را بررسی کنید).
 
-Having compiled the smart contract, it's time to declare it with Starkli and katana. First, ensure your project acknowledges the environmental variables:
+پس از جمع آوری قرارداد هوشمند، زمان آن رسیده است که آن را با Starkli و katana اعلام کنید. ابتدا مطمئن شوید که پروژه شما متغیرهای محیطی را تایید می کند:
 
 ```bash
 source .env
 ```
 
-Next, launch Katana. In a separate terminal, run (more details in the Katan subchapter):
+بعد، Katana را راه اندازی کنید. در یک ترمینال جداگانه، اجرا کنید (جزئیات بیشتر در فصل فرعی Katan):
 
 ```bash
 katana
 ```
 
-To declare your contract, execute:
+برای اعلام قرارداد، موارد زیر را اجرا کنید:
 
 ```bash
 starkli declare target/dev/my_contract_hello.contract_class.json
 ```
 
-Facing an "Error: Invalid contract class"? It indicates a version mismatch between Scarb's compiler and Starkli. Refer to the earlier steps to sync the versions. Typically, Starkli supports compiler versions approved by mainnet, even if the most recent Scarb version isn't compatible.
+با «خطا: کلاس قرارداد نامعتبر» مواجه هستید؟ این نشان دهنده عدم تطابق نسخه بین کامپایلر Scarb و Starkli است. برای همگام سازی نسخه ها به مراحل قبلی مراجعه کنید. به طور معمول، Starkli از نسخه های کامپایلر تایید شده توسط mainnet پشتیبانی می کند، حتی اگر جدیدترین نسخه Scarb سازگار نباشد.
 
-Upon successful command execution, you'll obtain a contract class hash: This
-unique hash serves as the identifier for your contract class within
-Starknet. For example:
+پس از اجرای موفقیت آمیز دستور، یک هش کلاس قرارداد دریافت خواهید کرد: این هش منحصر به فرد به عنوان شناسه کلاس قرارداد شما در Starknet عمل می کند. مثلا:
 
 ```bash
 Class hash declared: 0x00bfb49ff80fd7ef5e84662d6d256d49daf75e0c5bd279b20a786f058ca21418
 ```
 
-Consider this hash as the contract class's _address_.
+این هش را به عنوان آدرس کلاس قرارداد در نظر بگیرید.
 
-If you try to declare an already existing contract class, don't fret. Just proceed. You might see:
+اگر می‌خواهید یک کلاس قرارداد از قبل موجود را اعلام کنید، نگران نباشید. فقط ادامه بده ممکن است ببینید:
 
 ```bash
 Not declaring class as its already declared. Class hash:
 0x00bfb49ff80fd7ef5e84662d6d256d49daf75e0c5bd279b20a786f058ca21418
 ```
 
-## Deploying Starknet Smart Contracts
+### استقرار قراردادهای هوشمند Starknet
 
-To deploy a smart contract on the katana local devnet, use the following command. It primarily requires:
+برای استقرار یک قرارداد هوشمند در devnet محلی katana، از دستور زیر استفاده کنید. در درجه اول نیاز به:
 
-1. Your contract's class hash.
-2. Constructor arguments your contract needs (in our example, a _name_ of type `felt252`).
+1. هش کلاس قرارداد شما.
+2. سازنده آرگومان های مورد نیاز قرارداد شما (در مثال ما، نامی از نوع felt252).
 
-Here's the command structure:
+در اینجا ساختار فرمان آمده است:
 
 ```bash
     starkli deploy \
@@ -193,25 +188,25 @@ Here's the command structure:
         <CONSTRUCTOR_INPUTS>
 ```
 
-Notice the constructor inputs are in felt format. So we need to convert a short string to a felt252 format. We can use the `to-cairo-string` command for this:
+توجه داشته باشید که ورودی های سازنده در قالب احساس هستند. بنابراین باید یک رشته کوتاه را به فرمت felt252 تبدیل کنیم. برای این کار می توانیم از دستور to-cairo-string استفاده کنیم:
 
 ```bash
     starkli to-cairo-string <STRING>
 ```
 
-In this case, we'll use the string "starknetbook" as the name:
+در این مورد، از رشته "starknetbook" به عنوان نام استفاده می کنیم:
 
 ```bash
     starkli to-cairo-string starknetbook
 ```
 
-The output:
+خروجی:
 
 ```bash
     0x737461726b6e6574626f6f6b
 ```
 
-Now deploy using a class hash and constructor input:
+اکنون با استفاده از هش کلاس و ورودی سازنده آن را مستقر کنید:
 
 ```bash
     starkli deploy \
@@ -219,7 +214,7 @@ Now deploy using a class hash and constructor input:
         0x737461726b6e6574626f6f6b
 ```
 
-After running, expect an output similar to:
+پس از اجرا، انتظار خروجی مشابه زیر را داشته باشید:
 
 ```bash
     Deploying class 0x00bfb49ff80fd7ef5e84662d6d256d49daf75e0c5bd279b20a786f058ca21418 with salt 0x054645c0d1e766ddd927b3bde150c0a3dc0081af7fb82160c1582e05f6018794...
@@ -228,17 +223,16 @@ After running, expect an output similar to:
     Contract deployed: 0x07cdd583619462c2b14532eddb2b169b8f8d94b63bfb5271dae6090f95147a44
 ```
 
-## Interacting with Starknet Contracts
+تعامل با قراردادهای Starknet
 
-Using Starkli, you can interact with smart contracts through two primary methods:
+با استفاده از Starkli، می توانید از طریق دو روش اصلی با قراردادهای هوشمند تعامل داشته باشید:
 
-- `call`: For read-only functions.
-- `invoke`: For functions that alter the state.
+* تماس: برای توابع فقط خواندنی.
+* invoke: برای توابعی که حالت را تغییر می دهند.
 
-### Reading Data with `call`
+### خواندن داده ها با تماس
 
-The `call` command let's you query contract functions without transacting. For instance, if you want to determine the current contract owner using the `get_name` function, which
-requires no arguments:
+فرمان فراخوانی به شما اجازه می دهد تا عملکردهای قرارداد را بدون انجام تراکنش پرس و جو کنید. به عنوان مثال، اگر می خواهید مالک قرارداد فعلی را با استفاده از تابع get\_name تعیین کنید، که به هیچ آرگومان نیاز ندارد:
 
 ```bash
     starkli call \
@@ -246,9 +240,7 @@ requires no arguments:
         get_name
 ```
 
-Replace `<CONTRACT_ADDRESS>` with the address of your contract. The
-command will return the owner’s address, which was initially set during
-the contract’s deployment:
+آدرس قرارداد خود را جایگزین \<CONTRACT\_ADDRESS> کنید. این فرمان آدرس مالک را که در ابتدا در زمان استقرار قرارداد تنظیم شده بود، برمی گرداند:
 
 ```bash
     [
@@ -256,21 +248,21 @@ the contract’s deployment:
     ]
 ```
 
-But what is this lengthy output? In Starknet, we use the `felt252` data type to represent strings. This can be decoded into its string representation:
+اما این خروجی طولانی چیست؟ در Starknet، ما از نوع داده felt252 برای نمایش رشته ها استفاده می کنیم. این را می توان در نمایش رشته آن رمزگشایی کرد:
 
 ```bash
 starkli parse-cairo-string 0x737461726b6e6574626f6f6b
 ```
 
-The result:
+نتیجه:
 
 ```bash
 starknetbook
 ```
 
-## Modifying Contract State with `invoke`
+### اصلاح وضعیت قرارداد با فراخوانی
 
-To alter the contract's state, use the `invoke` command. For instance, if you want to update the name field in the storage, utilize the `set_name` function:
+برای تغییر وضعیت قرارداد، از دستور invoke استفاده کنید. به عنوان مثال، اگر می خواهید فیلد نام را در فضای ذخیره سازی به روز کنید، از تابع set\_name استفاده کنید:
 
 ```bash
     starkli invoke \
@@ -279,12 +271,12 @@ To alter the contract's state, use the `invoke` command. For instance, if you wa
         <felt252>
 ```
 
-Where:
+جایی که:
 
-- **`<CONTRACT_ADDRESS>`** is the address of your contract.
-- **`<felt252>`** is the new value for the **`name`** field, in felt252 format.
+* \<CONTRACT\_ADDRESS> آدرس قرارداد شما است.
+* مقدار جدید برای فیلد نام، در قالب felt252 است.
 
-For example, to update the name to "Omar", first convert the string "Omar" to its felt252 representation:
+به عنوان مثال، برای به روز رسانی نام به "Omar"، ابتدا رشته "Omar" را به نمایش Fem252 آن تبدیل کنید:
 
 ```bash
     starkli to-cairo-string Omar
@@ -296,10 +288,10 @@ This will return:
     0x4f6d6172
 ```
 
-Now, proceed with the `invoke` command:
+اکنون با دستور invoke ادامه دهید:
 
 ```bash
     starkli invoke 0x07cdd583619462c2b14532eddb2b169b8f8d94b63bfb5271dae6090f95147a44 set_name 0x4f6d6172
 ```
 
-Bravo! You've adeptly modified and interfaced with your Starknet contract.
+براوو! شما به طرز ماهرانه ای قرارداد Starknet خود را تغییر داده و با آن ارتباط برقرار کرده اید.
