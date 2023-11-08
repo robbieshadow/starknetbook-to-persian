@@ -1,110 +1,81 @@
-# Katana: A Local Node
+# کاتانا: یک گره محلی
 
-`Katana` is designed to aid in local development.
-This creation by the [Dojo
-team](https://github.com/dojoengine/dojo/blob/main/crates/katana/README.md)
-enables you to perform all Starknet-related activities in a local
-environment, thus serving as an efficient platform for development and
-testing.
+کاتانا برای کمک به توسعه محلی طراحی شده است. این ایجاد توسط تیم Dojo شما را قادر می سازد تا تمام فعالیت های مربوط به Starknet را در یک محیط محلی انجام دهید، بنابراین به عنوان یک پلت فرم کارآمد برای توسعه و آزمایش عمل می کند.
 
-We suggest employing either `katana` or `starknet-devnet` for testing
-your contracts, with the latter discussed in another
-subchapter. The `starknet-devnet` is a public testnet, maintained by the
-[Shard Labs team](https://github.com/0xSpaceShard/starknet-devnet-rs). Both
-these tools offer an effective environment for development and testing.
+پیشنهاد می کنیم از کاتانا یا starknet-devnet برای آزمایش قراردادهای خود استفاده کنید، که مورد دوم در فصل فرعی دیگری مورد بحث قرار گرفته است. starknet-devnet یک شبکه آزمایشی عمومی است که توسط تیم Shard Labs نگهداری می شود. هر دوی این ابزارها یک محیط موثر برای توسعه و آزمایش ارائه می دهند.
 
-For an example of how to use `katana` to deploy and interact with a
-contract, see the introduction subchapter of this Chapter or a voting contract example in [The Cairo Book](https://book.cairo-lang.org/ch99-01-04-01-voting-contract.html).
+برای مثالی از نحوه استفاده از کاتانا برای استقرار و تعامل با یک قرارداد، به فصل فرعی این فصل یا نمونه قرارداد رأی گیری در کتاب قاهره مراجعه کنید.
 
-## Understanding RPC in Starknet
+### آشنایی با RPC در Starknet
 
-Remote Procedure Call (RPC) establishes the communication between nodes
-in the Starknet network. Essentially, it allows us to interact with a
-node in the Starknet network. The RPC server is responsible for
-receiving these calls.
+تماس رویه از راه دور (RPC) ارتباط بین گره ها را در شبکه Starknet برقرار می کند. اساساً به ما امکان می دهد با یک گره در شبکه Starknet تعامل داشته باشیم. سرور RPC مسئول دریافت این تماس ها است.
 
-RPC can be obtained from various sources: . To support the
-decentralization of the Network, you can use your own local Starknet
-node. For ease of access, consider using a provider such as
-[Infura](https://docs.infura.io/networks/starknet/how-to) or
-[Alchemy](https://www.alchemy.com/starknet) to get an RPC client. . For
-development and testing, a temporary local node such as `katana` can be
-used.
+RPC را می توان از منابع مختلف به دست آورد: . برای پشتیبانی از تمرکززدایی شبکه، می توانید از گره Starknet محلی خود استفاده کنید. برای سهولت دسترسی، استفاده از ارائه دهنده ای مانند Infura یا Alchemy را برای دریافت مشتری RPC در نظر بگیرید. . برای توسعه و آزمایش، می توان از یک گره محلی موقت مانند کاتانا استفاده کرد.
 
-## Getting Started with Katana
+### شروع کار با کاتانا
 
-To install Katana, use the `dojoup` installer from the command line:
+برای نصب Katana، از نصب کننده dojoup از خط فرمان استفاده کنید:
 
 ```bash
 curl -L https://install.dojoengine.org | bash
 dojoup
 ```
 
-After restarting your terminal, verify the installation with:
+پس از راه اندازی مجدد ترمینال، نصب را با استفاده از:
 
 ```bash
 katana --version
 ```
 
-To upgrade Katana, rerun the installation command.
+برای ارتقای کاتانا، دستور نصب را دوباره اجرا کنید.
 
-To initialize a local Starknet node, execute the following command:
+برای مقداردهی اولیه یک گره Starknet محلی، دستور زیر را اجرا کنید:
 
 ```bash
 katana --accounts 3 --seed 0 --gas-price 250
 ```
 
-The `--accounts` flag determines the number of accounts to be created,
-while the `--seed` flag sets the seed for the private keys of these
-accounts. This ensures that initializing the node with the same seed
-will always yield the same accounts. Lastly, the `--gas-price` flag
-specifies the transaction gas price.
+پرچم --accounts تعداد حساب‌هایی را که باید ایجاد شود را تعیین می‌کند، در حالی که پرچم -seed پایه کلیدهای خصوصی این حساب‌ها را تعیین می‌کند. این تضمین می کند که مقداردهی اولیه گره با همان seed همیشه همان حساب ها را به همراه خواهد داشت. در نهایت، پرچم --gas-price قیمت گاز معامله را مشخص می کند.
 
-Running the command produces output similar to this:
+با اجرای دستور خروجی مشابه این تولید می شود:
 
-    ██╗  ██╗ █████╗ ████████╗ █████╗ ███╗   ██╗ █████╗
-    ██║ ██╔╝██╔══██╗╚══██╔══╝██╔══██╗████╗  ██║██╔══██╗
-    █████╔╝ ███████║   ██║   ███████║██╔██╗ ██║███████║
-    ██╔═██╗ ██╔══██║   ██║   ██╔══██║██║╚██╗██║██╔══██║
-    ██║  ██╗██║  ██║   ██║   ██║  ██║██║ ╚████║██║  ██║
-    ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝
+```
+██╗  ██╗ █████╗ ████████╗ █████╗ ███╗   ██╗ █████╗
+██║ ██╔╝██╔══██╗╚══██╔══╝██╔══██╗████╗  ██║██╔══██╗
+█████╔╝ ███████║   ██║   ███████║██╔██╗ ██║███████║
+██╔═██╗ ██╔══██║   ██║   ██╔══██║██║╚██╗██║██╔══██║
+██║  ██╗██║  ██║   ██║   ██║  ██║██║ ╚████║██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝
 
 
-    PREFUNDED ACCOUNTS
-    ==================
+PREFUNDED ACCOUNTS
+==================
 
-    | Account address |  0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0
-    | Private key     |  0x0300001800000000300000180000000000030000000000003006001800006600
-    | Public key      |  0x01b7b37a580d91bc3ad4f9933ed61f3a395e0e51c9dd5553323b8ca3942bb44e
+| Account address |  0x03ee9e18edc71a6df30ac3aca2e0b02a198fbce19b7480a63a0d71cbd76652e0
+| Private key     |  0x0300001800000000300000180000000000030000000000003006001800006600
+| Public key      |  0x01b7b37a580d91bc3ad4f9933ed61f3a395e0e51c9dd5553323b8ca3942bb44e
 
-    | Account address |  0x033c627a3e5213790e246a917770ce23d7e562baa5b4d2917c23b1be6d91961c
-    | Private key     |  0x0333803103001800039980190300d206608b0070db0012135bd1fb5f6282170b
-    | Public key      |  0x04486e2308ef3513531042acb8ead377b887af16bd4cdd8149812dfef1ba924d
+| Account address |  0x033c627a3e5213790e246a917770ce23d7e562baa5b4d2917c23b1be6d91961c
+| Private key     |  0x0333803103001800039980190300d206608b0070db0012135bd1fb5f6282170b
+| Public key      |  0x04486e2308ef3513531042acb8ead377b887af16bd4cdd8149812dfef1ba924d
 
-    | Account address |  0x01d98d835e43b032254ffbef0f150c5606fa9c5c9310b1fae370ab956a7919f5
-    | Private key     |  0x07ca856005bee0329def368d34a6711b2d95b09ef9740ebf2c7c7e3b16c1ca9c
-    | Public key      |  0x07006c42b1cfc8bd45710646a0bb3534b182e83c313c7bc88ecf33b53ba4bcbc
-
-
-    ACCOUNTS SEED
-    =============
-    0
+| Account address |  0x01d98d835e43b032254ffbef0f150c5606fa9c5c9310b1fae370ab956a7919f5
+| Private key     |  0x07ca856005bee0329def368d34a6711b2d95b09ef9740ebf2c7c7e3b16c1ca9c
+| Public key      |  0x07006c42b1cfc8bd45710646a0bb3534b182e83c313c7bc88ecf33b53ba4bcbc
 
 
-    🚀 JSON-RPC server started: http://0.0.0.0:5050
+ACCOUNTS SEED
+=============
+0
 
-The output includes the addresses, private keys, and public keys of the
-created accounts. It also contains the seed used to generate the
-accounts. This seed can be reused to create identical accounts in future
-runs. Additionally, the output provides the URL of the JSON-RPC server.
-This URL can be used to establish a connection to the local Starknet
-node.
 
-To stop the local Starknet node, simply press `Ctrl+C`.
+🚀 JSON-RPC server started: http://0.0.0.0:5050
+```
 
-The local Starknet node does not persist data. Hence, once it’s stopped,
-all data will be erased.
+خروجی شامل آدرس ها، کلیدهای خصوصی و کلیدهای عمومی حساب های ایجاد شده است. همچنین حاوی دانه‌هایی است که برای ایجاد حساب‌ها استفاده می‌شود. این seed می تواند برای ایجاد حساب های یکسان در اجراهای بعدی دوباره استفاده شود. علاوه بر این، خروجی URL سرور JSON-RPC را ارائه می دهد. از این URL می توان برای برقراری ارتباط با گره محلی Starknet استفاده کرد.
 
-For a practical demonstration of `katana` to deploy and interact with a
-contract, see [Chapter 2’s Voting contract
-example](https://book.starknet.io/chapter_2/deploy_call_invoke.html).
+برای متوقف کردن گره محلی Starknet، به سادگی Ctrl+C را فشار دهید.
+
+گره محلی Starknet داده ها را حفظ نمی کند. بنابراین، پس از توقف، تمام داده ها پاک می شوند.
+
+برای نمایش عملی کاتانا برای استقرار و تعامل با یک قرارداد، به نمونه قرارداد رای گیری فصل 2 مراجعه کنید.

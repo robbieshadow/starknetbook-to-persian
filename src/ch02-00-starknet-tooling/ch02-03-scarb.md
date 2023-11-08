@@ -1,247 +1,196 @@
-# Scarb: The Package Manager
+# اسکارب
 
-To make the most of this chapter, a basic grasp of the Cairo programming
-language is advised. We suggest reading chapters 1-6 of the [Cairo
-Book](https://book.cairo-lang.org/title-page.html), covering topics from
-_Getting Started_ to _Enums and Pattern Matching._ Follow this by
-studying the [Starknet Smart Contracts
-chapter](https://book.cairo-lang.org/ch99-00-starknet-smart-contracts.html)
-in the same book. With this background, you’ll be well-equipped to
-understand the examples presented here.
+### اسکارب: مدیر بسته
 
-Scarb is Cairo’s package manager designed for both Cairo and Starknet
-projects. It handles dependencies, compiles projects, and integrates
-with tools like Foundry. It is built by the same team that created
-Foundry for Starknet.
+برای استفاده بیشتر از این فصل، درک اولیه زبان برنامه نویسی قاهره توصیه می شود. پیشنهاد می‌کنیم فصل‌های 1-6 کتاب قاهره را بخوانید که موضوعاتی از شروع تا Enums و تطبیق الگو را پوشش می‌دهد. این را با مطالعه فصل قراردادهای هوشمند Starknet در همان کتاب دنبال کنید. با این پیشینه، برای درک مثال های ارائه شده در اینجا به خوبی مجهز خواهید بود.
 
-# Scarb Workflow
+Scarb مدیر بسته های قاهره است که برای پروژه های قاهره و استارک نت طراحی شده است. این وابستگی ها را مدیریت می کند، پروژه ها را کامپایل می کند و با ابزارهایی مانند Foundry ادغام می شود. توسط همان تیمی ساخته شده است که Foundry را برای Starknet ایجاد کرده است.
 
-Follow these steps to develop a Starknet contract using Scarb:
+### گردش کار اسکارب
 
-1.  **Initialize:** Use `scarb new` to set up a new project, generating
-    a `Scarb.toml` file and initial `src/lib.cairo`.
+این مراحل را برای توسعه قرارداد Starknet با استفاده از Scarb دنبال کنید:
 
-2.  **Code:** Add your Cairo code in the `src` directory.
+1. Initialize: از scarb new برای راه اندازی یک پروژه جدید استفاده کنید، یک فایل Scarb.toml و src/lib.cairo اولیه ایجاد کنید..
+2. کد: کد قاهره خود را در دایرکتوری src اضافه کنید.
+3. وابستگی ها: کتابخانه های خارجی را با استفاده از scarb add اضافه کنید.
+4. کامپایل: ساخت scarb را برای تبدیل قرارداد خود به کد سیرا اجرا کنید.
 
-3.  **Dependencies:** Add external libraries using `scarb add`.
+Scarb گردش کار توسعه شما را ساده می کند و آن را کارآمد و ساده می کند.
 
-4.  **Compile:** Execute `scarb build` to convert your contract into
-    Sierra code.
+### نصب و راه اندازی
 
-Scarb simplifies your development workflow, making it efficient and
-streamlined.
+Scarb کراس پلتفرم است و از macOS، Linux و Windows پشتیبانی می کند. برای نصب، به راهنمای راه اندازی فصل 1 مراجعه کنید.
 
-# Installation
+### ساختار پروژه قاهره
 
-Scarb is cross-platform, supporting macOS, Linux, and Windows. For
-installation, refer to the [Chapter 1 setup
-guide](https://book.starknet.io/chapter_1/environment_setup.html#the_scarb_package_manager_installation).
+در مرحله بعد، ما به اجزای کلیدی که پروژه قاهره را تشکیل می دهند، می پردازیم.
 
-# Cairo Project Structure
+### بسته های قاهره
 
-Next, we’ll dive into the key components that make up a Cairo project.
+بسته‌های قاهره که در برخی زمینه‌ها به آنها «جعبه» نیز گفته می‌شود، بلوک‌های سازنده پروژه قاهره هستند. هر بسته باید چندین قانون را دنبال کند:
 
-## Cairo Packages
+* یک بسته باید شامل یک فایل Scarb.toml باشد که فایل مانیفست Scarb است. این شامل وابستگی های بسته شما است.
+* یک بسته باید شامل یک فایل src/lib.cairo باشد که ریشه درخت بسته است. این به شما امکان می دهد توابع را تعریف کنید و ماژول های استفاده شده را اعلام کنید.
 
-Cairo packages, also referred to as "crates" in some contexts, are the
-building blocks of a Cairo project. Each package must follow several
-rules:
+ساختار بسته ممکن است شبیه حالت زیر باشد که در آن بسته‌ای به نام my\_package داریم که شامل یک دایرکتوری src با فایل lib.cairo در داخل، یک فهرست snips که به خودی خود بسته‌ای است که می‌توانیم از آن استفاده کنیم و یک فایل Scarb.toml در بالا است. دایرکتوری سطح
 
-- A package must include a `Scarb.toml` file, which is Scarb’s
-  manifest file. It contains the dependencies for your package.
+```
+my_package/
+├── src/
+│   ├── module1.cairo
+│   ├── module2.cairo
+│   └── lib.cairo
+├── snips/
+│   ├── src/
+│   │   ├── lib.cairo
+│   ├── Scarb.toml
+└── Scarb.toml
+```
 
-- A package must include a `src/lib.cairo` file, which is the root of
-  the package tree. It allows you to define functions and declare used
-  modules.
+در فایل Scarb.toml، ممکن است داشته باشید:
 
-Package structures might look like the following case where we have a
-package named `my_package`, which includes a `src` directory with the
-`lib.cairo` file inside, a `snips` directory which in itself a package
-we can use, and a `Scarb.toml` file in the top-level directory.
+```
+[package]
+name = "my_package"
+version = "0.1.0"
 
-    my_package/
-    ├── src/
-    │   ├── module1.cairo
-    │   ├── module2.cairo
-    │   └── lib.cairo
-    ├── snips/
-    │   ├── src/
-    │   │   ├── lib.cairo
-    │   ├── Scarb.toml
-    └── Scarb.toml
+[dependencies]
+starknet = ">=2.0.1"
+snips = { path = "snips" }
+```
 
-Within the `Scarb.toml` file, you might have:
+در اینجا starknet و snips وابستگی های بسته هستند. وابستگی starknet در رجیستری Scarb میزبانی می شود (نیازی به دانلود آن نداریم)، در حالی که وابستگی snips در فهرست snips قرار دارد.
 
-    [package]
-    name = "my_package"
-    version = "0.1.0"
+### راه اندازی یک پروژه با Scarb
 
-    [dependencies]
-    starknet = ">=2.0.1"
-    snips = { path = "snips" }
+برای ایجاد یک پروژه جدید با استفاده از Scarb، به دایرکتوری پروژه مورد نظر خود بروید و دستور زیر را اجرا کنید:
 
-Here starknet and snips are the dependencies of the package. The
-`starknet` dependency is hosted on the Scarb registry (we do not need to
-download it), while the `snips` dependency is located in the `snips`
-directory.
+```
+$ scarb new hello_scarb
+```
 
-# Setting Up a Project with Scarb
+این دستور یک دایرکتوری پروژه جدید به نام hello\_scarb، شامل یک فایل Scarb.toml، یک دایرکتوری src با یک فایل lib.cairo در داخل، و یک مخزن Git جدید با یک فایل .gitignore را مقداردهی اولیه می کند.
 
-To create a new project using Scarb, navigate to your desired project
-directory and execute the following command:
+```
+hello_scarb/
+├── src/
+│   └── lib.cairo
+└── Scarb.toml
+```
 
-    $ scarb new hello_scarb
+پس از باز کردن Scarb.toml در یک ویرایشگر متن، باید چیزی شبیه به قطعه کد زیر مشاهده کنید:
 
-This command will create a new project directory named `hello_scarb`,
-including a `Scarb.toml` file, a `src` directory with a `lib.cairo` file
-inside, and initialize a new Git repository with a `.gitignore` file.
+```
+[package]
+name = "hello_scarb"
+version = "0.1.0"
 
-    hello_scarb/
-    ├── src/
-    │   └── lib.cairo
-    └── Scarb.toml
+# See more keys and their definitions at https://docs.swmansion.com/scarb/docs/reference/manifest.html
+[dependencies]
+# foo = { path = "vendor/foo" }
+```
 
-Upon opening `Scarb.toml` in a text editor, you should see something
-similar to the code snippet below:
+### ساخت پروژه اسکارب
 
-    [package]
-    name = "hello_scarb"
-    version = "0.1.0"
+تمام محتوای موجود در src/lib.cairo را پاک کنید و موارد زیر را جایگزین کنید:
 
-    # See more keys and their definitions at https://docs.swmansion.com/scarb/docs/reference/manifest.html
-    [dependencies]
-    # foo = { path = "vendor/foo" }
+```
+// src/lib.cairo
+mod hello_scarb;
+```
 
-# Building a Scarb Project
+سپس یک فایل جدید با عنوان src/hello\_scarb.cairo ایجاد کنید و موارد زیر را اضافه کنید:
 
-Clear all content in `src/lib.cairo` and replace with the following:
+```
+// src/hello_scarb.cairo
+use debug::PrintTrait;
+fn main() {
+    'Hello, Scarb!'.print();
+}
+```
 
-    // src/lib.cairo
-    mod hello_scarb;
+در این مثال، فایل lib.cairo حاوی یک اعلامیه ماژول است که به hello\_scarb ارجاع می دهد که شامل اجرای فایل hello\_scarb.cairo است. برای اطلاعات بیشتر در مورد ماژول ها، واردات و فایل lib.cairo، لطفاً به فصل فرعی واردات در فصل 2 مراجعه کنید.
 
-Next, create a new file titled `src/hello_scarb.cairo` and add the
-following:
+Scarb الزام می کند که فایل های منبع شما در دایرکتوری src قرار گیرند.
 
-    // src/hello_scarb.cairo
-    use debug::PrintTrait;
-    fn main() {
-        'Hello, Scarb!'.print();
-    }
+برای ساخت (کامپایل) پروژه خود از پوشه hello\_scarb خود، از دستور زیر استفاده کنید:
 
-In this instance, the `lib.cairo` file contains a module declaration
-referencing _hello_scarb_, which includes the _hello_scarb.cairo_
-file’s implementation. For more on modules, imports, and the `lib.cairo`
-file, please refer to the subchapter on [imports in Chapter
-2](https://book.starknet.io/chapter_2/imports.html).
+```
+scarb build
+```
 
-Scarb mandates that your source files be located within the `src`
-directory.
+این دستور پروژه شما را کامپایل می کند و کد Sierra را در فایل target/dev/hello\_scarb.sierra تولید می کند. Sierra به عنوان یک لایه میانی بین قاهره سطح بالا و اهداف تلفیقی مانند مونتاژ قاهره (CASM) عمل می کند. برای درک بیشتر در مورد سیرا، این مقاله را بررسی کنید.
 
-To build (compile) your project from your `hello_scarb` directory, use
-the following command:
+برای حذف آرتیفکت های ساخت و حذف پوشه هدف، از دستور scarb clean استفاده کنید.
 
-    scarb build
+### افزودن وابستگی ها
 
-This command compiles your project and produces the Sierra code in the
-`target/dev/hello_scarb.sierra` file. Sierra serves as an intermediate
-layer between high-level Cairo and compilation targets such as Cairo
-Assembly (CASM). To understand more about Sierra, check out this
-[article](https://medium.com/nethermind-eth/under-the-hood-of-cairo-1-0-exploring-sierra-7f32808421f5/).
+Scarb مدیریت یکپارچه وابستگی ها را برای بسته های قاهره شما تسهیل می کند. در اینجا دو روش برای افزودن وابستگی به پروژه شما وجود دارد:
 
-To remove the build artifacts and delete the target directory, use the
-`scarb clean` command.
+* ویرایش فایل Scarb.toml
 
-## Adding Dependencies
+فایل Scarb.toml را در فهرست پروژه خود باز کنید و قسمت \[وابستگی ها] را پیدا کنید. اگر وجود ندارد، آن را اضافه کنید. برای گنجاندن یک وابستگی میزبانی شده در یک مخزن Git، از قالب زیر استفاده کنید:
 
-Scarb facilitates the seamless management of dependencies for your Cairo
-packages. Here are two methods to add dependencies to your project:
+```
+[dependencies]
+alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git" }
+```
 
-- Edit Scarb.toml File
+برای ثبات، توصیه می‌شود وابستگی‌های Git را به commit‌های خاص پین کنید. این را می توان با افزودن فیلد rev با هش commit انجام داد:
 
-Open the Scarb.toml file in your project directory and locate the
-`[dependencies]` section. If it doesn’t exist, add it. To include a
-dependency hosted on a Git repository, use the following format:
+```
+[dependencies]
+alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "81bb93c" }
+```
 
-    [dependencies]
-    alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git" }
+پس از افزودن وابستگی، به یاد داشته باشید که فایل را ذخیره کنید.
 
-For consistency, it’s recommended to pin Git dependencies to specific
-commits. This can be done by adding the `rev` field with the commit
-hash:
+* از دستور Scarb add Command استفاده کنید
 
-    [dependencies]
-    alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git", rev = "81bb93c" }
+همچنین می توانید از دستور scarb add برای افزودن وابستگی به پروژه خود استفاده کنید. ترمینال خود را باز کنید و دستور زیر را اجرا کنید:
 
-After adding the dependency, remember to save the file.
+```
+$ scarb add alexandria_math --git https://github.com/keep-starknet-strange/alexandria.git
+```
 
-- Use the scarb add Command
+این دستور وابستگی alexandria\_math را از مخزن Git مشخص شده به پروژه شما اضافه می کند.
 
-Alternatively, you can use the `scarb add` command to add dependencies
-to your project. Open your terminal and execute the following command:
+برای حذف یک وابستگی، می توانید از دستور scarb rm استفاده کنید.
 
-    $ scarb add alexandria_math --git https://github.com/keep-starknet-strange/alexandria.git
+هنگامی که یک وابستگی اضافه شد، فایل Scarb.toml به طور خودکار با اطلاعات وابستگی جدید به روز می شود.
 
-This command will add the alexandria_math dependency from the specified
-Git repository to your project.
+### استفاده از وابستگی ها در کد شما
 
-To remove a dependency, you can use the `scarb rm` command.
+پس از اینکه وابستگی ها به پروژه شما اضافه شد، می توانید از آنها در کد قاهره خود استفاده کنید.
 
-Once a dependency is added, the Scarb.toml file will be automatically
-updated with the new dependency information.
+به عنوان مثال، فرض کنید شما وابستگی alexandria\_math را اضافه کرده اید. اکنون، می توانید توابع را از کتابخانه alexandria\_math در فایل src/hello\_scarb.cairo خود وارد کرده و از آنها استفاده کنید:
 
-## Using Dependencies in Your Code
+```
+// src/hello_scarb.cairo
+use alexandria_math::fibonacci;
 
-After dependencies are added to your project, you can start utilizing
-them in your Cairo code.
+fn main() -> felt252 {
+    fibonacci::fib(0, 1, 10)
+}
+```
 
-For example, let’s assume you have added the alexandria_math
-dependency. Now, you can import and utilize functions from the
-alexandria_math library in your `src/hello_scarb.cairo` file:
+در مثال بالا، تابع فیبوناچی را از کتابخانه alexandria\_math وارد کرده و از آن در تابع main استفاده می کنیم.
 
-    // src/hello_scarb.cairo
-    use alexandria_math::fibonacci;
+### برگه تقلب اسکارب
 
-    fn main() -> felt252 {
-        fibonacci::fib(0, 1, 10)
-    }
+در اینجا یک برگه تقلب سریع از برخی از رایج ترین دستورات Scarb وجود دارد:
 
-In the above example, we import the fibonacci function from the
-alexandria_math library and utilize it in the main function.
+* scarb new \<project\_name>: یک پروژه جدید با نام پروژه داده شده راه اندازی کنید.
+* ساخت scarb: کد قاهره خود را در کد سیرا کامپایل کنید.
+* scarb add --git : یک وابستگی از یک مخزن Git مشخص شده به پروژه خود اضافه کنید.
+* scarb rm : یک وابستگی را از پروژه خود حذف کنید.
+* scarb run: یک اسکریپت سفارشی تعریف شده در فایل Scarb.toml خود را اجرا کنید.
 
-# Scarb Cheat Sheet
+Scarb یک ابزار همه کاره است و این تازه شروع چیزی است که می توانید با آن به دست آورید. با کسب تجربه بیشتر در زبان قاهره و پلتفرم Starknet، متوجه خواهید شد که چقدر بیشتر می توانید با Scarb انجام دهید.
 
-Here’s a quick cheat sheet of some of the most commonly used Scarb
-commands:
+برای به روز ماندن در مورد Scarb و ویژگی های آن، حتماً اسناد رسمی Scarb را مرتباً بررسی کنید. کد نویسی مبارک!
 
-- `scarb new <project_name>`: Initialize a new project with the given
-  project name.
+کتاب یک تلاش جامعه محور است که برای جامعه ایجاد شده است.
 
-- `scarb build`: Compile your Cairo code into Sierra code.
-
-- `scarb add <dependency> --git <repository>`: Add a dependency to
-  your project from a specified Git repository.
-
-- `scarb rm <dependency>`: Remove a dependency from your project.
-
-- `scarb run <script>`: Run a custom script defined in your
-  `Scarb.toml` file.
-
-Scarb is a versatile tool, and this is just the beginning of what you
-can achieve with it. As you gain more experience in the Cairo language
-and the Starknet platform, you’ll discover how much more you can do with
-Scarb.
-
-To stay updated on Scarb and its features, be sure to check the
-[official Scarb
-documentation](https://docs.swmansion.com/scarb/docs.html) regularly.
-Happy coding!
-
-The Book is a community-driven effort created for the community.
-
-- If you’ve learned something, or not, please take a moment to provide
-  feedback through [this 3-question
-  survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
-
-- If you discover any errors or have additional suggestions, don’t
-  hesitate to open an [issue on our GitHub
-  repository](https://github.com/starknet-edu/starknetbook/issues).
+* اگر چیزی یاد گرفته‌اید یا نه، لطفاً چند لحظه وقت بگذارید و از طریق این نظرسنجی 3 سؤالی بازخورد خود را ارائه دهید.
+* در صورت کشف هرگونه خطا یا پیشنهادات اضافی، در باز کردن مشکل در مخزن GitHub ما تردید نکنید.

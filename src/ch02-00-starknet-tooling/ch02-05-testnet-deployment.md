@@ -1,21 +1,21 @@
-# Testnet Deployment
+# استقرار شبکه تست
 
-This chapter guides developers through the process of compiling, deploying, and interacting with a Starknet smart contract written in Cairo on the testnet. Earlier, the focus was on deploying contracts using a local node, Katana. This time, the deployment and interaction target the Starknet testnet.
+این فصل توسعه دهندگان را از طریق فرآیند کامپایل، استقرار، و تعامل با قرارداد هوشمند Starknet که در قاهره در شبکه آزمایشی نوشته شده است، راهنمایی می کند. پیش از این، تمرکز بر روی استقرار قراردادها با استفاده از یک گره محلی، Katana بود. این بار، استقرار و تعامل شبکه آزمایشی Starknet را هدف قرار می دهد.
 
-Ensure the following commands run successfully on your system. If not, see the 'Basic Installation' section:
+اطمینان حاصل کنید که دستورات زیر با موفقیت بر روی سیستم شما اجرا می شوند. اگر نه، بخش "نصب پایه" را ببینید:
 
 ```bash
     scarb --version  # For Cairo code compilation
     starkli --version  # To interact with Starknet
 ```
 
-## Smart Wallet Setup
+### راه اندازی کیف پول هوشمند
 
-A smart wallet comprises a Signer and an Account Descriptor. The Signer is a smart contract with a private key for signing transactions, while the Account Descriptor is a JSON file detailing the wallet’s address and public key.
+یک کیف پول هوشمند شامل یک امضاکننده و یک توصیفگر حساب است. Signer یک قرارداد هوشمند با یک کلید خصوصی برای امضای تراکنش ها است، در حالی که Account Descriptor یک فایل JSON است که آدرس کیف پول و کلید عمومی را نشان می دهد.
 
-In order for an account to be used as a signer it must be deployed to the appropriate network, Starknet Goerli or mainnet, and funded. For this example we are going to use Goerli Testnet. To deploy your wallet, visit [Getting Started](../ch01-00-getting-started.md) and find the `Smart Wallet Setup` section.
+برای اینکه یک حساب کاربری به‌عنوان امضاکننده استفاده شود، باید در شبکه مناسب، Starknet Goerli یا mainnet، مستقر شده و تأمین مالی شود. برای این مثال می خواهیم از Goerli Testnet استفاده کنیم. برای استقرار کیف پول خود، از Getting Started دیدن کنید و بخش Smart Wallet Setup را پیدا کنید.
 
-Now you’re ready to interact with Starknet smart contracts.
+اکنون شما آماده تعامل با قراردادهای هوشمند Starknet هستید.
 
 ### Creating a Signer
 
@@ -298,9 +298,9 @@ Replace `<CONTRACT_ADDRESS>` with the address of your contract. The command will
     ]
 ```
 
-## Invoking a Write Function
+### فراخوانی یک تابع Write
 
-You can modify the contract’s state using the `invoke` command. For example, let’s transfer the contract’s ownership with the `transfer_ownership` function.
+می توانید وضعیت قرارداد را با استفاده از دستور invoke تغییر دهید. برای مثال، اجازه دهید مالکیت قرارداد را با تابع transfer\_ownership منتقل کنیم.
 
 ```bash
     starkli invoke \
@@ -309,23 +309,23 @@ You can modify the contract’s state using the `invoke` command. For example, l
         <NEW_OWNER_ADDRESS>
 ```
 
-Replace `<CONTRACT_ADDRESS>` with the address of the contract and `<NEW_OWNER_ADDRESS>` with the address you want to transfer ownership to. If the smart wallet you’re using isn’t the contract’s owner, an error will appear. Note that the initial owner was set when deploying the contract:
+\<CONTRACT\_ADDRESS> را با آدرس قرارداد و \<NEW\_OWNER\_ADDRESS> را با آدرسی که می‌خواهید مالکیت را به آن منتقل کنید جایگزین کنید. اگر کیف پول هوشمندی که استفاده می کنید مالک قرارداد نباشد، خطایی ظاهر می شود. توجه داشته باشید که مالک اولیه هنگام استقرار قرارداد تنظیم شده است:
 
 ```bash
     Execution was reverted; failure reason: [0x43616c6c6572206973206e6f7420746865206f776e6572].
 ```
 
-The failure reason is encoded as a felt. o decode it, use the starkli’s `parse-cairo-string` command.
+دلیل شکست به صورت فلت کدگذاری می شود. o آن را رمزگشایی کنید، از دستور parse-cairo-string starkli استفاده کنید.
 
 ```bash
     starkli parse-cairo-string <ENCODED_ERROR>
 ```
 
-For example, if you see `0x43616c6c6572206973206e6f7420746865206f776e6572`, decoding it will yield "Caller is not the owner."
+به عنوان مثال، اگر 0x43616c6c6572206973206e6f7420746865206f776e6572 را مشاهده کردید، رمزگشایی آن "تماس گیرنده مالک نیست" به دست می آید.
 
-After a successful transaction on L2, use a block explorer like StarkScan or Voyager to confirm the transaction status using the hash provided by the `invoke` command.
+پس از یک تراکنش موفق در L2، از یک بلاک کاوشگر مانند StarkScan یا Voyager برای تأیید وضعیت تراکنش با استفاده از هش ارائه شده توسط دستور invoke استفاده کنید.
 
-To verify that the ownership has successfully transferred, you can call the `get_owner` function again:
+برای تأیید اینکه مالکیت با موفقیت منتقل شده است، می توانید دوباره تابع get\_owner را فراخوانی کنید:
 
 ```bash
     starkli call \
@@ -333,6 +333,6 @@ To verify that the ownership has successfully transferred, you can call the `get
         get_owner
 ```
 
-If the function returns the new owner’s address, the transfer was successful.
+اگر تابع آدرس مالک جدید را برگرداند، انتقال موفقیت آمیز بوده است.
 
-Congratulations! You’ve successfully deployed and interacted with a Starknet contract.
+تبریک می گویم! شما با موفقیت قرارداد Starknet را مستقر کرده و با آن تعامل برقرار کرده اید.
