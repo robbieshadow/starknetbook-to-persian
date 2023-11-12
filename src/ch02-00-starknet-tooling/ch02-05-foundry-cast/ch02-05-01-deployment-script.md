@@ -1,25 +1,27 @@
-# Deployment Script Example
+# نمونه اسکریپت استقرار
 
-This tutorial explains how to set up a test and deployment environment for smart contracts. The given script initializes accounts, runs tests, and carries out multicalls.
+این آموزش نحوه راه اندازی یک محیط تست و استقرار برای قراردادهای هوشمند را توضیح می دهد. اسکریپت داده شده حساب ها را مقداردهی اولیه می کند، آزمایش ها را اجرا می کند و چند تماس را انجام می دهد.
 
-Disclaimer: This is an example. Use it as a foundation for your own work, adjusting as needed.
+سلب مسئولیت: این یک مثال است. از آن به عنوان پایه ای برای کار خود استفاده کنید و در صورت لزوم تنظیم کنید.
 
-## Setup
+### برپایی
 
-### 1. Prepare the Script File
 
-- In your project's root folder, create a file named **`script.sh`**. This will house the script.
-- Adjust permissions to make the file executable:
+
+### 1.فایل اسکریپت را آماده کنید
+
+* در پوشه ریشه پروژه خود، یک فایل به نام script.sh ایجاد کنید. این اسکریپت را در خود جای خواهد داد.
+* مجوزها را تنظیم کنید تا فایل قابل اجرا باشد:
 
 ```sh
 chmod +x script.sh
 ```
 
-### 2. Insert the Script
+### 2. اسکریپت را درج کنید
 
-Below is the content for `script.sh`. It adheres to best practices for clarity, error management, and long-term support.
+در زیر محتوای script.sh آمده است. به بهترین شیوه ها برای وضوح، مدیریت خطا و پشتیبانی طولانی مدت پایبند است.
 
-**Security Note**: Using environment variables is safer than hardcoding private keys in your scripts, but they're still accessible to any process on your machine and could potentially be leaked in logs or error messages.
+نکته امنیتی: استفاده از متغیرهای محیطی امن‌تر از رمزگذاری کلیدهای خصوصی در اسکریپت‌های شما است، اما همچنان برای هر فرآیندی در دستگاه شما قابل دسترسی هستند و ممکن است در گزارش‌ها یا پیام‌های خطا به بیرون درز کنند.
 
 ```sh
 #!/usr/bin/env bash
@@ -149,28 +151,30 @@ EOM
 fi
 ```
 
-### 3. Adjust the Bash Path
 
-The line `#!/usr/bin/env bash` indicates the path to the bash interpreter. If you require a different version or location of bash, determine its path using:
+
+### 3.مسیر Bash را تنظیم کنید
+
+خط #!/usr/bin/env bash مسیر مترجم bash را نشان می دهد. اگر به نسخه یا مکان دیگری از bash نیاز دارید، مسیر آن را با استفاده از:
 
 ```sh
 which bash
 ```
 
-Then replace `#!/usr/bin/env` bash in the script with the resulting path, such as `#!/path/to/your/bash`.
+سپس #!/usr/bin/env bash را در اسکریپت با مسیر به دست آمده، مانند #!/path/to/your/bash جایگزین کنید.
 
-## Execution
+### اجرا
 
-When running the script, you'll need to provide the environment variables `ACCOUNT1_PRIVATE_KEY` and `ACCOUNT2_PRIVATE_KEY`.
+هنگام اجرای اسکریپت، باید متغیرهای محیطی ACCOUNT1\_PRIVATE\_KEY و ACCOUNT2\_PRIVATE\_KEY را ارائه دهید.
 
-Example:
+مثال:
 
 ```sh
 ACCOUNT1_PRIVATE_KEY="0x259f4329e6f4590b" ACCOUNT2_PRIVATE_KEY="0xb4862b21fb97d" ./script.sh
 ```
 
-## Considerations
+### ملاحظات
 
-- The **`set -e`** directive in the script ensures it exits if any command fails, enhancing the reliability of the deployment and testing process.
-- Always secure private keys and sensitive information. Keep them away from logs and visible outputs.
-- For greater flexibility, consider moving hardcoded values like accounts or contract names to a configuration file. This approach simplifies updates and overall management.
+* دستور set-e در اسکریپت تضمین می کند که در صورت شکست هر فرمانی از آن خارج می شود و قابلیت اطمینان فرآیند استقرار و آزمایش را افزایش می دهد.
+* همیشه کلیدهای خصوصی و اطلاعات حساس را ایمن کنید. آنها را از سیاههها و خروجی های قابل مشاهده دور نگه دارید.
+* برای انعطاف‌پذیری بیشتر، مقادیر کدگذاری‌شده مانند حساب‌ها یا نام‌های قرارداد را به یک فایل پیکربندی منتقل کنید. این رویکرد به روز رسانی و مدیریت کلی را ساده می کند.

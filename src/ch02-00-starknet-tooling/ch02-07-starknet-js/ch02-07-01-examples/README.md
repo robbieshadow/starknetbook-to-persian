@@ -1,10 +1,10 @@
-# Examples
+# مثال ها
 
-In this subchapter, readers will find practical examples demonstrating the usage of `starknet-js`. It provides insight into real-world applications and serves as a guide for developers to understand and implement these tools effectively.
+در این فصل فرعی، خوانندگان نمونه های عملی نشان دهنده استفاده از starknet-js را خواهند یافت. بینشی در مورد برنامه های کاربردی دنیای واقعی ارائه می دهد و به عنوان راهنمای توسعه دهندگان برای درک و پیاده سازی موثر این ابزارها عمل می کند.
 
-We value the contribution of our developer community:
+ما برای مشارکت جامعه توسعه دهندگان خود ارزش قائلیم:
 
-- We encourage developers to contribute additional examples.
-- Please inform us if you identify any mistakes or inaccuracies.
+* ما توسعه دهندگان را تشویق می کنیم که نمونه های بیشتری را به اشتراک بگذارند.
+* لطفا در صورت شناسایی هرگونه اشتباه یا نادرستی به ما اطلاع دهید.
 
-Your insights and feedback are instrumental in making this resource more comprehensive and accurate.
+بینش و بازخورد شما در جامع‌تر و دقیق‌تر کردن این منبع مؤثر است.

@@ -2,41 +2,41 @@
 
 ## Starknet-js: Javascript SDK
 
-Starknet.js is a JavaScript/TypeScript library designed to connect your website or decentralized application (D-App) to Starknet. It aims to mimic the architecture of [ethers.js](https://docs.ethers.org/v5/), so if you are familiar with ethers, you should find Starknet.js easy to work with.
+Starknet.js یک کتابخانه JavaScript/TypeScript است که برای اتصال وب سایت یا برنامه غیرمتمرکز شما (D-App) به Starknet طراحی شده است. هدف آن تقلید از معماری ethers.js است، بنابراین اگر با اترها آشنا هستید، باید کار با Starknet.js را آسان کنید.
 
 ![Starknet-js in your dapp](../../img/ch02-starknet-js.png)
 
-Starknet-js in your dapp
+Starknet-js در dapp شما
 
-## Installation
+### نصب و راه اندازی
 
-To install Starknet.js, follow these steps:
+برای نصب Starknet.js مراحل زیر را دنبال کنید:
 
-* For the latest official release (main branch):
+* برای آخرین نسخه رسمی (شاخه اصلی):
 
 ```
 npm install starknet
 ```
 
-* To use the latest features (merges in develop branch):
+* برای استفاده از آخرین ویژگی ها (ادغام در شاخه توسعه):
 
 ```
 npm install starknet@next
 ```
 
-### Getting Started
+### شروع شدن
 
-To build an app that users are able to connect to and interact with Starknet, we recommend adding the [get-starknet](https://github.com/starknet-io/get-starknet) library, which allows you to manage wallet connections.
+برای ساخت اپلیکیشنی که کاربران قادر به اتصال به استارک نت و تعامل با آن باشند، توصیه می کنیم کتابخانه get-starknet را اضافه کنید که به شما امکان می دهد اتصالات کیف پول را مدیریت کنید.
 
-With these tools ready, there are basically 3 main concepts to know on the frontend: Account, Provider, and Contracts.
+با آماده بودن این ابزارها، اساساً 3 مفهوم اصلی وجود دارد که باید بدانید: حساب، ارائه دهنده و قراردادها.
 
-#### Account
+#### حساب
 
-We can generally think of the account as the "end user" of a dapp, and some user interaction will be involved to gain access to it.
+ما به طور کلی می توانیم حساب را به عنوان "کاربر نهایی" یک dapp در نظر بگیریم و برخی از تعاملات کاربر برای دسترسی به آن دخیل خواهد بود.
 
-Think of a dapp where the user connects their browser extension wallet (such as ArgentX or Braavos) - if the user accepts the connection, that gives us access to the account and signer, which can sign transactions and messages.
+برنامه‌ای را در نظر بگیرید که در آن کاربر کیف پول افزونه مرورگر خود را (مانند ArgentX یا Braavos) وصل می‌کند - اگر کاربر اتصال را بپذیرد، به ما امکان دسترسی به حساب و امضاکننده را می‌دهد که می‌تواند تراکنش‌ها و پیام‌ها را امضا کند.
 
-Unlike Ethereum, where user accounts are Externally Owned Accounts, Starknet **accounts are contracts**. This might not necessarily impact your dapp’s frontend, but you should definitely be aware of this difference.
+برخلاف اتریوم، که در آن حساب‌های کاربری، حساب‌های تحت مالکیت خارجی هستند، حساب‌های Starknet قراردادی هستند. این ممکن است لزوماً تأثیری بر ظاهر dapp شما نداشته باشد، اما قطعاً باید از این تفاوت آگاه باشید.
 
 ```ts
 async function connectWallet() {
@@ -48,13 +48,13 @@ async function connectWallet() {
 }
 ```
 
-The snippet above uses the `connect` function provided by `get-starknet` to establish a connection to the user wallet. Once connected, we are able to access account methods, such as `signMessage` or `execute`.
+قطعه بالا از تابع اتصال ارائه شده توسط get-starknet برای برقراری ارتباط با کیف پول کاربر استفاده می کند. پس از اتصال، می‌توانیم به روش‌های حساب، مانند signMessage یا execute دسترسی پیدا کنیم.
 
-#### Provider
+#### ارائه دهنده
 
-The provider allows you to interact with the Starknet network. You can think of it as a "read" connection to the blockchain, as it doesn’t allow signing transactions or messages. Just like in Ethereum, you can use a default provider, or use services such as Infura or Alchemy, both of which support Starknet, to create an RPC provider.
+ارائه دهنده به شما امکان می دهد با شبکه Starknet تعامل داشته باشید. می توانید آن را به عنوان یک اتصال "خوانده" به بلاک چین در نظر بگیرید، زیرا اجازه امضای تراکنش ها یا پیام ها را نمی دهد. درست مانند اتریوم، می توانید از یک ارائه دهنده پیش فرض استفاده کنید یا از خدماتی مانند Infura یا Alchemy که هر دو از Starknet پشتیبانی می کنند، برای ایجاد یک ارائه دهنده RPC استفاده کنید.
 
-By default, the Provider is a sequencer provider.
+به طور پیش فرض، Provider یک ارائه دهنده ترتیب دهنده است.
 
 ```ts
 export const provider = new Provider({
@@ -70,9 +70,9 @@ const block = await provider.getBlock("latest"); // <- Get latest block
 console.log(block.block_number);
 ```
 
-### Contracts
+### قراردادها
 
-Your frontend will likely be interacting with deployed contracts. For each contract, there should be a counterpart on the frontend. To create these instances, you will need the contract’s address and ABI, and either a provider or signer.
+ظاهر شما احتمالاً با قراردادهای مستقر در تعامل است. برای هر قرارداد، باید یک همتا در قسمت جلویی وجود داشته باشد. برای ایجاد این نمونه‌ها، به آدرس قرارداد و ABI و یک ارائه‌دهنده یا امضاکننده نیاز دارید.
 
 ```ts
 const contract = new Contract(abi_erc20, contractAddress, starknet.account);
@@ -84,7 +84,7 @@ const transfer = await contract.transfer(recipientAddress, amountFormatted);
 console.log(`Tx hash: ${transfer.transaction_hash}`);
 ```
 
-If you create a contract instance with a provider, you’ll be limited to calling read functions on the contract - only with a signer can you change the state of the blockchain. However, you are able to connect a previously created `Contract` instance with a new account:
+اگر یک نمونه قرارداد با یک ارائه دهنده ایجاد کنید، محدود به فراخوانی توابع خواندن در قرارداد خواهید بود - فقط با امضاکننده می توانید وضعیت بلاک چین را تغییر دهید. با این حال، شما می توانید یک نمونه قراردادی که قبلا ایجاد شده را با یک حساب جدید متصل کنید:
 
 ```ts
 const contract = new Contract(abi_erc20, contractAddress, provider);
@@ -92,13 +92,13 @@ const contract = new Contract(abi_erc20, contractAddress, provider);
 contract.connect(starknet.account);
 ```
 
-In the snippet above, after calling the `connect` method, it would be possible to call read functions on the contract, but not before.
+در قطعه بالا، پس از فراخوانی متد اتصال، امکان فراخوانی توابع خواندن در قرارداد وجود دارد، اما نه قبل از آن.
 
-#### Units
+#### واحدها
 
-If you have previous experience with web3, you know dealing with units requires care, and Starknet is no exception. Once again, the docs are very useful here, in particular [this section on data transformation](https://www.starknetjs.com/docs/guides/define\_call\_message/).
+اگر تجربه قبلی با web3 دارید، می دانید که برخورد با واحدها نیاز به مراقبت دارد و Starknet نیز از این قاعده مستثنی نیست. یک بار دیگر، اسناد در اینجا بسیار مفید هستند، به ویژه این بخش در مورد تبدیل داده ها.
 
-Very often you will need to convert Cairo structs (such as Uint256) that are returned from contracts into numbers:
+اغلب شما نیاز دارید که ساختارهای Cairo (مانند Uint256) را که از قراردادها برگردانده می شوند به اعداد تبدیل کنید:
 
 ```ts
 // Uint256 shape:
@@ -113,7 +113,7 @@ const asBN = uint256.uint256ToBN(uint256); // <- uint256 into BN
 const asString = asBN.toString(); //<- BN into string
 ```
 
-And vice versa:
+و بالعکس:
 
 ```ts
 const amount = 1;
@@ -124,18 +124,18 @@ const amountFormatted = {
 };
 ```
 
-There are other helpful utils, besides `bnToUint256` and `uint256ToBN`, provided by Starknet.js.
+علاوه بر bnToUint256 و uint256ToBN، ابزارهای مفید دیگری نیز وجود دارد که توسط Starknet.js ارائه شده است.
 
-We now have a solid foundation to build a Starknet dapp. However, there are framework specific tools that help us build Starknet dapps, which are covered in chaper 5.
+ما اکنون یک پایه محکم برای ایجاد یک برنامه Starknet داریم. با این حال، ابزارهای چارچوب خاصی وجود دارد که به ما در ساخت dapp های Starknet کمک می کند، که در فصل 5 پوشش داده شده است.
 
-### Additional Resources
+### منابع اضافی
 
 * Starknet.js GitHub Repository: [https://github.com/0xs34n/starknet.js](https://github.com/0xs34n/starknet.js)
-* Official Starknet.js Website and documentation: [https://www.starknetjs.com/](https://www.starknetjs.com/)
+* وب سایت و مستندات رسمی Starknet.js: https://www.starknetjs.com/
 
-Stay tuned for more updates on Starknet.js, including detailed guides, examples, and comprehensive documentation.
+منتظر به‌روزرسانی‌های بیشتر در Starknet.js، از جمله راهنماهای دقیق، مثال‌ها و مستندات جامع باشید.
 
-The Book is a community-driven effort created for the community.
+کتاب یک تلاش جامعه محور است که برای جامعه ایجاد شده است.
 
-* If you’ve learned something, or not, please take a moment to provide feedback through [this 3-question survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
-* If you discover any errors or have additional suggestions, don’t hesitate to open an [issue on our GitHub repository](https://github.com/starknet-edu/starknetbook/issues).
+* اگر چیزی یاد گرفته‌اید یا نه، لطفاً چند لحظه وقت بگذارید و از طریق این نظرسنجی 3 سؤالی بازخورد خود را ارائه دهید.
+* در صورت کشف هرگونه خطا یا پیشنهادات اضافی، در باز کردن مشکل در مخزن GitHub ما تردید نکنید.

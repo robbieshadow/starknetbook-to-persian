@@ -17,19 +17,19 @@
 
 اکنون شما آماده تعامل با قراردادهای هوشمند Starknet هستید.
 
-### Creating a Signer
+### ایجاد یک امضاکننده
 
-The Signer is an essential smart contract capable of signing transactions in Starknet. You’ll need the private key from your smart wallet to create one, from which the public key can be derived.
+Signer یک قرارداد هوشمند ضروری است که قادر به امضای تراکنش در Starknet است. برای ایجاد یک کیف پول هوشمند به کلید خصوصی نیاز دارید که کلید عمومی را می توان از آن استخراج کرد.
 
-Starkli enables secure storage of your private key through a keystore file. This encrypted file can be accessed using a password and is generally stored in the default Starkli directory.
+Starkli ذخیره ایمن کلید خصوصی شما را از طریق یک فایل فروشگاه کلید فعال می کند. این فایل رمزگذاری شده با استفاده از رمز عبور قابل دسترسی است و عموماً در فهرست پیش فرض Starkli ذخیره می شود.
 
-First, create the default directory:
+ابتدا دایرکتوری پیش فرض را ایجاد کنید:
 
 ```bash
     mkdir ~/.starkli-wallets/deployer -p
 ```
 
-Then generate the keystore file. The signer command contains subcommands for creating a keystore file from a private key or completely create a new one. In this tutorial, we’ll use the private key option which is the most common use case. You need to provide the path to the keystore file you want to create. You can give any name to the keystore file, you will likely have several wallets. In this tutorial, we will use the name `my_keystore_ 1.json`.
+سپس فایل keystore را تولید کنید. دستور signer شامل دستورات فرعی برای ایجاد یک فایل ذخیره کلید از یک کلید خصوصی یا ایجاد کامل یک فایل جدید است. در این آموزش، از گزینه کلید خصوصی که رایج ترین مورد استفاده است استفاده می کنیم. شما باید مسیر فایل keystore را که می خواهید ایجاد کنید ارائه دهید. شما می توانید هر نامی را به فایل keystore بدهید، احتمالا چندین کیف پول خواهید داشت. در این آموزش از نام my\_keystore\_ 1.json استفاده می کنیم.
 
 ```bash
     starkli signer keystore from-key ~/.starkli-wallets/deployer/my_keystore_1.json
@@ -37,31 +37,31 @@ Then generate the keystore file. The signer command contains subcommands for cre
     Enter password:
 ```
 
-In the private key prompt, paste the private key of your smart wallet. In the password prompt, enter a password of your choice. You will need this password to sign transactions using Starkli.
+در اعلان کلید خصوصی، کلید خصوصی کیف پول هوشمند خود را بچسبانید. در اعلان رمز عبور، رمز عبور دلخواه خود را وارد کنید. برای امضای تراکنش ها با استفاده از Starkli به این رمز عبور نیاز دارید.
 
-Export the private key from your Braavos or Argent wallet. For Argent X, you can find it in the "Settings" section → Select your Account → "Export Private Key". For Braavos, you can find it in the "Settings" section → "Privacy and Security" → "Export Private Key".
+کلید خصوصی را از کیف پول Braavos یا Argent خود صادر کنید. برای Argent X، می توانید آن را در بخش "تنظیمات" پیدا کنید → حساب خود را انتخاب کنید → "صادر کردن کلید خصوصی". برای Braavos، می توانید آن را در بخش "تنظیمات" → "حریم خصوصی و امنیت" → "صادر کردن کلید خصوصی" پیدا کنید.
 
-While knowing the private key of a smart wallet is necessary to sign transactions, it’s not sufficient. We also need to inform Starkli about the signing mechanism employed by our smart wallet created by Braavos or Argent X. Does it use an elliptic curve? If yes, which one? This is the reason why we need an account descriptor file.
+اگرچه دانستن کلید خصوصی یک کیف پول هوشمند برای امضای تراکنش ها ضروری است، اما کافی نیست. همچنین باید استارکلی را در مورد مکانیسم امضا استفاده شده توسط کیف پول هوشمند ما که توسط Braavos یا Argent X ایجاد شده است، مطلع کنیم. آیا از منحنی بیضوی استفاده می کند؟ اگر بله، کدام یک؟ این دلیلی است که ما به یک فایل توصیفگر حساب نیاز داریم.
 
-#### \[OPTIONAL] The Architecture of the Starknet Signer
+### \[اختیاری] معماری امضاکننده Starknet
 
-This section is optional and is intended for those who want to learn more about the Starknet Signer. If you are not interested in the details, you can skip it.
+این بخش اختیاری است و برای کسانی در نظر گرفته شده است که می خواهند درباره Starknet Signer اطلاعات بیشتری کسب کنند. اگر به جزئیات علاقه ندارید، می توانید از آن صرف نظر کنید.
 
-The Starknet Signer plays an instrumental role in securing your transactions. Let’s demystify what goes on under the hood.
+Starknet Signer نقش مهمی در ایمن سازی تراکنش های شما ایفا می کند. بیایید ابهام زدایی کنیم از آنچه در زیر کاپوت می گذرد.
 
-Key Components:
+اجزای کلیدی:
 
-1. **Private Key**: A 256-bit/32-byte/64-character (ignoring the _0x_ prefix) hexadecimal key that is the cornerstone of your wallet’s security.
-2. **Public Key**: Derived from the private key, it’s also a 256-bit/32-byte/64-character hexadecimal key.
-3. **Smart Wallet Address**: Unlike Ethereum, the address here is influenced by the public key, class hash, and a salt. [**Learn more in Starknet Documentation**](https://docs.starknet.io/documentation/architecture\_and\_concepts/Smart\_Contracts/contract-address/).
+1. کلید خصوصی: یک کلید هگزادسیمال 256 بیتی/32 بایتی/64 کاراکتری (با نادیده گرفتن پیشوند 0x) که سنگ بنای امنیت کیف پول شما است.
+2. کلید عمومی: برگرفته از کلید خصوصی، همچنین یک کلید هگزادسیمال 256 بیتی/32 بایتی/64 کاراکتری است.
+3. آدرس کیف پول هوشمند: برخلاف اتریوم، آدرس اینجا تحت تأثیر کلید عمومی، هش کلاس و یک نمک قرار می‌گیرد. در Starknet Documentation بیشتر بیاموزید.
 
-To view the details of the previously created keystore file:
+برای مشاهده جزئیات فایل keystore ایجاد شده قبلی:
 
 ```bash
     cat ~/.starkli-wallets/deployer/my_keystore_1.json
 ```
 
-Anatomy of the `keystore.json` File:
+آناتومی فایل keystore.json:
 
 ```json
 {
@@ -86,36 +86,36 @@ Anatomy of the `keystore.json` File:
 }
 ```
 
-* **`version`**: The version of the smart wallet implementation.
-* **`id`**: A randomly generated identification string.
-* **`crypto`**: Houses all encryption details.
+* نسخه: نسخه پیاده سازی کیف پول هوشمند.
+* id: یک رشته شناسایی که به طور تصادفی تولید می شود.
+* crypto: تمام جزئیات رمزگذاری را در خود جای داده است.
 
-Inside **`crypto`**:
+داخل کریپتو:
 
-* **`cipher`**: Specifies the encryption algorithm used, which in this case is AES-128-CTR.
-  * **AES (Advanced Encryption Standard)**: A globally accepted encryption standard.
-  * **128**: Refers to the key size in bits, making it a 128-bit key.
-  * **CTR (Counter Mode)**: A specific mode of operation for the AES cipher.
-* **`cipherparams`**: Contains an Initialization Vector (IV), which ensures that encrypting the same plaintext with the same key will produce different ciphertexts.
-  * **`iv` (Initialization Vector)**: A 16-byte hex string that serves as a random and unique starting point for each encryption operation.
-* **`ciphertext`**: This is the private key after encryption, securely stored so that only the correct password can reveal it.
-* **`kdf` and `kdfparams`**: KDF stands for Key Derivation Function. This adds a layer of security by requiring computational work, making brute-force attacks harder.
-  * **`dklen`**: The length (in bytes) of the derived key. Typically 32 bytes.
-  * **`n`**: A cost factor representing CPU/memory usage. A higher value means more computational work is needed, thus increasing security.
-  * **`p`**: Parallelization factor, affecting the computational complexity.
-  * **`r`**: Block size for the hash function, again affecting computational requirements.
-  * **`salt`**: A random value that is combined with the password to deter dictionary attacks.
-* **`mac` (Message Authentication Code)**: This is a cryptographic code that ensures the integrity of the message (the encrypted private key in this case). It is generated using a hash of both the ciphertext and a portion of the derived key.
+* cipher: الگوریتم رمزگذاری مورد استفاده را مشخص می کند که در این مورد AES-128-CTR است.
+  * AES (استاندارد رمزگذاری پیشرفته): یک استاندارد رمزگذاری پذیرفته شده جهانی است.
+  * 128: به اندازه کلید در بیت اشاره دارد و آن را به یک کلید 128 بیتی تبدیل می کند.
+  * CTR (Counter Mode): حالت خاصی از کار برای رمز AES.
+* cipherparams: حاوی یک بردار مقداردهی اولیه (IV) است که تضمین می‌کند رمزگذاری یک متن ساده با همان کلید، متن‌های رمزی متفاوتی را تولید می‌کند.
+  * iv (بردار اولیه سازی): یک رشته هگز 16 بایتی که به عنوان یک نقطه شروع تصادفی و منحصر به فرد برای هر عملیات رمزگذاری عمل می کند.
+* متن رمزی: این کلید خصوصی پس از رمزگذاری است که به طور ایمن ذخیره می شود تا فقط رمز عبور صحیح بتواند آن را آشکار کند.
+* kdf و kdfparams: KDF مخفف Key Derivation Function است. این یک لایه امنیتی را با نیاز به کار محاسباتی اضافه می کند و حملات brute-force را سخت تر می کند.
+  * dklen: طول (بر حسب بایت) کلید مشتق شده. به طور معمول 32 بایت.
+  * n: یک عامل هزینه که نشان دهنده استفاده از CPU/حافظه است. مقدار بالاتر به این معنی است که کار محاسباتی بیشتری مورد نیاز است، بنابراین امنیت افزایش می یابد.
+  * p: عامل موازی سازی که بر پیچیدگی محاسباتی تأثیر می گذارد.
+  * r: اندازه بلوک برای تابع هش، دوباره بر نیازهای محاسباتی تأثیر می گذارد.
+  * salt: یک مقدار تصادفی که با رمز عبور ترکیب می شود تا از حملات فرهنگ لغت جلوگیری کند.
+* mac (کد احراز هویت پیام): این یک کد رمزنگاری است که یکپارچگی پیام را تضمین می کند (کلید خصوصی رمزگذاری شده در این مورد). با استفاده از هش متن رمز شده و بخشی از کلید مشتق شده تولید می شود.
 
-### Creating an Account Descriptor
+### ایجاد یک توصیفگر حساب
 
-An Account Descriptor informs Starkli about your smart wallet’s unique features, such as its signing mechanism. You can generate this descriptor using Starkli’s `fetch` subcommand under the `account` command. The `fetch` subcommand takes your on-chain wallet address as input and generates the account descriptor file. The account descriptor file is a JSON file that contains the details of your smart wallet.
+یک توصیفگر حساب استارکلی را در مورد ویژگی های منحصر به فرد کیف پول هوشمند شما، مانند مکانیسم امضای آن، مطلع می کند. می توانید این توصیفگر را با استفاده از دستور فرعی واکشی Starkli تحت فرمان حساب ایجاد کنید. فرمان فرعی fetch آدرس کیف پول روی زنجیره شما را به عنوان ورودی می گیرد و فایل توصیفگر حساب را تولید می کند. فایل توصیف حساب یک فایل JSON است که حاوی جزئیات کیف پول هوشمند شما است.
 
 ```bash
     starkli account fetch <SMART_WALLET_ADDRESS> --output ~/.starkli-wallets/deployer/my_account_1.json
 ```
 
-After running the command, you’ll see a message like the one below. We’re using a Braavos wallet as an example, but the steps are the same for an Argent wallet.
+پس از اجرای دستور، پیامی مانند تصویر زیر مشاهده خواهید کرد. ما از کیف پول Braavos به عنوان مثال استفاده می کنیم، اما مراحل برای کیف پول Argent یکسان است.
 
 ```bash
     Account contract type identified as: Braavos
@@ -123,21 +123,21 @@ After running the command, you’ll see a message like the one below. We’re us
     Downloaded new account config file: ~/.starkli-wallets/deployer/my_account_1.json
 ```
 
-In case you face an error like this:
+در صورتی که با خطای زیر مواجه شدید:
 
 ```bash
     Error: code=ContractNotFound, message="Contract with address {SMART_WALLET_ADDRESS} is not deployed."
 ```
 
-It means you probably just created a new wallet and it has not been deployed yet. To accomplish this you have to fund your wallet with tokens and transfer tokens to a different wallet address. After this process, search your wallet address on the Starknet explorer. To see the details, go back to [Getting Started](../ch01-00-getting-started.md) and find the `Smart Wallet Setup` section.
+این بدان معناست که احتمالاً به تازگی یک کیف پول جدید ایجاد کرده اید و هنوز راه اندازی نشده است. برای انجام این کار، باید کیف پول خود را با توکن ها تامین کنید و توکن ها را به آدرس کیف پول دیگری انتقال دهید. پس از این فرآیند، آدرس کیف پول خود را در اکسپلورر Starknet جستجو کنید. برای مشاهده جزئیات، به شروع به کار برگردید و بخش Smart Wallet Setup را پیدا کنید.
 
-After the acount descriptor file is generated, you can see the its detalis, run:
+پس از ایجاد فایل توصیفگر حساب، می توانید جزئیات آن را مشاهده کنید، اجرا کنید:
 
 ```bash
     cat ~/.starkli-wallets/deployer/my_account_1.json
 ```
 
-Here’s what a typical descriptor might look like:
+در اینجا یک توصیفگر معمولی ممکن است به نظر برسد:
 
 ```json
 {
@@ -164,91 +164,89 @@ Here’s what a typical descriptor might look like:
 }
 ```
 
-Note: The structure will differ if you use an Argent wallet.
+توجه: اگر از کیف پول Argent استفاده کنید، ساختار متفاوت خواهد بود.
 
-## Setting up Environment Variables
+### تنظیم متغیرهای محیطی
 
-To simplify Starkli commands, you can set environment variables. Two key variables are crucial: one for the Signer’s keystore file location and another for the Account Descriptor file.
+برای ساده سازی دستورات Starkli، می توانید متغیرهای محیطی را تنظیم کنید. دو متغیر کلیدی بسیار مهم هستند: یکی برای مکان فایل ذخیره‌کننده کلید Signer و دیگری برای فایل Account Descriptor.
 
 ```bash
     export STARKNET_ACCOUNT=~/.starkli-wallets/deployer/my_account_1.json
     export STARKNET_KEYSTORE=~/.starkli-wallets/deployer/my_keystore_1.json
 ```
 
-Setting these variables makes running Starkli commands easier and more efficient.
+تنظیم این متغیرها اجرای دستورات Starkli را آسان تر و کارآمدتر می کند.
 
-## Declaring Smart Contracts in Starknet
+### اعلام قراردادهای هوشمند در استارک نت
 
-Deploying a smart contract on Starknet involves two steps:
+استقرار یک قرارداد هوشمند در Starknet شامل دو مرحله است:
 
-* Declare your contract’s code.
-* Deploy an instance of the declared code.
+* کد قرارداد خود را اعلام کنید
+* یک نمونه از کد اعلام شده را مستقر کنید.
 
-To get started, navigate to the `contracts/` directory in the [first chapter](https://github.com/starknet-edu/starknetbook/tree/main/chapters/book/modules/chapter\_1/pages/contracts) of the Starknet Book repo. The `src/lib.cairo` file contains a basic contract to practice with.
-
-First, compile the contract using the Scarb compiler. If you haven’t installed Scarb, follow the installation guide in the [Setting up your Environment](https://book.starknet.io/chapter\_1/environment\_setup.html) section.
+برای شروع، به دایرکتوری قراردادها در فصل اول مخزن کتاب Starknet بروید. فایل src/lib.cairo حاوی یک قرارداد اساسی برای تمرین است.ابتدا قرارداد را با استفاده از کامپایلر Scarb کامپایل کنید. اگر Scarb را نصب نکرده اید، راهنمای نصب را در بخش تنظیم محیط خود دنبال کنید.
 
 ```bash
     scarb build
 ```
 
-This creates a compiled contract in `target/dev/` as "contracts\_Ownable.sierra.json" (in Chapter 2 of the book we will learn more details about Scarb).
+این یک قرارداد کامپایل‌شده در target/dev/ به‌عنوان «contracts\_Ownable.sierra.json» ایجاد می‌کند (در فصل 2 کتاب با جزئیات بیشتری درباره Scarb آشنا خواهیم شد).
 
-With the smart contract compiled, we’re ready to declare it using Starkli. Before declaring your contract, decide on an RPC provider.
+با جمع‌آوری قرارداد هوشمند، ما آماده هستیم تا آن را با استفاده از Starkli اعلام کنیم. قبل از اعلام قرارداد خود، در مورد یک ارائه دهنده RPC تصمیم بگیرید.
 
-### Choosing an RPC Provider
+### انتخاب یک ارائه دهنده RPC
 
-There are three main options for RPC providers, sorted by ease of use:
+سه گزینه اصلی برای ارائه دهندگان RPC وجود دارد که بر اساس سهولت استفاده مرتب شده اند:
 
-1. **Starknet Sequencer’s Gateway**: The quickest option and it’s the default for Starkli for now. The sequencer gateway is deprecated and will be disabled by StarkWare soon. You’re strongly recommended to use a third-party JSON-RPC API provider like Infura, Alchemy, or Chainstack.
-2. **Infura or Alchemy**: A step up in complexity. You’ll need to set up an API key and choose an endpoint. For Infura, it would look like `https://starknet-goerli.infura.io/v3/<API_KEY>`. Learn more in the [Infura documentation](https://docs.infura.io/networks/starknet/how-to/choose-a-network).
-3. **Your Own Node**: For those who want full control. It’s the most complex but offers the most freedom. Check out [Chapter 4 of the Starknet Book](https://book.starknet.io/chapter\_4/node.html) or [Kasar](https://www.kasar.io/) for setup guides.
+1. Starknet Sequencer's Gateway: سریعترین گزینه و در حال حاضر پیش فرض Starkli است. دروازه ترتیب ساز منسوخ شده است و به زودی توسط StarkWare غیرفعال می شود. اکیداً به شما توصیه می شود از یک ارائه دهنده API شخص ثالث JSON-RPC مانند Infura، Alchemy یا Chainstack استفاده کنید.
+2. Infura یا کیمیاگری: یک پله در پیچیدگی. باید یک کلید API تنظیم کنید و یک نقطه پایانی را انتخاب کنید. برای Infura، شبیه https://starknet-goerli.infura.io/v3/\<API\_KEY> است. در مستندات Infura بیشتر بیاموزید.
+3. گره خودتان: برای کسانی که خواهان کنترل کامل هستند. این پیچیده ترین است اما بیشترین آزادی را ارائه می دهد. برای راهنمای راه‌اندازی، فصل 4 کتاب Starknet یا Kasar را بررسی کنید.
 
-In this tutorial, we will use Alchemy. We can set the STARKNET\_RPC environment variable to make command invocations easier:
+در این آموزش از کیمیاگری استفاده خواهیم کرد. ما می‌توانیم متغیر محیطی STARKNET\_RPC را برای آسان‌تر کردن فراخوانی دستورات تنظیم کنیم:
 
 ```bash
     export STARKNET_RPC="https://starknet-goerli.g.alchemy.com/v2/<API_KEY>"
 ```
 
-### Declaring Your Contract
+### قرارداد خود را اعلام کنید
 
-Run this command to declare your contract using the default Starknet Sequencer’s Gateway:
+این دستور را اجرا کنید تا قرارداد خود را با استفاده از دروازه پیش فرض Starknet Sequencer's اعلام کنید:
 
 ```bash
     starkli declare target/dev/contracts_Ownable.sierra.json
 ```
 
-According to the `STARKNET_RPC` url, starkli can recognize the target blockchain network, in this case "goerli", so it is not necessary explicitly specify it.
+با توجه به آدرس اینترنتی STARKNET\_RPC، starkli می تواند شبکه بلاک چین هدف، در این مورد "goerli" را تشخیص دهد، بنابراین لازم نیست به طور صریح آن را مشخص کنید.
 
-Unless you’re working with custom networks where it’s infeasible for Starkli to detect the right compiler version, you shouldn’t need to manually choose a version with `--network` and `--compiler-version`.
+مگر اینکه با شبکه‌های سفارشی کار می‌کنید که شناسایی نسخه کامپایلر مناسب برای استارکلی غیرممکن است، نیازی به انتخاب دستی نسخه‌ای با --network و --compiler-نسخه ندارید.
 
-If you encounter an "Error: Invalid contract class," it likely means your Scarb’s compiler version is incompatible with Starkli. Follow the steps above to align the versions. Starkli usually supports compiler versions accepted by mainnet, even if Scarb’s latest version is not yet compatible.
+اگر با «خطا: کلاس قرارداد نامعتبر» مواجه شدید، احتمالاً به این معنی است که نسخه کامپایلر Scarb شما با Starkli ناسازگار است. مراحل بالا را برای تراز کردن نسخه ها دنبال کنید. Starkli معمولاً از نسخه های کامپایلر پذیرفته شده توسط شبکه اصلی پشتیبانی می کند، حتی اگر آخرین نسخه Scarb هنوز سازگار نباشد.
 
-After running the command, you’ll receive a contract class hash. This unique hash serves as the identifier for your contract class within Starknet. For example:
+پس از اجرای دستور، یک هش کلاس قرارداد دریافت خواهید کرد. این هش منحصر به فرد به عنوان شناسه کلاس قرارداد شما در Starknet عمل می کند. مثلا:
 
 ```bash
     Class hash declared: 0x04c70a75f0246e572aa2e1e1ec4fffbe95fa196c60db8d5677a5c3a3b5b6a1a8
 ```
 
-You can think of this hash as the contract class’s _address._ Use a block explorer like [StarkScan](https://testnet.starkscan.co/class/0x04c70a75f0246e572aa2e1e1ec4fffbe95fa196c60db8d5677a5c3a3b5b6a1a8) to verify this hash on the blockchain.
+می توانید این هش را به عنوان آدرس کلاس قرارداد در نظر بگیرید. از یک بلاک کاوشگر مانند StarkScan برای تأیید این هش در بلاک چین استفاده کنید.
 
-If the contract class you’re attempting to declare already exists, it is ok we can continue. You’ll receive a message like:
+اگر کلاس قراردادی که می‌خواهید اعلام کنید از قبل وجود داشته باشد، اشکالی ندارد که می‌توانیم ادامه دهیم. پیامی مانند زیر دریافت خواهید کرد:
 
 ```bash
     Not declaring class as its already declared. Class hash:
     0x04c70a75f0246e572aa2e1e1ec4fffbe95fa196c60db8d5677a5c3a3b5b6a1a8
 ```
 
-## Deploying Smart Contracts on Starknet
+### استقرار قراردادهای هوشمند در Starknet
 
-To deploy a smart contract, you’ll need to instantiate it on Starknet’s testnet. This process involves executing a command that requires two main components:
+برای استقرار یک قرارداد هوشمند، باید آن را در شبکه آزمایشی Starknet نمونه سازی کنید. این فرآیند شامل اجرای دستوری است که به دو جزء اصلی نیاز دارد:
 
-1. The class hash of your smart contract.
-2. Any constructor arguments that the contract expects.
+1. هش کلاس قرارداد هوشمند شما.
+2. هر استدلال سازنده ای که قرارداد انتظار دارد.
 
-In our example, the constructor expects an _owner_ address. You can learn more about constructors in \[Chapter 12 of The Cairo Book]\([https://book.cairo-lang.org/ch99-01-03-02-contract-functions.html?highlight=constructor#1-constructors](https://book.cairo-lang.org/ch99-01-03-02-contract-functions.html?highlight=constructor#1-constructors)).
+در مثال ما، سازنده انتظار یک آدرس مالک را دارد. می‌توانید در \[فصل 12 کتاب قاهره] درباره سازنده‌ها بیشتر بیاموزید (https://book.cairo-lang.org/ch99-01-03-02-contract-functions.html?highlight=constructor#1-constructors) .
 
-The command would look like this:
+دستور به شکل زیر خواهد بود:
 
 ```bash
     starkli deploy \
@@ -256,7 +254,7 @@ The command would look like this:
         <CONSTRUCTOR_INPUTS>
 ```
 
-Here’s a specific example with an actual class hash and constructor inputs (as the owner address use the address of your smart wallet so you can invoke the transfer\_ownership function later):
+در اینجا یک مثال خاص با هش کلاس واقعی و ورودی های سازنده آورده شده است (به عنوان آدرس مالک از آدرس کیف پول هوشمند شما استفاده می کند تا بتوانید بعداً تابع transfer\_ownership را فراخوانی کنید):
 
 ```bash
     starkli deploy \
@@ -264,7 +262,7 @@ Here’s a specific example with an actual class hash and constructor inputs (as
         0x02cdAb749380950e7a7c0deFf5ea8eDD716fEb3a2952aDd4E5659655077B8510
 ```
 
-After executing the command and entering your password, you should see output like the following:
+پس از اجرای دستور و وارد کردن رمز عبور، باید خروجی زیر را مشاهده کنید:
 
 ```bash
     Deploying class 0x04c70a75f0246e572aa2e1e1ec4fffbe95fa196c60db8d5677a5c3a3b5b6a1a8 with salt 0x065034b27a199cbb2a5b97b78a8a6a6c6edd027c7e398b18e5c0e5c0c65246b7...
@@ -274,15 +272,15 @@ After executing the command and entering your password, you should see output li
     0x02a83c32d4b417d3c22f665acbc10e9a1062033b9ab5b2c3358952541bc6c012
 ```
 
-The contract is now live on the Starknet testnet. You can verify its status using a block explorer like [StarkScan](https://testnet.starkscan.co/contract/0x02a83c32d4b417d3c22f665acbc10e9a1062033b9ab5b2c3358952541bc6c012). On the "Read/Write Contract" tab, you’ll see the contract’s external functions.
+این قرارداد در حال حاضر در شبکه آزمایشی Starknet فعال است. می‌توانید وضعیت آن را با استفاده از یک Block Explorer مانند StarkScan تأیید کنید. در برگه «خواندن/نوشتن قرارداد»، عملکردهای خارجی قرارداد را مشاهده خواهید کرد.
 
-## Interacting with the Starknet Contract
+### تعامل با قرارداد Starknet
 
-Starkli enables interaction with smart contracts via two primary methods: `call` for read-only functions and `invoke` for write functions that modify the state.
+Starkli تعامل با قراردادهای هوشمند را از طریق دو روش اصلی امکان پذیر می کند: فراخوانی توابع فقط خواندنی و فراخوانی برای توابع نوشتن که حالت را تغییر می دهند.
 
-### Calling a Read Function
+### فراخوانی یک تابع خواندن
 
-The `call` command enables you to query a smart contract function without sending a transaction. For instance, to find out who the current owner of the contract is, you can use the `get_owner` function, which requires no arguments.
+فرمان فراخوانی شما را قادر می سازد تا عملکرد قرارداد هوشمند را بدون ارسال تراکنش پرس و جو کنید. به عنوان مثال، برای اینکه بدانید مالک فعلی قرارداد کیست، می‌توانید از تابع get\_owner استفاده کنید که نیازی به آرگومان ندارد.
 
 ```bash
     starkli call \
@@ -290,7 +288,7 @@ The `call` command enables you to query a smart contract function without sendin
         get_owner
 ```
 
-Replace `<CONTRACT_ADDRESS>` with the address of your contract. The command will return the owner’s address, which was initially set during the contract’s deployment:
+آدرس قرارداد خود را جایگزین \<CONTRACT\_ADDRESS> کنید. این فرمان آدرس مالک را که در ابتدا در زمان استقرار قرارداد تنظیم شده بود، برمی گرداند:
 
 ```bash
     [

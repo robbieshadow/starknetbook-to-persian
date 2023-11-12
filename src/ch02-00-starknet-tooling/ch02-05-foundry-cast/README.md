@@ -1,23 +1,23 @@
-# Foundry Cast: Starknet CLI Interaction
+# بازیگران Foundry: Starknet CLI Interaction
 
-[Starknet Foundry](https://github.com/foundry-rs/starknet-foundry) is a tool designed for testing and developing Starknet contracts. It is an adaptation of the Ethereum Foundry for Starknet, aiming to expedite the development process.
+Starknet Foundry ابزاری است که برای آزمایش و توسعه قراردادهای Starknet طراحی شده است. این یک اقتباس از Ethereum Foundry برای Starknet است که هدف آن تسریع روند توسعه است.
 
-The project consists of two primary components:
+این پروژه از دو جزء اصلی تشکیل شده است:
 
-- **Forge**: A testing tool specifically for Cairo contracts. This tool acts as a test runner and boasts features designed to enhance your testing process. Tests are written directly in Cairo, eliminating the need for other programming languages. Additionally, the Forge implementation uses Rust, mirroring Ethereum Foundry's choice of language.
-- **Cast**: This serves as a DevOps tool for Starknet, initially supporting a series of commands to interface with Starknet. In the future, Cast aims to offer deployment scripts for contracts and other DevOps functions.
+* Forge: یک ابزار آزمایشی مخصوص قراردادهای قاهره. این ابزار به عنوان یک تست کننده عمل می کند و دارای ویژگی هایی است که برای بهبود فرآیند تست شما طراحی شده اند. آزمون ها مستقیماً در قاهره نوشته می شوند و نیازی به زبان های برنامه نویسی دیگر را از بین می برند. علاوه بر این، پیاده‌سازی Forge از Rust استفاده می‌کند که منعکس‌کننده زبان انتخابی Ethereum Foundry است.
+* Cast: این ابزار به عنوان یک ابزار DevOps برای Starknet عمل می کند و در ابتدا از یک سری دستورات برای ارتباط با Starknet پشتیبانی می کند. در آینده، Cast قصد دارد اسکریپت‌های استقرار را برای قراردادها و سایر عملکردهای DevOps ارائه دهد.
 
-## Cast
+### قالب
 
-Cast provides the Command Line Interface (CLI) for starknet, while Forge addresses testing. Written in Rust, Cast utilizes starknet Rust and integrates with Scarb. This integration allows for argument specification in `Scarb.toml`, streamlining the process.
+Cast، Command Line Interface (CLI) را برای starknet فراهم می کند، در حالی که Forge آدرس ها را آزمایش می کند. Cast که در Rust نوشته شده است، از Starknet Rust استفاده می کند و با Scarb ادغام می شود. این ادغام اجازه می دهد تا برای مشخصات آرگومان در Scarb.toml، فرآیند را ساده تر کند.
 
-`sncast` simplifies interaction with smart contracts, reducing the number of necessary commands compared to using `starkli` alone.
+sncast تعامل با قراردادهای هوشمند را ساده می کند و تعداد دستورات لازم را در مقایسه با استفاده از starkli به تنهایی کاهش می دهد.
 
-In this section, we'll delve into `sncast`.
+در این بخش به sncast می پردازیم.
 
-## Step 1: Sample Smart Contract
+### مرحله 1: نمونه قرارداد هوشمند
 
-The following code sample is sourced from `starknet foundry`. You can find the original [here](https://foundry-rs.github.io/starknet-foundry/testing/contracts.html).
+نمونه کد زیر از starknet foundry تهیه شده است. شما می توانید اصل را در اینجا پیدا کنید.
 
 ```rust
 #[starknet::interface]
@@ -46,9 +46,9 @@ mod HelloStarknet {
 }
 ```
 
-Before interacting with this sample smart contract, it's crucial to test its functionality using **`snforge`** to ensure its integrity.
+قبل از تعامل با این نمونه قرارداد هوشمند، بسیار مهم است که عملکرد آن را با استفاده از snforge آزمایش کنید تا از یکپارچگی آن اطمینان حاصل کنید.
 
-Here are the associated tests:
+در اینجا تست های مرتبط آورده شده است:
 
 ```rust
 #[cfg(test)]
@@ -80,36 +80,36 @@ mod tests {
 }
 ```
 
-If needed, copy the provided code snippets into the `lib.cairo` file of your new scarb project.
+در صورت نیاز، قطعه کد ارائه شده را در فایل lib.cairo پروژه جدید scarb خود کپی کنید.
 
-To execute tests, follow the steps below:
+برای اجرای تست ها مراحل زیر را دنبال کنید:
 
-1. Ensure `snforge` is listed as a dependency in your `Scarb.toml` file, positioned beneath the `starknet` dependency. Your dependencies section should appear as (make sure to use the latest version of `snforge` and `starknet`):
+1. اطمینان حاصل کنید که snforge به عنوان یک وابستگی در فایل Scarb.toml شما، در زیر وابستگی starknet قرار گرفته است. بخش وابستگی های شما باید به صورت ظاهر شود (حتما از آخرین نسخه snforge و starknet استفاده کنید):
 
 ```txt
 starknet = "2.1.0-rc2"
 snforge_std = { git = "https://github.com/foundry-rs/starknet-foundry.git", tag = "v0.7.1" }
 ```
 
-2. Run the command:
+2. دستور را اجرا کنید:
 
 ```sh
 snforge
 ```
 
-Note: Use `snforge` for testing instead of the `scarb test` command. The tests are set up to utilize functions from `snforge_std`. Running `scarb test` would cause errors.
+نکته: برای تست به جای دستور scarb test از snforge استفاده کنید. تست ها برای استفاده از توابع snforge\_std تنظیم شده اند. انجام تست اسکارب باعث خطا می شود.
 
-## Step 2: Setting Up Starknet Devnet
+### مرحله 2: راه اندازی Starknet Devnet
 
-For this guide, the focus is on using `starknet-devnet`. If you've been using `katana`, please be cautious as there might be inconsistencies. If you haven't configured `devnet`, consider following this [guide](https://livesoftwaredeveloper.com/articles/9/how-to-set-up-starknet-devnet-and-frontend-for-smart-contract-development) for a quick setup.
+برای این راهنما، تمرکز بر استفاده از starknet-devnet است. اگر از کاتانا استفاده کرده اید، لطفا محتاط باشید زیرا ممکن است ناهماهنگی وجود داشته باشد. اگر devnet را پیکربندی نکرده‌اید، برای راه‌اندازی سریع این راهنما را دنبال کنید.
 
-To launch `starknet devnet`, use the command:
+برای راه اندازی starknet devnet از دستور زیر استفاده کنید:
 
 ```sh
 starknet-devnet
 ```
 
-Upon successful startup, you should receive a response similar to:
+پس از راه اندازی موفقیت آمیز، باید پاسخی مشابه دریافت کنید:
 
 ```sh
 Predeployed FeeToken
@@ -127,139 +127,137 @@ Private key: 0xc12927df61303656b3c066e65eda0acc
  * Listening on http://127.0.0.1:5050/ (Press CTRL+C to quit)
 ```
 
-(Note: The abbreviated ... is just a placeholder for the detailed response. In your actual output, you'll see the full details.)
+(توجه: مخفف ... فقط یک مکان برای پاسخ دقیق است. در خروجی واقعی خود، جزئیات کامل را خواهید دید.)
 
-Now, you have written a smart contract, tested it, and successfully initiated starknet devnet.
+اکنون، شما یک قرارداد هوشمند نوشته اید، آن را آزمایش کرده اید، و starknet devnet را با موفقیت راه اندازی کرده اید.
 
-## Dive into `sncast`
+### در sncast شیرجه بزنید
 
-Let's unpack **`sncast`**.
+بیایید sncast را باز کنیم.
 
-As a multifunctional tool, the quickest way to discover its capabilities is via the command:
+به عنوان یک ابزار چند منظوره، سریع ترین راه برای کشف قابلیت های آن از طریق دستور زیر است:
 
 ```sh
 sncast --help
 ```
 
-In the output, you'll notice distinct categories: `commands` and `options`. Each option offers both a concise (`short`) and a descriptive (`long`) variant.
+در خروجی، دسته بندی های متمایز را مشاهده خواهید کرد: دستورات و گزینه ها. هر گزینه هم یک نوع مختصر (کوتاه) و یک نوع توصیفی (طولانی) ارائه می دهد.
 
-> Tip: While both option variants are useful, we'll prioritize the long form in this guide. This choice aids clarity, especially when constructing intricate commands.
+> نکته: در حالی که هر دو نوع گزینه مفید هستند، ما فرم طولانی را در این راهنما اولویت بندی می کنیم. این انتخاب به وضوح کمک می کند، به خصوص هنگام ساخت دستورات پیچیده.
 
-Delving deeper, to understand specific commands such as **`account`**, you can run:
+با کاوش عمیق تر، برای درک دستورات خاصی مانند حساب، می توانید اجرا کنید:
 
 ```sh
 sncast account help
 ```
 
-Each account subcommand like `add`, `create`, and `deploy` can be further explored. For instance:
+هر دستور فرعی حساب مانند افزودن، ایجاد و استقرار را می توان بیشتر مورد بررسی قرار داد. برای مثال:
 
 ```sh
 sncast account add --help
 ```
 
-The layered structure of `sncast` provides a wealth of information right at your fingertips. It's like having dynamic documentation. Make it a habit to explore, and you'll always stay informed.
+ساختار لایه ای sncast اطلاعات زیادی را درست در اختیار شما قرار می دهد. مثل داشتن مستندات پویا است. کاوش را به یک عادت تبدیل کنید و همیشه در جریان خواهید بود.
 
-## Step 3: Using `sncast` for Account Management
+### مرحله 3: استفاده از sncast برای مدیریت حساب
 
-Let's delve into how to use `sncast` for interacting with the contract.
+بیایید نحوه استفاده از sncast برای تعامل با قرارداد را بررسی کنیم.
 
-By default, `starknet devnet` offers several `predeployed accounts`. These are accounts already registered with the node, loaded with test tokens (for gas fees and various transactions). Developers can use them directly with any `contract` on the `local node` (i.e., starknet devnet).
+به طور پیش فرض، starknet devnet چندین حساب از پیش مستقر شده ارائه می دهد. اینها حساب هایی هستند که قبلاً در گره ثبت شده اند و با توکن های آزمایشی بارگذاری شده اند (برای هزینه های گاز و تراکنش های مختلف). توسعه دهندگان می توانند مستقیماً با هر قراردادی در گره محلی (به عنوان مثال starknet devnet) از آنها استفاده کنند.
 
-### How to Utilize Predeployed Accounts
+### نحوه استفاده از اکانت های از پیش مستقر شده
 
-To employ a predeployed account with the smart contract, execute the `account add` command as shown below:
+برای استفاده از یک حساب از پیش مستقر شده با قرارداد هوشمند، دستور add account را مطابق شکل زیر اجرا کنید:
 
 ```sh
 sncast [SNCAST_MAIN_OPTIONS] account add [SUBCOMMAND_OPTIONS] --name <NAME> --address <ADDRESS> --private-key <PRIVATE_KEY>
 ```
 
-Although several options can accompany the `add` command (e.g., `--name, --address, --class-hash, --deployed, --private-key, --public-key, --salt, --add-profile`), we'll focus on a select few for this illustration.
-
-Choose an account from the **`starknet-devnet`**, for demonstration, we'll select account **`#0`**, and execute:
+اگرچه چندین گزینه می‌توانند فرمان افزودن را همراهی کنند (به عنوان مثال، --name، --address، --class-hash، --deployed، --private-key، --public-key، --salt، --add-profile )، ما برای این تصویر روی چند مورد انتخابی تمرکز خواهیم کرد.یک حساب از starknet-devnet انتخاب کنید، برای نمایش، حساب شماره 0 را انتخاب کرده و اجرا می کنیم:
 
 ```sh
 sncast --url http://localhost:5050/rpc account add  --name account1 --address 0x5f...60ba --private-key 0xc...0acc --add-profile
 ```
 
-Points to remember:
+نکاتی که باید به خاطر بسپارید:
 
-1. **`-name`** - Mandatory field.
-2. **`-address`** - Necessary account address.
-3. **`-private-key`** - Private key of the account.
-4. **`-add-profile`** - Though optional, it's pivotal. By enabling **`sncast`** to include the account in your **`Scarb.toml`** file, you can manage multiple accounts, facilitating transactions among them when working with your smart contract using sncast.
+1. \-name - فیلد اجباری.
+2. \-address - آدرس حساب ضروری.
+3. \-private-key - کلید خصوصی حساب.
+4. \-add-profile - اگرچه اختیاری است، اما محوری است. با فعال کردن sncast برای گنجاندن حساب در فایل Scarb.toml خود، می‌توانید چندین حساب را مدیریت کنید و هنگام کار با قرارداد هوشمند خود با استفاده از sncast، تراکنش‌های بین آنها را تسهیل کنید.
 
-Now that we have familiarized ourselves with using a predeployed account, let's proceed to adding a new account.
+اکنون که با استفاده از یک حساب از پیش مستقر شده آشنا شدیم، بیایید به افزودن یک حساب جدید ادامه دهیم.
 
-### Creating and Deploying a New Account to Starknet Devnet
+### ایجاد و استقرار یک حساب کاربری جدید در Starknet Devnet
 
-Creating a new account involves a few more steps than using an existing one, but it's straightforward when broken down. Here are the steps:
+ایجاد یک حساب کاربری جدید شامل چند مرحله بیشتر از استفاده از یک حساب موجود است، اما در صورت شکسته شدن ساده است. در اینجا مراحل انجام می شود:
 
-1. Account Creation
+1. ایجاد حساب کاربری
 
-To create a new account, use (you can use `sncast account create --help` to see the available options):
+برای ایجاد یک حساب کاربری جدید، از (می توانید از sncast account create --help برای مشاهده گزینه های موجود استفاده کنید):
 
 ```sh
 sncast --url http://localhost:5050/rpc account create --name new_account --class-hash  0x19...8dd6 --add-profile
 ```
 
-Wondering where the `--class-hash` comes from? It's visible in the output from the `starknet-devnet` command under the Predeclared Starknet CLI account section. For example:
+آیا نمی دانید هش --class از کجا می آید؟ در خروجی دستور starknet-devnet در قسمت Predeclared Starknet CLI حساب قابل مشاهده است. مثلا:
 
 ```sh
 Predeclared Starknet CLI account:
 Class hash: 0x195c984a44ae2b8ad5d49f48c0aaa0132c42521dcfc66513530203feca48dd6
 ```
 
-2. Funding the Account
+2. تامین مالی حساب
 
-To fund the new account, replace the address in the following command with your new one:
+برای تامین مالی حساب جدید، آدرس موجود در دستور زیر را با آدرس جدید خود جایگزین کنید:
 
 ```sh
 curl -d '{"amount":8646000000000, "address":"0x6e...eadf"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:5050/mint
 ```
 
-Note: The **amount** is specified in the previous command's output.
+نکته: مقدار در خروجی دستور قبلی مشخص شده است.
 
-A successful fund addition will return:
+اضافه شدن موفقیت آمیز صندوق باز خواهد گشت:
 
 ```sh
 {"new_balance":8646000000000,"tx_hash":"0x48...1919","unit":"wei"}
 ```
 
-3. Account Deployment
+3. استقرار حساب
 
-Deploy the account to the **`starknet devnet`** local node to register it with the chain:
+برای ثبت آن در زنجیره، حساب را در گره محلی starknet devnet مستقر کنید:
 
 ```sh
 sncast --url http://localhost:5050/rpc account deploy --name new_account --max-fee 0x64a7168300
 ```
 
-A successful deployment provides a transaction hash. If it doesn't work, revisit your previous steps.
+یک استقرار موفق یک هش تراکنش را فراهم می کند. اگر کار نکرد، مراحل قبلی خود را دوباره مرور کنید.
 
-4. Setting a Default Profile
+4. تنظیم یک نمایه پیش فرض
 
-You can define a default profile for your **`sncast`** actions. To set one, edit the **`Scarb.toml`** file. To make the **`new_account`** the default profile, find the section **`[tool.sncast.new_account]`** and change it to **`[tool.sncast]`**. This means **`sncast`** will default to using this profile unless instructed otherwise.
+شما می توانید یک نمایه پیش فرض برای اقدامات sncast خود تعریف کنید. برای تنظیم یکی، فایل Scarb.toml را ویرایش کنید. برای اینکه new\_account نمایه پیش فرض باشد، بخش \[tool.sncast.new\_account] را پیدا کرده و آن را به \[tool.sncast] تغییر دهید. این بدان معنی است که sncast به طور پیش فرض از این نمایه استفاده می کند مگر اینکه دستور دیگری داده شود.
 
-## Step 4: Declaring and Deploying our Contract
+### مرحله 4: اعلام و استقرار قرارداد ما
 
-By now, we've arrived at the crucial step of using `sncast` to declare and deploy our smart contracts.
+در حال حاضر، ما به مرحله مهم استفاده از sncast برای اعلام و استقرار قراردادهای هوشمند خود رسیده ایم.
 
-### Declaring the Contract
+#### اعلام قرارداد
 
-Recall that we drafted and tested the contract in **Step 1**. Here, we'll focus on two actions: building and declaring.
+به یاد بیاورید که ما پیش نویس قرارداد را در مرحله 1 تهیه و آزمایش کردیم. در اینجا، ما بر دو عمل تمرکز خواهیم کرد: ساخت و اعلام.
 
-1. **Building the Contract**
+1. ساخت قرارداد
 
-Execute the following to build the contract:
+برای ساخت قرارداد موارد زیر را اجرا کنید:
 
 ```sh
 scarb build
 ```
 
-If you've successfully run tests using **`snforge`**, the **`scarb build`** should operate without issues. After the build completes, a new **`target`** folder will appear at the root of your project.
+اگر آزمایشات را با استفاده از snforge با موفقیت انجام داده اید، ساخت اسکارب باید بدون مشکل کار کند. پس از اتمام ساخت، یک پوشه هدف جدید در ریشه پروژه شما ظاهر می شود.
 
-Within the **`target`** folder, you'll find a **`dev`** sub-folder containing three files: **`*.casm.json`**, **`*.sierra.json`**, and **`*.starknet_artifacts.json`**.
+در پوشه هدف، یک زیرپوشه توسعه دهنده حاوی سه فایل: \*.casm.json، \*.sierra.json و \*.starknet\_artifacts.json را خواهید یافت.
 
-If these files aren't present, it's likely due to missing configurations in your **`Scarb.toml`** file. To address this, append the following lines after **`dependencies`**:
+اگر این فایل‌ها وجود ندارند، احتمالاً به دلیل عدم وجود تنظیمات در فایل Scarb.toml شماست. برای رفع این مشکل، خطوط زیر را بعد از وابستگی ها اضافه کنید:
 
 ```toml
 [[target.starknet-contract]]
@@ -267,31 +265,31 @@ sierra = true
 casm = true
 ```
 
-These lines instruct the compiler to produce both `sierra` and `casm` outputs.
+این خطوط به کامپایلر دستور می‌دهند که خروجی‌های sierra و casm را تولید کند.
 
-2. Declaring the Contract
+2. اعلام قرارداد
 
-We will use the `sncast declare` command to declare the contract. Here's the format:
+ما از دستور sncast declare برای اعلام قرارداد استفاده خواهیم کرد. این فرمت است:
 
 ```shell
 sncast declare [OPTIONS] --contract-name <CONTRACT>
 ```
 
-Given this, the correct command would be:
+با توجه به این، دستور صحیح این خواهد بود:
 
 ```
 sncast --profile account1 declare --contract-name HelloStarknet
 ```
 
-Note that we've omitted the **`--url`** option. Why? When using **`--profile`**, as seen here with **`account1`**, it's not necessary. Remember, earlier in this guide, we discussed adding and creating new accounts. You can use either **`account1`** or **`new_account`** and achieve the desired result.
+توجه داشته باشید که ما گزینه --url را حذف کرده ایم. چرا؟ هنگام استفاده از --profile، همانطور که در اینجا با account1 دیده می شود، لازم نیست. به یاد داشته باشید، قبلا در این راهنما، اضافه کردن و ایجاد حساب‌های جدید را مورد بحث قرار دادیم. می توانید از account1 یا new\_account استفاده کنید و به نتیجه دلخواه برسید.
 
-> Hint: You can define a default profile for sncast actions. Modify the `Scarb.toml` file to set a default. For example, to make `new_account` the default, find `[tool.sncast.new_account]` and change it to `[tool.sncast]`. Then, there's no need to specify the profile for each call, simplifying your command to:
+> نکته: می توانید یک نمایه پیش فرض برای اقدامات sncast تعریف کنید. فایل Scarb.toml را برای تنظیم پیش فرض تغییر دهید. برای مثال، برای پیش‌فرض کردن new\_account، \[tool.sncast.new\_account] را پیدا کنید و آن را به \[tool.sncast] تغییر دهید. سپس، نیازی به تعیین نمایه برای هر تماس نیست، و دستور خود را ساده می کند:
 
 ```sh
 sncast declare --contract-name HelloStarknet
 ```
 
-The output will resemble:
+خروجی شبیه به:
 
 ```sh
 command: declare
@@ -299,19 +297,19 @@ class_hash: 0x20fe30f3990ecfb673d723944f28202db5acf107a359bfeef861b578c00f2a0
 transaction_hash: 0x7fbdcca80e7c666f1b5c4522fdad986ad3b731107001f7d8df5f3cb1ce8fd11
 ```
 
-Make sure to note the \*\*`class hash` as it will be essential in the subsequent step.
+حتماً هش \*\* کلاس را یادداشت کنید زیرا در مرحله بعدی ضروری است.
 
-> Note: If you encounter an error stating Class hash already declared, simply move to the next step. Redeclaring an already-declared contract isn't permissible. Use the mentioned class hash for deployment.
+> توجه: اگر با خطایی مواجه شدید مبنی بر اینکه هش کلاس قبلاً اعلام شده است، به سادگی به مرحله بعدی بروید. اعلام مجدد قراردادی که قبلاً اعلام شده است، جایز نیست. از هش کلاس ذکر شده برای استقرار استفاده کنید.
 
-### Deploying the Contract
+### استقرار قرارداد
 
-With the contract successfully declared and a `class hash` obtained, we're ready to proceed to contract deployment. This step is straightforward. Replace `<class-hash>` in the command below with your obtained class hash:
+با اعلام موفقیت آمیز قرارداد و به دست آمدن هش کلاس، ما آماده هستیم تا به استقرار قرارداد ادامه دهیم. این مرحله سرراست است. را در دستور زیر با هش کلاس به دست آمده خود جایگزین کنید:
 
 ```sh
 sncast deploy --class-hash 0x20fe30f3990ecfb673d723944f28202db5acf107a359bfeef861b578c00f2a0
 ```
 
-Executing this will likely yield:
+اجرای این احتمالاً نتیجه خواهد داد:
 
 ```sh
 command: deploy
@@ -319,22 +317,22 @@ contract_address: 0x7e3fc427c2f085e7f8adeaec7501cacdfe6b350daef18d76755ddaa68b3b
 transaction_hash: 0x6bdf6cfc8080336d9315f9b4df7bca5fb90135817aba4412ade6f942e9dbe60
 ```
 
-However, you may encounter some issues, such as:
+با این حال، ممکن است با برخی از مشکلات روبرو شوید، مانند:
 
-**Error: RPC url not passed nor found in Scarb.toml**. This indicates the absence of a default profile in the **`Scarb.toml`** file. To remedy this:
+خطا: آدرس RPC در Scarb.toml پاس نشده و یافت نشد. این نشان دهنده عدم وجود یک نمایه پیش فرض در فایل Scarb.toml است. برای رفع این مشکل:
 
-- Add the **`-profile`** option, followed by the desired profile name, as per the ones you've established.
-- Alternatively, set a default profile as previously discussed in the "Declaring the Contract" section under "Hint" or as detailed in the "Adding, Creating, and Deploying Account" subsection.
+* گزینه -profile را اضافه کنید و به دنبال آن نام پروفایل مورد نظر را مطابق با مواردی که ایجاد کرده اید اضافه کنید.
+* از طرف دیگر، یک نمایه پیش‌فرض را همانطور که قبلاً در بخش «اعلام قرارداد» در زیر «اشاره» یا همانطور که در بخش فرعی «افزودن، ایجاد و استقرار حساب» توضیح داده شده است، تنظیم کنید.
 
-You've successfully deployed your contract with `sncast`! Now, let's explore how to interact with it.
+شما با موفقیت قرارداد خود را با sncast اجرا کردید! حالا بیایید نحوه تعامل با آن را بررسی کنیم.
 
-## Interacting with the Contract
+### تعامل با قرارداد
 
-This section explains how to read and write information to the contract.
+این بخش نحوه خواندن و نوشتن اطلاعات قرارداد را توضیح می دهد.
 
-### Invoking Contract Functions
+### فراخوانی توابع قرارداد
 
-To write to the contract, invoke its functions. Here's a basic overview of the command:
+برای نوشتن به قرارداد، عملکردهای آن را فراخوانی کنید. در اینجا یک نمای کلی از دستور آمده است:
 
 ```sh
 Usage: sncast invoke [OPTIONS] --contract-address <CONTRACT_ADDRESS> --function <FUNCTION>
@@ -347,28 +345,28 @@ Options:
   -h, --help                                 Show help
 ```
 
-To demonstrate, let's invoke the `increase_balance` method of our smart contract with a preset default profile. Not every option is always necessary; for instance, sometimes, including the `--max-fee` might be essential.
+برای نشان دادن، بیایید روش افزایش\_بالانس قرارداد هوشمند خود را با نمایه پیش‌فرض از پیش تعیین شده فراخوانی کنیم. همیشه هر گزینه ای ضروری نیست. به عنوان مثال، گاهی اوقات، از جمله --max-fee ممکن است ضروری باشد.
 
 ```sh
 sncast invoke --contract-address 0x7e...b3f9 --function increase_balance --calldata 4
 ```
 
-If successful, you'll receive a transaction hash like this:
+در صورت موفقیت آمیز بودن، یک هش تراکنش مانند زیر دریافت خواهید کرد:
 
 ```sh
 command: invoke
 transaction_hash: 0x33248e393d985a28826e9fbb143d2cf0bb3342f1da85483cf253b450973b638
 ```
 
-### Reading from the Contract
+### خواندن از قرارداد
 
-To retrieve data from the contract, use the `sncast call` command. Here's how it works:
+برای بازیابی اطلاعات از قرارداد، از دستور تماس sncast استفاده کنید. در اینجا نحوه کار آن آمده است:
 
 ```sh
 sncast call --help
 ```
 
-Executing the command displays:
+با اجرای دستور نمایش داده می شود:
 
 ```sh
 Usage: sncast call [OPTIONS] --contract-address <CONTRACT_ADDRESS> --function <FUNCTION>
@@ -381,34 +379,34 @@ Options:
   -h, --help                                 Show help
 ```
 
-For instance:
+برای مثال:
 
 ```sh
 sncast call --contract-address 0x7e...b3f9 --function get_balance
 ```
 
-While not all options are used in the example, you might need to include options like `--calldata`, specifying it as a list or array.
+در حالی که همه گزینه‌ها در مثال استفاده نمی‌شوند، ممکن است لازم باشد گزینه‌هایی مانند --calldata را اضافه کنید و آن را به عنوان یک لیست یا آرایه مشخص کنید.
 
-A successful call returns:
+تماس موفق برمی گردد:
 
 ```sh
 command: call
 response: [0x4]
 ```
 
-This indicates successful read and write operations on the contract.
+این نشان دهنده موفقیت آمیز عملیات خواندن و نوشتن در قرارداد است.
 
-### sncast Multicall Guide
+### راهنمای چند تماس sncast
 
-Use `sncast multicall` to simultaneously read and write to the contract. Let's explore how to effectively use this feature.
+از sncast multicall برای خواندن و نوشتن همزمان قرارداد استفاده کنید. بیایید نحوه استفاده موثر از این ویژگی را بررسی کنیم.
 
-First, understand its basic usage:
+ابتدا کاربرد اصلی آن را درک کنید:
 
 ```sh
 sncast multicall --help
 ```
 
-This command displays:
+این دستور نمایش می دهد:
 
 ```sh
 Execute multiple calls
@@ -424,7 +422,7 @@ Options:
   -h, --help  Show help
 ```
 
-To delve deeper, initiate the `new` subcommand:
+برای کاوش عمیق تر، دستور فرعی جدید را راه اندازی کنید:
 
 ```sh
 Generate a template for the multicall .toml file
@@ -437,13 +435,13 @@ Options:
   -h, --help                       Display help
 ```
 
-Generate a template called `call1.toml`:
+الگویی به نام call1.toml ایجاد کنید:
 
 ```sh
 sncast multicall new --output-path ./call1.toml --overwrite
 ```
 
-This provides a basic template:
+این یک الگوی اساسی ارائه می دهد:
 
 ```toml
 [[call]]
@@ -460,7 +458,7 @@ function = ""
 inputs = []
 ```
 
-Modify `call1.toml` to:
+تغییر call1.toml به:
 
 ```toml
 [[call]]
@@ -476,38 +474,38 @@ function = "increase_balance"
 inputs = ['0x1']
 ```
 
-In multicalls, only `deploy` and `invoke` actions are allowed. For a detailed guide on these, refer to the earlier section.
+در چند تماس، فقط اعمال Deploy و Invoke مجاز هستند. برای راهنمایی دقیق در مورد آنها، به بخش قبلی مراجعه کنید.
 
-> Note: Ensure inputs are in hexadecimal format. Strings work normally, but numbers require this format for accurate results.
+> توجه: اطمینان حاصل کنید که ورودی ها در قالب هگزادسیمال هستند. رشته ها به طور معمول کار می کنند، اما اعداد برای نتایج دقیق به این قالب نیاز دارند.
 
-To execute the multicall, use:
+برای اجرای چند فراخوانی از:
 
 ```sh
 sncast multicall run --path call1.toml
 ```
 
-Upon success:
+پس از موفقیت:
 
 ```sh
 command: multicall run
 transaction_hash: 0x1ae4122266f99a5ede495ff50fdbd927c31db27ec601eb9f3eaa938273d4d61
 ```
 
-Check the balance:
+تعادل را بررسی کنید:
 
 ```sh
 sncast call --contract-address 0x7e...b3f9 --function get_balance
 ```
 
-The response:
+پاسخ:
 
 ```shell
 command: call
 response: [0x9]
 ```
 
-The expected balance, `0x9`, is confirmed.
+موجودی مورد انتظار، 0x9، تایید شده است.
 
-## Conclusion
+### نتیجه
 
-This guide detailed the use of `sncast`, a robust command-line tool tailored for starknet smart contracts. Its purpose is to make interactions with starknet's smart contracts effortless. Key functionalities include contract deployment, function invocation, and function calling.
+در این راهنما استفاده از sncast، یک ابزار خط فرمان قوی که برای قراردادهای هوشمند starknet طراحی شده است، توضیح داده شده است. هدف آن این است که تعامل با قراردادهای هوشمند starknet را بدون دردسر انجام دهد. عملکردهای کلیدی شامل استقرار قرارداد، فراخوانی عملکرد و فراخوانی عملکرد است.
