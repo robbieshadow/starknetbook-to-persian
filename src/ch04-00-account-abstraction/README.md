@@ -1,305 +1,117 @@
-# Account Abstraction
-
-Account Abstraction (AA) is a paradigm shift in how accounts and
-transactions are managed in blockchain networks. To break it down, AA
-refers to two intertwined notions:
-
-1.  Transaction Flexibility: This gives the power to each smart contract
-    to validate its transactions, rather than enforcing a
-    one-size-fits-all validation process. This can lead to a variety of
-    potential benefits such as enabling smart contracts to pay for gas
-    fees, allowing multiple signers for a single account, and even
-    introducing advanced cryptographic signatures.
-
-2.  User Experience Optimization: AA provides a more intuitive
-    experience for end-users. It allows developers to create a more
-    flexible security model, for instance, allowing different keys for
-    everyday use and high-value transactions. Additionally, it
-    eliminates, if wished, the need for seed phrases, instead opting for
-    easier recovery methods.
-
-At a technical level, AA replaces Externally Owned Accounts (EOA) with a
-generalized concept of accounts. Under this model, accounts can be
-represented by a smart contract that dictates their specific rules and
-behaviors. This means the user or contract account could dictate rules
-about transaction ordering, signatures, access controls, and more,
-providing a high level of customization.
-
-Here are two commonly cited definitions of AA:
-
-> Definition 1: Account Abstraction (AA) is when a **smart contract can
-> pay for its own transactions** (Martin Triay, Devcon 6)\[1\]. In other
-> words, abstract contracts (or account smart contracts) can pay for
-> transactions. This is a departure from the traditional Externally
-> Owned Accounts or Smart Wallets.
-
-> Definition 2: AA is **validation abstraction**. Instead of relying on
-> a single method of transaction validation, as with Ethereum’s Layer 1,
-> AA enables an abstraction of the validation process. This implies the
-> possibility of using different types of signatures, cryptographic
-> primitives, execution processes, etc. (lightclient, Devcon 6)\[3\].
-
-AA is positioned as the cornerstone of the next generation blockchain
-technologies, with significant improvements in scalability, user
-experience, and security. It is currently being pioneered by Layer 2
-solutions, including Starknet, as they aim to revolutionize the way we
-approach security, user experience, and self-custody in the crypto
-space.
-
-## Applications of Account Abstraction
-
-Having defined Account Abstraction, let’s delve into its practical
-applications. Account Abstraction aims to improve both the accessibility
-and security of self-custody. Here are a few of the key features that AA
-enables:
-
-1.  **Hardware Signer:** With AA, you could sign transactions using a
-    key generated and safeguarded by your smartphone’s secure enclave.
-    This use of biometric identity makes the process more secure and
-    user-friendly (Starkware)\[4\], (Braavos)\[7\].
-
-2.  **Social recovery:** With the integration of AA, if you lose or
-    compromise your key, you could securely replace it, thus eliminating
-    the need for seed phrases. This change not only enhances security
-    but also simplifies the user experience (Julien Niset, 2022)\[5\].
-
-3.  **Key rotation:** If a key controlling your account is compromised,
-    you can easily replace it, negating the need to transfer your
-    assets.
-
-4.  **Session keys:** AA can enhance the usability of web3 applications
-    by allowing a _sign in once_ feature. This would enable websites to
-    execute transactions on your behalf, reducing the need for
-    continuous approvals.
-
-5.  **Custom transaction validation schemes:** AA enables the use of
-    various signature schemes, multisignatures, and other security
-    rules. This flexibility allows for customizable security measures to
-    meet individual user’s needs (Martin Triay, Devcon 6)\[1\], (Julien
-    Niset, 2022)\[5\], (Motty Lavie)\[7\].
-
-Moreover, AA provides enhanced security in several ways:
-
-1.  **Improved key management:** With AA, you can associate multiple
-    devices with your wallet, so if one device is lost, you still have
-    access to your account.
-
-2.  **Various signature and validation schemes:** AA supports additional
-    security measures, like two-factor authentication for large
-    transactions, providing a more secure environment that adapts to
-    individual user’s needs.
-
-3.  **Custom security policies:** Tailor security schemes to suit
-    different types of users or devices and adapt good practices from
-    the banking and web2 sectors.
-
-AA opens up new possibilities for both developers and users in the
-Ethereum ecosystem. It offers a promising pathway for a more secure,
-user-friendly experience and lays the groundwork for widespread
-adoption.
-
-## Ethereum Account System
-
-To fully understand the benefits of Account Abstraction (AA), let’s
-delve into Ethereum’s current account system. The system is split into
-two types of accounts:
-
-- **Externally Owned Accounts** (EOAs)
-
-- **Contract Accounts** (CAs).
-
-EOAs are the accounts used by individuals, wallets, or any entity
-external to the Ethereum network. These accounts are identified by their
-address, which is derived from the public key of an associated
-cryptographic object called a signer. This signer, or keypair, consists
-of a private key and a public key.
-
-The private key, also known as the secret key, is used to digitally sign
-transactions or messages, establishing proof of ownership. The
-corresponding public key is used to verify this signature, ensuring it
-was indeed signed by the respective private key.
-
-This means, in order to modify the state of an account, a transaction
-must be initiated and signed by the corresponding private key of the
-account’s EOA. This design choice ensures security by associating each
-account with a unique cryptographic identity.
-
-On the other hand, CAs are smart contracts living on the Ethereum
-blockchain. Unlike EOAs, they do not have a private key. They are
-triggered through transactions or messages initiated by EOAs, and their
-behavior is determined by their associated code.
-
-However, the current account model presents some challenges:
-
-1.  **Key Management:** The loss of a private key is catastrophic. Given
-    that the private key represents the ownership of the account, if it
-    is lost, all the assets within the account are lost too. Similarly,
-    if it gets stolen, the perpetrator gains full control over the
-    account and its assets.
-
-2.  **User Experience:** Currently, the Ethereum account model lacks
-    user-friendly methods for key recovery or account recovery, which
-    can discourage non-technical users. Additionally, user interfaces,
-    such as crypto wallets, can be overwhelming and difficult to use,
-    presenting barriers for wider adoption.
-
-3.  **Lack of Flexibility:** The traditional model doesn’t allow for
-    custom transaction validation schemes, limiting the possible
-    security and access control improvements.
-
-Account Abstraction proposes to improve upon these limitations, offering
-new possibilities in terms of security, scalability, and user
-experience.
-
-## The Need for Account Abstraction
-
-As the crypto ecosystem matures and attracts a broader user base, it
-faces pivotal challenges that demand innovative solutions. Among these,
-the question of Account Abstraction (AA) has taken center stage.
-Ethereum, one of the leading platforms for smart contracts and
-Decentralized Applications (dApps), is in a precarious position: it must
-embrace Account Abstraction or risk its position in the crypto world.
-
-Without AA, Ethereum’s ability to provide a seamless, empowering, and
-secure experience for its users is hampered. This could lead to users
-abandoning the platform for centralized exchanges and wallets, a trend
-that would undermine the very ethos of decentralization that
-cryptocurrency and blockchain technology espouse.
-
-There are several compelling reasons why Ethereum, and the larger crypto
-ecosystem, need Account Abstraction:
-
-- **Risk of Centralization:** The inefficiencies and limitations of
-  the current account model may push users towards centralized
-  exchanges and wallets. These entities defy the principles of
-  decentralization, presenting familiar risks such as censorship,
-  discrimination, and potential abuse of power. Account Abstraction,
-  by enabling easier and more secure account management, can help
-  uphold the principles of decentralization.
-
-- **Quantum Threat:** Quantum computing poses a potential threat to
-  cryptographic systems, with its ability to break traditional
-  security measures. Account Abstraction can address this by enabling
-  the use of different signature schemes, including quantum-resistant
-  ones, enhancing the security of assets on the blockchain.
-
-- **Scaling Self-Custody:** As the next billion users approach the
-  crypto ecosystem, the importance of scaling self-custody becomes
-  paramount. AA can improve the scalability of self-custody, which is
-  essential for onboarding these new users.
-
-- **User Experience:** Simplifying the onboarding process and user
-  experience is essential for widespread adoption. The complexity
-  associated with current wallets and key management systems can be
-  daunting for newcomers. Account Abstraction promises to simplify
-  these aspects, paving the way for a more intuitive user experience.
-
-Starknet is currently leading the efforts to implement Account
-Abstraction at the protocol level. Many consider it to be the "proving
-ground" for the future of AA. With numerous experts from different
-organizations collaborating, Starknet aims to redefine the approach to
-security, user experience, and self-custody in the crypto space.
-
-The stakes are high. The future of Ethereum, and by extension, the
-crypto ecosystem, is deeply intertwined with the success of Account
-Abstraction. If Ethereum cannot adapt, it risks losing its prominence to
-other, more adaptable platforms.
-
-## Why Isn’t Account Abstraction Implemented in Ethereum’s Layer 1 Yet?
-
-Ethereum’s Layer 1 (L1) doesn’t yet support Account Abstraction (AA) at
-a protocol level, not due to lack of desire or understanding of its
-importance, but rather due to the complexity of its implementation.
-
-The most prominent roadblock in integrating AA is the entrenched nature
-of Externally Owned Accounts (EOAs) in Ethereum’s architecture. These
-accounts, as fundamental elements of the Ethereum core protocol, would
-need significant alteration to support AA, an undertaking that becomes
-more daunting as the value secured by Ethereum continues to rise.
-
-One key aspect that complicates the integration of AA into Ethereum’s L1
-is the Ethereum Virtual Machine (EVM). The EVM, as the runtime
-environment for smart contracts in Ethereum, has limitations that hinder
-the implementation of AA. While there have been several proposals for AA
-since Ethereum’s inception, they have been consistently delayed due to
-other pressing updates and improvements to the Ethereum network.
-
-However, the emergence of Layer 2 (L2) solutions provides a new pathway
-for the implementation of AA. With their focus on scalability and
-performance enhancements, these new virtual machines can better
-accommodate AA. Starknet and ZKSync are examples of platforms that have
-native AA inspired by EIP4337 – a proposal deemed superior by industry
-experts like Argent’s Julien Niset.
-
-The repeated postponements and challenges in implementing AA on
-Ethereum’s L1 have led many proponents, including Niset, to shift their
-focus. Instead of hoping for EOAs to be phased out and AA integrated at
-Ethereum’s core, they are now advocating for the broad adoption of AA
-through L2 solutions like Starknet. This strategy could bring the
-benefits of AA to users sooner and help the Ethereum network remain
-competitive in the rapidly evolving crypto landscape.
-
-## Conclusion
-
-To bring it all home, imagine the Ethereum account system as a kind of
-multifunctional Swiss Army knife, currently under renovation. What we’re
-doing with Account Abstraction is swapping out a few tools - while it
-was once a knife and a corkscrew, we’re making it into a magnifying
-glass and a set of tweezers.
-
-Why the change? The original tools served us well, but they didn’t fit
-every task we found ourselves up against. Some jobs required precision;
-others needed a broader lens. That’s where Account Abstraction shines.
-It expands Ethereum’s capabilities, adjusting and adapting to our
-ever-evolving requirements.
-
-Remember the complications of Ethereum’s current account system? Account
-Abstraction seeks to transform those by offering more flexible,
-personalized, and safer solutions. It’s like tailoring the tools of your
-Swiss Army knife to your unique needs.
-
-However, it’s not yet implemented into Ethereum’s Layer 1. And why? The
-kitchen is bustling, and the chefs are wary of spilling the soup. The
-implementation process has its challenges, it’s true. But the cook who
-never dropped a pan never learned to make an omelette. That’s why
-research and development continue relentlessly.
-
-Through the lens of Account Abstraction, we see Ethereum’s
-future—secure, accessible, flexible. It’s an exciting, transformative
-prospect that’s redefining what we thought possible. And though the path
-may be fraught with complexities and risks, it’s a journey well worth
-taking.
-
-After all, the Swiss Army knife was once just a knife. Imagine what it
-could become next.
-
-# References:
-
-- \[1\] Martin Triay, Devcon 6:
-  <https://www.youtube.com/watch?v=Osc_gwNW3Fw>
-
-- \[2\] Julien Niset: <https://www.youtube.com/watch?v=OwppworJGzs>
-
-- \[3\] lightclient, Devcon 6:
-  <https://app.devcon.org/schedule/9mvqce>
-
-- \[4\] Starkware:
-  <https://medium.com/@starkware/how-starknet-is-revolutionizing-crypto-signing-ba3724077a79>
-
-- \[5\] Julien Niset, 2022:
-  <https://www.argent.xyz/blog/part-2-wtf-is-account-abstraction/>
-
-- \[6\] Yoav, Devcon 6: <https://app.devcon.org/schedule/9mvqce>
-
-- \[7\] Motty Lavie, 2023:
-  <https://www.youtube.com/watch?v=FrxAdJYhSY8>
+# انتزاع حساب
+
+### انتزاع حساب
+
+انتزاع حساب (AA) یک تغییر پارادایم در نحوه مدیریت حساب ها و تراکنش ها در شبکه های بلاک چین است. برای تجزیه آن، AA به دو مفهوم در هم تنیده اشاره دارد:
+
+1. انعطاف پذیری تراکنش: این به هر قرارداد هوشمند قدرت می دهد تا تراکنش های خود را اعتبار سنجی کند، به جای اجرای یک فرآیند اعتبار سنجی یک اندازه مناسب برای همه. این می تواند به مزایای بالقوه مختلفی مانند فعال کردن قراردادهای هوشمند برای پرداخت هزینه های گاز، اجازه دادن به امضاکنندگان متعدد برای یک حساب واحد، و حتی معرفی امضاهای رمزنگاری پیشرفته منجر شود.
+2. بهینه سازی تجربه کاربر: AA تجربه بصری تری را برای کاربران نهایی فراهم می کند. این به توسعه دهندگان اجازه می دهد تا یک مدل امنیتی انعطاف پذیرتر ایجاد کنند، به عنوان مثال، اجازه دادن به کلیدهای مختلف برای استفاده روزمره و تراکنش های با ارزش بالا. علاوه بر این، در صورت تمایل، نیاز به عبارات بذر را از بین می برد، در عوض روش های بازیابی آسان تر را انتخاب می کند.
+
+در سطح فنی، AA حساب های دارای مالکیت خارجی (EOA) را با مفهوم کلی از حساب ها جایگزین می کند. تحت این مدل، حساب ها را می توان با یک قرارداد هوشمند نشان داد که قوانین و رفتارهای خاص آنها را دیکته می کند. این بدان معناست که کاربر یا حساب قرارداد می تواند قوانینی را در مورد سفارش تراکنش، امضاها، کنترل های دسترسی و موارد دیگر دیکته کند و سطح بالایی از سفارشی سازی را ارائه دهد.
+
+در اینجا دو تعریف متداول از AA ذکر شده است:
+
+> تعریف 1: انتزاع حساب (AA) زمانی است که یک قرارداد هوشمند می تواند هزینه تراکنش های خود را پرداخت کند (Martin Triay, Devcon 6)\[1]. به عبارت دیگر، قراردادهای انتزاعی (یا قراردادهای هوشمند حساب) می توانند برای تراکنش ها پرداخت کنند. این یک انحراف از حساب های سنتی خارجی یا کیف پول های هوشمند است.
+
+> تعریف 2: AA انتزاع اعتبارسنجی است. AA به جای تکیه بر یک روش واحد اعتبارسنجی تراکنش، مانند لایه 1 اتریوم، انتزاعی از فرآیند اعتبار سنجی را امکان پذیر می کند. این امر مستلزم امکان استفاده از انواع مختلف امضاها، رمزنگاری های اولیه، فرآیندهای اجرا و غیره است (lightclient، Devcon 6)\[3].
+
+AA با پیشرفت های قابل توجهی در مقیاس پذیری، تجربه کاربر و امنیت به عنوان سنگ بنای نسل بعدی فناوری های بلاک چین قرار گرفته است. در حال حاضر راه‌حل‌های لایه 2، از جمله Starknet، پیشگام است، زیرا هدف آن‌ها ایجاد انقلابی در رویکرد ما به امنیت، تجربه کاربری و نگهداری از خود در فضای کریپتو است.
+
+### کاربردهای انتزاع حساب
+
+پس از تعریف Account Abstraction، اجازه دهید به کاربردهای عملی آن بپردازیم. هدف Account Abstraction بهبود دسترسی و امنیت در حضانت شخصی است. در اینجا چند مورد از ویژگی های کلیدی که AA فعال می کند آورده شده است:
+
+1. امضاکننده سخت‌افزار: با AA، می‌توانید تراکنش‌ها را با استفاده از کلیدی که توسط محفظه امن گوشی هوشمندتان تولید و محافظت می‌شود، امضا کنید. این استفاده از هویت بیومتریک فرآیند را ایمن تر و کاربر پسندتر می کند (Starkware)\[4]، (Braavos)\[7].
+2. بازیابی اجتماعی: با ادغام AA، اگر کلید خود را گم کنید یا به خطر بیاندازید، می توانید به طور ایمن آن را جایگزین کنید، بنابراین نیاز به عبارات اولیه را از بین خواهید برد. این تغییر نه تنها امنیت را افزایش می دهد، بلکه تجربه کاربر را نیز ساده می کند (Julien Niset, 2022)\[5].
+3. چرخش کلید: اگر کلید کنترل کننده حساب شما به خطر بیفتد، می توانید به راحتی آن را جایگزین کنید و نیاز به انتقال دارایی های خود را نفی کنید.
+4. کلیدهای جلسه: AA می تواند قابلیت استفاده برنامه های web3 را با اجازه دادن به ویژگی یک بار ورود به سیستم افزایش دهد. این امر وب سایت ها را قادر می سازد تا تراکنش هایی را از طرف شما انجام دهند و نیاز به تأیید مداوم را کاهش می دهد.
+5. طرح‌های اعتبارسنجی تراکنش سفارشی: AA استفاده از طرح‌های امضای مختلف، امضاهای چندگانه و سایر قوانین امنیتی را امکان‌پذیر می‌سازد. این انعطاف‌پذیری به اقدامات امنیتی قابل تنظیم برای برآوردن نیازهای کاربر اجازه می‌دهد (Martin Triay، Devcon 6)\[1]، (Julien Niset، 2022)\[5]، (Motty Lavie)\[7].
+
+علاوه بر این، AA امنیت افزایش یافته را از چند طریق فراهم می کند:
+
+1. بهبود مدیریت کلید: با AA، می توانید چندین دستگاه را با کیف پول خود مرتبط کنید، بنابراین اگر یک دستگاه گم شود، همچنان به حساب خود دسترسی دارید.
+2. طرح‌های مختلف امضا و اعتبارسنجی: AA از اقدامات امنیتی اضافی مانند احراز هویت دو مرحله‌ای برای تراکنش‌های بزرگ پشتیبانی می‌کند و محیط امن‌تری را فراهم می‌کند که با نیازهای کاربر تطبیق می‌یابد.
+3. خط‌مشی‌های امنیتی سفارشی: طرح‌های امنیتی را متناسب با انواع مختلف کاربران یا دستگاه‌ها تنظیم کنید و رویه‌های خوب را از بخش‌های بانکی و web2 تطبیق دهید.
+
+AA امکانات جدیدی را برای توسعه دهندگان و کاربران در اکوسیستم اتریوم باز می کند. این یک مسیر امیدوارکننده برای تجربه ایمن تر و کاربرپسندتر ارائه می دهد و زمینه را برای پذیرش گسترده فراهم می کند.
+
+### سیستم حساب اتریوم
+
+برای درک کامل مزایای انتزاع حساب (AA)، بیایید به سیستم حساب جاری اتریوم بپردازیم. این سیستم به دو نوع حساب تقسیم می شود:
+
+* حساب های تحت مالکیت خارجی (EOAs)
+* حساب های قراردادی (CAs).
+
+EOA ها حساب هایی هستند که توسط افراد، کیف پول ها یا هر نهادی خارج از شبکه اتریوم استفاده می شود. این حساب‌ها با آدرسشان که از کلید عمومی یک شی رمزنگاری مرتبط به نام امضاکننده مشتق شده است، شناسایی می‌شوند. این امضاکننده یا جفت کلید از یک کلید خصوصی و یک کلید عمومی تشکیل شده است.
+
+کلید خصوصی که به عنوان کلید مخفی نیز شناخته می‌شود، برای امضای دیجیتالی تراکنش‌ها یا پیام‌ها استفاده می‌شود که اثبات مالکیت را ایجاد می‌کند. کلید عمومی مربوطه برای تأیید این امضا استفاده می شود و اطمینان حاصل می شود که در واقع توسط کلید خصوصی مربوطه امضا شده است.
+
+این بدان معناست که برای تغییر وضعیت یک حساب، یک تراکنش باید توسط کلید خصوصی مربوطه EOA حساب آغاز و امضا شود. این انتخاب طراحی با مرتبط کردن هر حساب با یک هویت رمزنگاری منحصر به فرد، امنیت را تضمین می کند.
+
+از سوی دیگر، CA قراردادهای هوشمندی هستند که بر روی بلاک چین اتریوم زندگی می کنند. برخلاف EOA ها، کلید خصوصی ندارند. آنها از طریق تراکنش‌ها یا پیام‌هایی که توسط EOA آغاز می‌شوند، راه‌اندازی می‌شوند و رفتار آن‌ها توسط کد مرتبط با آنها تعیین می‌شود.
+
+با این حال، مدل حساب جاری چند چالش را ارائه می دهد:
+
+1. مدیریت کلید: از دست دادن کلید خصوصی فاجعه بار است. با توجه به اینکه کلید خصوصی نشان دهنده مالکیت حساب است، در صورت گم شدن، تمام دارایی های موجود در حساب نیز از بین می رود. به همین ترتیب، اگر به سرقت برود، مرتکب کنترل کامل حساب و دارایی های آن را به دست می آورد.
+2. تجربه کاربری: در حال حاضر، مدل حساب اتریوم فاقد روش‌های کاربرپسند برای بازیابی کلید یا بازیابی حساب است که می‌تواند کاربران غیر فنی را دلسرد کند. علاوه بر این، رابط‌های کاربری، مانند کیف پول‌های رمزنگاری، می‌توانند طاقت‌فرسا و سخت باشند و موانعی را برای پذیرش گسترده‌تر ایجاد کنند.
+3. عدم انعطاف‌پذیری: مدل سنتی اجازه نمی‌دهد تا طرح‌های اعتبارسنجی تراکنش‌های سفارشی، بهبودهای امنیتی و کنترل دسترسی را محدود کند.
+
+Account Abstraction پیشنهاد می‌کند که این محدودیت‌ها را بهبود ببخشد و امکانات جدیدی را از نظر امنیت، مقیاس‌پذیری و تجربه کاربر ارائه دهد.
+
+### نیاز به انتزاع حساب
+
+همانطور که اکوسیستم کریپتو بالغ می شود و پایگاه کاربران گسترده تری را به خود جذب می کند، با چالش های اساسی روبرو می شود که راه حل های نوآورانه ای را می طلبد. در این میان، مسئله انتزاع حساب (AA) در مرکز توجه قرار گرفته است. اتریوم، یکی از پلتفرم‌های پیشرو برای قراردادهای هوشمند و برنامه‌های غیرمتمرکز (dApps)، در موقعیتی نامطمئن قرار دارد: باید انتزاع حساب را بپذیرد یا موقعیت خود را در دنیای کریپتو به خطر بیندازد.
+
+بدون AA، توانایی اتریوم برای ارائه یک تجربه یکپارچه، قدرتمند و ایمن برای کاربران خود با مشکل مواجه می شود. این امر می‌تواند منجر به کنار گذاشتن پلتفرم صرافی‌ها و کیف پول‌های متمرکز توسط کاربران شود، روندی که اخلاق تمرکززدایی را که ارزهای دیجیتال و فناوری بلاک چین از آن حمایت می‌کنند، تضعیف می‌کند.
+
+چندین دلیل قانع‌کننده وجود دارد که چرا اتریوم و اکوسیستم کریپتو بزرگ‌تر به انتزاع حساب نیاز دارند:
+
+* خطر تمرکز: ناکارآمدی ها و محدودیت های مدل حساب جاری ممکن است کاربران را به سمت صرافی ها و کیف پول های متمرکز سوق دهد. این نهادها از اصول تمرکززدایی سرپیچی می کنند و خطرات آشنا مانند سانسور، تبعیض و سوء استفاده بالقوه از قدرت را ارائه می دهند. انتزاع حساب، با امکان مدیریت آسان تر و ایمن تر حساب، می تواند به حفظ اصول تمرکززدایی کمک کند.
+* تهدید کوانتومی: محاسبات کوانتومی یک تهدید بالقوه برای سیستم های رمزنگاری به همراه توانایی آن در شکستن اقدامات امنیتی سنتی است. Account Abstraction می‌تواند با فعال کردن استفاده از طرح‌های امضای مختلف، از جمله طرح‌های مقاوم در برابر کوانتومی، این مشکل را برطرف کند و امنیت دارایی‌ها را در بلاک چین افزایش دهد.
+* افزایش خود حضانت: با نزدیک شدن میلیارد کاربر بعدی به اکوسیستم کریپتو، اهمیت افزایش مراقبت از خود بسیار مهم می شود. AA می‌تواند مقیاس‌پذیری خودسرپرستی را بهبود بخشد، که برای ورود به این کاربران جدید ضروری است.
+* تجربه کاربر: ساده کردن فرآیند ورود و تجربه کاربر برای پذیرش گسترده ضروری است. پیچیدگی مرتبط با کیف پول‌های فعلی و سیستم‌های مدیریت کلید می‌تواند برای تازه واردان دلهره‌آور باشد. Account Abstraction وعده می دهد که این جنبه ها را ساده کرده و راه را برای تجربه کاربری بصری تر هموار می کند.
+
+Starknet در حال حاضر تلاش ها را برای پیاده سازی Account Abstraction در سطح پروتکل رهبری می کند. بسیاری آن را "محل اثبات" آینده AA می دانند. با همکاری کارشناسان متعدد از سازمان‌های مختلف، Starknet قصد دارد رویکرد امنیتی، تجربه کاربر و خود نگهبانی در فضای رمزنگاری را بازتعریف کند.
+
+مخاطرات بالا هستند. آینده اتریوم، و در نتیجه، اکوسیستم رمزنگاری، عمیقاً با موفقیت Account Abstraction در هم تنیده است. اگر اتریوم نتواند خود را تطبیق دهد، در معرض خطر از دست دادن اهمیت خود در سایر پلتفرم‌های سازگارتر است.
+
+### چرا انتزاع حساب هنوز در لایه 1 اتریوم اجرا نشده است؟
+
+لایه 1 اتریوم (L1) هنوز از Account Abstraction (AA) در سطح پروتکل پشتیبانی نمی کند، نه به دلیل عدم تمایل یا درک اهمیت آن، بلکه به دلیل پیچیدگی اجرای آن.
+
+برجسته‌ترین مانع در ادغام AA، ماهیت ریشه‌دار حساب‌های تحت مالکیت خارجی (EOA) در معماری اتریوم است. این حساب‌ها، به‌عنوان عناصر اساسی پروتکل هسته اتریوم، برای پشتیبانی از AA نیاز به تغییرات قابل توجهی دارند، تعهدی که با افزایش ارزش تضمین شده توسط اتریوم، سخت‌تر می‌شود.
+
+یکی از جنبه های کلیدی که ادغام AA در L1 اتریوم را پیچیده می کند، ماشین مجازی اتریوم (EVM) است. EVM، به عنوان محیط زمان اجرا برای قراردادهای هوشمند در اتریوم، دارای محدودیت هایی است که مانع اجرای AA می شود. در حالی که از زمان آغاز به کار اتریوم چندین پیشنهاد برای AA وجود داشته است، به دلیل سایر به روز رسانی ها و بهبودهای شبکه اتریوم به طور مداوم به تعویق افتاده است.
+
+با این حال، ظهور راه حل های لایه 2 (L2) مسیر جدیدی را برای اجرای AA فراهم می کند. این ماشین های مجازی جدید با تمرکز بر مقیاس پذیری و بهبود عملکرد، بهتر می توانند AA را در خود جای دهند. Starknet و ZKSync نمونه‌هایی از پلتفرم‌هایی هستند که دارای AA بومی با الهام از EIP4337 هستند - پیشنهادی که توسط کارشناسان صنعتی مانند Julien Niset Argent's برتر تلقی می‌شود.
+
+به تعویق افتادن و چالش‌های مکرر در پیاده‌سازی AA در L1 اتریوم، بسیاری از طرفداران از جمله Niset را به سمت تغییر تمرکز سوق داده است. به جای امید به حذف تدریجی EOA ها و ادغام AA در هسته اتریوم، آنها اکنون از پذیرش گسترده AA از طریق راه حل های L2 مانند Starknet حمایت می کنند. این استراتژی می تواند مزایای AA را زودتر برای کاربران به ارمغان بیاورد و به شبکه اتریوم کمک کند تا در چشم انداز ارزهای دیجیتال به سرعت در حال تحول رقابتی باقی بماند.
+
+### نتیجه
+
+برای بازگرداندن همه چیز به خانه، سیستم حساب اتریوم را به عنوان نوعی چاقوی ارتش سوئیس چند منظوره تصور کنید که در حال حاضر در حال بازسازی است. کاری که ما با Account Abstraction انجام می دهیم تعویض چند ابزار است - در حالی که زمانی یک چاقو و یک پیچ چوب پنبه ای بود، ما آن را به یک ذره بین و مجموعه ای از موچین ها تبدیل می کنیم.
+
+چرا تغییر؟ ابزارهای اصلی به خوبی به ما کمک کردند، اما با هر کاری که ما در برابر آن قرار می‌گرفتیم مناسب نبودند. برخی از مشاغل به دقت نیاز دارند. دیگران به لنز وسیع تری نیاز داشتند. اینجاست که Account Abstraction می درخشد. قابلیت‌های اتریوم را گسترش می‌دهد و با نیازهای همیشه در حال تکامل ما تنظیم و سازگار می‌شود.
+
+عوارض سیستم حساب جاری اتریوم را به خاطر دارید؟ Account Abstraction با ارائه راه‌حل‌های انعطاف‌پذیرتر، شخصی‌شده و ایمن‌تر به دنبال تغییر آن‌ها است. این مانند این است که ابزار چاقوی ارتش سوئیس خود را مطابق با نیازهای منحصر به فرد خود بسازید.
+
+با این حال، هنوز در لایه 1 اتریوم پیاده سازی نشده است. و چرا؟ آشپزخانه شلوغ است و سرآشپزها مراقب ریختن سوپ هستند. روند پیاده سازی چالش های خود را دارد، درست است. اما آشپزی که هرگز ماهیتابه را رها نکرد، هرگز یاد نگرفت که املت درست کند. به همین دلیل است که تحقیق و توسعه بی وقفه ادامه می یابد.
+
+از طریق لنز Account Abstraction، آینده اتریوم را می بینیم - ایمن، در دسترس، انعطاف پذیر. این یک چشم‌انداز هیجان‌انگیز و دگرگون‌کننده است که آنچه را که ما ممکن می‌پنداشتیم، بازتعریف می‌کند. و اگرچه مسیر ممکن است مملو از پیچیدگی ها و خطرات باشد، اما سفری است که ارزش آن را دارد.
+
+به هر حال، چاقوی ارتش سوئیس زمانی فقط یک چاقو بود. تصور کنید که بعداً چه چیزی می تواند باشد.
+
+## منابع:
+
+* \[1] Martin Triay, Devcon 6: [https://www.youtube.com/watch?v=Osc\_gwNW3Fw](https://www.youtube.com/watch?v=Osc\_gwNW3Fw)
+* \[2] Julien Niset: [https://www.youtube.com/watch?v=OwppworJGzs](https://www.youtube.com/watch?v=OwppworJGzs)
+* \[3] lightclient, Devcon 6: [https://app.devcon.org/schedule/9mvqce](https://app.devcon.org/schedule/9mvqce)
+* \[4] Starkware: [https://medium.com/@starkware/how-starknet-is-revolutionizing-crypto-signing-ba3724077a79](https://medium.com/@starkware/how-starknet-is-revolutionizing-crypto-signing-ba3724077a79)
+* \[5] Julien Niset, 2022: [https://www.argent.xyz/blog/part-2-wtf-is-account-abstraction/](https://www.argent.xyz/blog/part-2-wtf-is-account-abstraction/)
+* \[6] Yoav, Devcon 6: [https://app.devcon.org/schedule/9mvqce](https://app.devcon.org/schedule/9mvqce)
+* \[7] Motty Lavie, 2023: [https://www.youtube.com/watch?v=FrxAdJYhSY8](https://www.youtube.com/watch?v=FrxAdJYhSY8)
 
 The Book is a community-driven effort created for the community.
 
-- If you’ve learned something, or not, please take a moment to provide
-  feedback through [this 3-question
-  survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
-
-- If you discover any errors or have additional suggestions, don’t
-  hesitate to open an [issue on our GitHub
-  repository](https://github.com/starknet-edu/starknetbook/issues).
+* If you’ve learned something, or not, please take a moment to provide feedback through [this 3-question survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
+* If you discover any errors or have additional suggestions, don’t hesitate to open an [issue on our GitHub repository](https://github.com/starknet-edu/starknetbook/issues).

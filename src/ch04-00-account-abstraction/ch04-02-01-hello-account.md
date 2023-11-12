@@ -1,16 +1,10 @@
-# Hello World Account Contract
+# سلام قرارداد حساب جهانی
 
-In this subchapter we will create an account contract
-from scratch following the SNIP-6 and SRC-5 standards.
+در این فصل ما یک قرارداد حساب از ابتدا با پیروی از استانداردهای SNIP-6 و SRC-5 ایجاد می کنیم.
 
-## Project Setup
+### راه اندازی پروژه
 
-To deploy an account contract to Starknet's testnet or mainnet,
-ensure you're using a version of Scarb that supports the Sierra 1.3.0 target,
-as both Starknet's testnet and mainnet currently support this version.
-Refer to [Starknet Release Notes](https://docs.starknet.io/documentation/starknet_versions/version_notes/)
-for more details.
-As of October 2023, the recommended Scarb version is 0.7.0.
+برای استقرار یک قرارداد حساب در شبکه آزمایشی یا شبکه اصلی Starknet، مطمئن شوید که از نسخه‌ای از Scarb استفاده می‌کنید که از هدف Sierra 1.3.0 پشتیبانی می‌کند، زیرا هم شبکه آزمایشی و هم شبکه اصلی Starknet در حال حاضر از این نسخه پشتیبانی می‌کنند. برای جزئیات بیشتر به یادداشت های انتشار Starknet مراجعه کنید. از اکتبر 2023، نسخه پیشنهادی Scarb 0.7.0 است.
 
 ```bash
 $ scarb --version
@@ -20,11 +14,11 @@ sierra: 1.3.0
 
 ```
 
-To install or Update Scarb follow the instructions [here.](https://docs.swmansion.com/scarb/)
+برای نصب یا به‌روزرسانی Scarb دستورالعمل‌های اینجا را دنبال کنید.
 
-## Setting up a new Scarb project
+### راه اندازی یک پروژه Scarb جدید
 
-Initialize a new project:
+راه اندازی یک پروژه جدید:
 
 ```bash
 $ scarb new aa
@@ -32,7 +26,7 @@ Created `aa` package.
 
 ```
 
-Inspect the default project structure:
+ساختار پیش فرض پروژه را بررسی کنید:
 
 ```bash
 $ tree .
@@ -44,8 +38,7 @@ $ tree .
 
 ```
 
-By default, Scarb sets up for vanilla Cairo. To target Starknet,
-modify `Scarb.toml` to activate the Starknet plugin.
+به‌طور پیش‌فرض، Scarb برای Vanilla Cairo تنظیم می‌شود. برای هدف قرار دادن Starknet، Scarb.toml را تغییر دهید تا افزونه Starknet فعال شود.
 
 ```bash
 [package]
@@ -59,7 +52,7 @@ starknet = "2.2.0"
 
 ```
 
-In the `src/lib.cairo` file,replace the Cairo code with the scaffold for your account contract:
+در فایل src/lib.cairo، کد قاهره را با داربست قرارداد حساب خود جایگزین کنید:
 
 ```rust
 #[starknet::contract]
@@ -69,7 +62,7 @@ mod Account {
 
 ```
 
-To validate signatures, store the public key associated with the signer's private key.
+برای تأیید اعتبار امضاها، کلید عمومی مرتبط با کلید خصوصی امضاکننده را ذخیره کنید.
 
 ```rust
 #[starknet::contract]
@@ -84,7 +77,7 @@ mod Account {
 
 ```
 
-Finally, compile the project to verify the setup:
+در نهایت، پروژه را برای تأیید تنظیمات کامپایل کنید:
 
 ```bash
 aa/src$ scarb build
@@ -93,10 +86,9 @@ aa/src$ scarb build
 
 ```
 
-## Implementing SNIP-6
+### پیاده سازی SNIP-6
 
-As explained in the previous subchapter, to classify a smart contract as an  
-account contract, it must adhere to the `ISRC6` trait:
+همانطور که در زیرفصل قبلی توضیح داده شد، برای طبقه بندی قرارداد هوشمند به عنوان یک قرارداد حساب، باید به ویژگی ISRC6 پایبند باشد:
 
 ```rust
 trait ISRC6 {
@@ -106,17 +98,11 @@ trait ISRC6 {
 }
 ```
 
-Functions within the account contract annotated with `#[external(v0)]` attribute
-possess unique selectors, facilitating interactions with the contract by external entities.
+توابع درون قرارداد حساب مشروح شده با ویژگی #\[external(v0)] دارای انتخابگرهای منحصربه‌فردی هستند که تعامل با قرارداد توسط نهادهای خارجی را تسهیل می‌کنند.
 
-However, while these functions are publicly accessible via their selectors, it is essential
-to distinguish their intended users. Specifically, the `__execute__` and `__validate__`
-functions are reserved exclusively for the Starknet protocol. In contrast, `is_valid_signature`
-is publicly available, catering to web3 applications for signature validation.
+با این حال، در حالی که این توابع به صورت عمومی از طریق انتخابگرها قابل دسترسی هستند، تشخیص کاربران مورد نظر آنها ضروری است. به طور خاص، توابع **execute** و **validate** منحصراً برای پروتکل Starknet محفوظ هستند. در مقابل، is\_valid\_signature به صورت عمومی در دسترس است و به برنامه های web3 برای اعتبارسنجی امضا ارائه می شود.
 
-The `trait IAccount<T>` trait, marked with the `#[starknet::interface]` attribute,
-encapsulates functions intended for public interaction,such as `is_valid_signature`.
-The `__execute__` and `__validate__` functions, though public, are indirectly accessed.
+ویژگی IAccount که با ویژگی #\[starknet::interface] مشخص شده است، توابع در نظر گرفته شده برای تعامل عمومی، مانند is\_valid\_signature را در بر می گیرد. توابع **execute** و **validate**، اگرچه عمومی هستند، به طور غیر مستقیم قابل دسترسی هستند.
 
 ```rust
 use starknet::account::Call;
@@ -149,12 +135,9 @@ mod Account {
 }
 ```
 
-## Protocol-Only Function Protection
+### محافظت از عملکرد فقط پروتکل
 
-For enhanced account security,`__execute__` and `__validate__` functions are exclusively
-callable by the Starknet protocol, even though they are publicly accessible.
-The Starknet protocol uses the zero address when invoking a function.
-The private function `only_protocol` ensures that only Starknet protocol can access these functions
+برای امنیت بیشتر حساب، توابع **execute** و **validate** منحصراً توسط پروتکل Starknet قابل فراخوانی هستند، حتی اگر برای عموم قابل دسترسی باشند. پروتکل Starknet هنگام فراخوانی یک تابع از آدرس صفر استفاده می کند. عملکرد خصوصی only\_protocol تضمین می کند که فقط پروتکل Starknet می تواند به این توابع دسترسی داشته باشد
 
 ```rust
 ...
@@ -189,14 +172,11 @@ mod Account {
 
 ```
 
-Note that the function `is_valid_signature` is not protected by the `only_protocol` function
-as its to be used freely.
+توجه داشته باشید که تابع is\_valid\_signature توسط تابع only\_protocol محافظت نمی شود زیرا آزادانه استفاده می شود.
 
-## Signature Validation
+### اعتبار سنجی امضا
 
-The public key associated with the account contract's signer is stored for transaction signature validation.
-The `constructor` method is defined to capture the public key's value during deployment.
-.
+کلید عمومی مرتبط با امضاکننده قرارداد حساب برای تأیید امضای تراکنش ذخیره می شود. متد سازنده برای گرفتن مقدار کلید عمومی در حین استقرار تعریف شده است. .
 
 ```rust
 ...
@@ -218,8 +198,7 @@ mod Account {
 }
 ```
 
-The `is_valid_signature` function returns `VALID` for a valid signature and `0` otherwise.
-An internal function, `is_valid_signature_bool`, provides a boolean result for signature validation.
+تابع is\_valid\_signature برای یک امضای معتبر VALID و در غیر این صورت 0 را برمی گرداند. یک تابع داخلی، is\_valid\_signature\_bool، یک نتیجه بولی برای اعتبار سنجی امضا ارائه می دهد.
 
 ```rust
 ...
@@ -267,7 +246,7 @@ mod Account {
 
 ```
 
-The `__validate__` function uses `is_valid_signature_bool` to ensure transaction signature validity.
+تابع **validate** از is\_valid\_signature\_bool برای اطمینان از اعتبار امضای تراکنش استفاده می کند.
 
 ```rust
 ...
@@ -303,17 +282,11 @@ mod Account {
 
 ```
 
-## Validation for Declare and Deploy Functions
+### اعتبار سنجی برای توابع Declare and Deploy
 
-The `__validate_declare__` function is responsible for validating the signature
-of the `declare` function. On the other hand, `__validate_deploy__` facilitates
-counterfactual deployment,a method to deploy an account contract without
-associating it to a specific deployer address.
+تابع **validate\_declare** مسئول تایید امضای تابع declare است. از سوی دیگر، **validate\_deploy** استقرار خلاف واقع را تسهیل می کند، روشی برای استقرار یک قرارداد حساب بدون مرتبط کردن آن با یک آدرس توزیع کننده خاص.
 
-To streamline the validation process, we'll unify the behavior of the three
-validation functions `__validate__`,`__validate_declare__` and `__validate_deploy__`.
-The core logic from `__validate__` is abstracted to `validate_transaction` private
-function, which is then invoked by the other two validation functions.
+برای ساده‌سازی فرآیند اعتبارسنجی، رفتار سه تابع اعتبارسنجی **validate**،**validate\_declare** و **validate\_deploy** را یکسان می‌کنیم. منطق اصلی از **validate** به تابع خصوصی validate\_transaction انتزاع می شود، که سپس توسط دو تابع اعتبارسنجی دیگر فراخوانی می شود.
 
 ```rust
 ...
@@ -361,17 +334,11 @@ mod Account {
 }
 ```
 
-It's important to note that the `__validate_deploy__` function receives the public key
-as an argument. While this key is captured during the constructor phase before this function
-is invoked, it remains crucial to provide it when initiating the transaction.
-Alternatively, the public key can be directly utilized within the `__validate_deploy__` function,
-bypassing the constructor.
+توجه به این نکته مهم است که تابع **validate\_deploy** کلید عمومی را به عنوان آرگومان دریافت می کند. در حالی که این کلید در مرحله سازنده قبل از فراخوانی این تابع گرفته می شود، ارائه آن هنگام شروع تراکنش بسیار مهم است. متناوبا، کلید عمومی را می توان مستقیماً در تابع **validate\_deploy** با دور زدن سازنده استفاده کرد.
 
-## Transaction Execution
+### اجرای تراکنش
 
-The `__execute__` function in the `Account` module accepts an array of `Call` structures,
-allowing for multicall functionality. This feature bundles multiple user operations
-into one transaction, enhancing user experience.
+تابع **execute** در ماژول Account آرایه ای از ساختارهای Call را می پذیرد که امکان عملکرد چند تماس را فراهم می کند. این ویژگی چندین عملیات کاربر را در یک تراکنش جمع می‌کند و تجربه کاربر را افزایش می‌دهد.
 
 ```rust
 ...
@@ -387,7 +354,7 @@ mod Account {
 }
 ```
 
-The `Call` data structure contains the necessary information for a single user operation.
+ساختار داده تماس شامل اطلاعات لازم برای عملیات یک کاربر است.
 
 ```rust
 #[derive(Drop, Serde)]
@@ -398,8 +365,7 @@ struct Call {
 }
 ```
 
-To manage individual calls, a private function `execute_single_call` is defined. It uses the low-level
-`call_contract_syscall` syscall to invoke another smart contract function directly.
+برای مدیریت تماس های فردی، یک تابع خصوصی execute\_single\_call تعریف شده است. این سیستم از call\_contract\_syscall سطح پایین برای فراخوانی مستقیم تابع قرارداد هوشمند دیگر استفاده می کند.
 
 ```rust
 ...
@@ -419,8 +385,7 @@ mod Account {
 }
 ```
 
-For handling multiple calls, the `execute_multiple_calls` function iterates over the
-`Call` array and returns an array of responses.
+برای رسیدگی به تماس های متعدد، تابع execute\_multiple\_calls روی آرایه Call تکرار می شود و آرایه ای از پاسخ ها را برمی گرداند.
 
 ```rust
 ...
@@ -449,8 +414,7 @@ mod Account {
 }
 ```
 
-Finally, the main `__execute__` function utilizes these helper functions to process the array
-of `Call` structures:
+در نهایت، تابع **execute** اصلی از این توابع کمکی برای پردازش آرایه ساختارهای فراخوانی استفاده می کند:
 
 ```rust
 ...
@@ -470,20 +434,17 @@ mod Account {
 }
 ```
 
-## Transaction Version Support
+### پشتیبانی از نسخه تراکنش
 
-To accommodate the evolution of Starknet and its enhanced functionalities,
-a versioning system was introduced for transactions. This ensures backward compatibility,
-allowing both old and new transaction structures to operate concurrently.
+برای تطبیق با تکامل Starknet و قابلیت های پیشرفته آن، یک سیستم نسخه سازی برای تراکنش ها معرفی شد. این امر سازگاری با عقب را تضمین می کند و به ساختارهای تراکنش قدیمی و جدید اجازه می دهد تا به طور همزمان عمل کنند.
 
-For simplicity in this tutorial, the account contract is designed to support
-only the latest versions of each transaction type:
+برای سادگی در این آموزش، قرارداد حساب برای پشتیبانی از آخرین نسخه‌های هر نوع تراکنش طراحی شده است:
 
-- Version 1 for `invoke` transactions
-- Version 1 for `deploy_account` transactions
-- Version 2 for `declare` transactions
+* نسخه 1 برای تراکنش های فراخوانی
+* نسخه 1 برای تراکنش های deploy\_account
+* نسخه 2 برای اعلام تراکنش ها
 
-These supported versions are logically grouped in a module called `SUPPORTED_TX_VERSION`:
+این نسخه های پشتیبانی شده به طور منطقی در یک ماژول به نام SUPPORTED\_TX\_VERSION گروه بندی می شوند:
 
 ```rust
 ...
@@ -498,13 +459,9 @@ mod SUPPORTED_TX_VERSION {
 mod Account { ... }
 ```
 
-To ensure that only the latest transaction versions are processed,
-a private function `only_supported_tx_version` is introduced.
-This function checks the version of the incoming transaction against the supported versions.
-If there's a mismatch, the transaction execution is halted with an assertion error.
+برای اطمینان از اینکه فقط آخرین نسخه های تراکنش پردازش می شوند، یک تابع خصوصی only\_supported\_tx\_version معرفی شده است. این تابع نسخه تراکنش ورودی را در برابر نسخه های پشتیبانی شده بررسی می کند. اگر عدم تطابق وجود داشته باشد، اجرای تراکنش با یک خطای ادعا متوقف می شود.
 
-The main functions `__execute__`, `__validate__`, `__validate_declare__` and `__validate_deploy__`
-utilize this version check to ensure only the supported transaction versions are processed.
+توابع اصلی **execute**، **validate**، **validate\_declare** و **validate\_deploy** از این بررسی نسخه استفاده می کنند تا اطمینان حاصل شود که فقط نسخه های تراکنش پشتیبانی شده پردازش می شوند.
 
 ```rust
 ...
@@ -560,18 +517,13 @@ mod Account {
 }
 ```
 
-## Handling Simulated Transactions
+### مدیریت تراکنش های شبیه سازی شده
 
-In Starknet, transactions can be simulated to estimate gas without actual execution.
-Tools like Starkli offer an `estimate-only` flag for this purpose, signaling the Sequencer
-to simulate the transaction and return the estimated cost.
+در Starknet، معاملات را می توان برای تخمین گاز بدون اجرای واقعی شبیه سازی کرد. ابزارهایی مانند Starkli برای این منظور یک پرچم فقط تخمینی ارائه می‌کنند که به Sequencer سیگنال می‌دهد تا تراکنش را شبیه‌سازی کند و هزینه تخمینی را برگرداند.
 
-To differentiate between real and simulated transactions, the version of a simulated transaction is offset
-by 2^128 from its actual counterpart. For instance, a simulated `declare` transaction has a version of 2^128 + 2
-if the regular `declare` transaction's latest version is 2.
+برای تمایز بین تراکنش‌های واقعی و شبیه‌سازی‌شده، نسخه یک تراکنش شبیه‌سازی‌شده با ۲^۱۲۸ از همتای واقعی‌اش جبران می‌شود. به عنوان مثال، یک تراکنش اظهار شبیه سازی شده دارای نسخه 2^128 + 2 است اگر آخرین نسخه تراکنش اعلامی معمولی 2 باشد.
 
-The `only_supported_tx_version` function is adjusted to recognize both actual and simulated versions,
-ensuring accurate processing for both types.
+تابع only\_supported\_tx\_version برای تشخیص هر دو نسخه واقعی و شبیه سازی شده تنظیم شده است و از پردازش دقیق برای هر دو نوع اطمینان حاصل می کند.
 
 ```rust
 ...
@@ -611,12 +563,9 @@ trait ISRC5 {
 }
 ```
 
-An account contract should return `true` for the `supports_interface` function when provided with the
-specific `interface_id` of `1270010605630597976495846281167968799381097569185364931397797212080166453709`.
-The reason for using this specific identifier is explained in the previous subchapter.
+An account contract should return `true` for the `supports_interface` function when provided with the specific `interface_id` of `1270010605630597976495846281167968799381097569185364931397797212080166453709`. The reason for using this specific identifier is explained in the previous subchapter.
 
-The `supports_interface` function has been added to the public interface of the account
-contract to facilitate external queries by other smart contracts.
+The `supports_interface` function has been added to the public interface of the account contract to facilitate external queries by other smart contracts.
 
 ```rust
 ...
@@ -647,9 +596,7 @@ mod Account {
 
 ## Public Key Accessibility
 
-For enhanced transparency and debugging purposes, it's recommended to make the public key
-of the account contract's signer accessible. This allows users to verify the correct deployment
-of the account contract by comparing the stored public key with the signer's public key offline.
+For enhanced transparency and debugging purposes, it's recommended to make the public key of the account contract's signer accessible. This allows users to verify the correct deployment of the account contract by comparing the stored public key with the signer's public key offline.
 
 ```rust
 ...
@@ -821,66 +768,36 @@ mod Account {
 
 Account Contract Creation Recap:
 
-- SNIP-6 Implementation
-
-  - The account contract is designed to adhere to the `ISRC6` trait, which dictates the structure of an account contract.
-
-- Protecting Protocol-Only Functions
-
-  - `__validate__` and `__execute__` functions were restricted to be accessed only by the Starknet protocol.
-
-  - `is_valid_signature` was exposed for external interactions.
-
-  - Private function `only_protocol` was introduced to enforce this restriction.
-
-- Signature Validation
-
-  - Public key associated with signer of account contract was stored to facilitate transaction signature validation.
-
-  - `constructor` method was defined to capture the public key's value during deployment.
-
-  - The `is_valid_signature` function was implemented to validate signatures, returning `VALID` or `0`.
-
-  - The helper function `is_valid_signature_bool` was introduced to return a boolean result.
-
-- Validation of Declare and Deploy Functions
-
-  - The `__validate_declare__` function was setup to validate signature of `declare` function.
-
-  - The `__validate_deploy__` function was designed for counterfactual deployment.
-
-  - The core validation logic was abstracted to a private function named `validate_transaction`.
-
-- Transaction Execution
-
-  - Introduced multicall functionality via the `__execute__` function.
-
-  - Implemented `execute_single_call` and `execute_multiple_calls` to manage individual and multiple calls respectively.
-
-- Transaction Version Support
-
-  - Implemented a versioning system to ensure backward compatibility with evolving Starknet functionalities.
-
-  - Created `SUPPORTED_TX_VERSION` module to define supported versions for various transaction types.
-
-  - Introduced `only_supported_tx_version` to validate transaction versions.
-
-- Handling Simulated Transactions
-
-  - Adjusted the `only_supported_tx_version` function to recognize both actual and simulated transaction versions.
-
-- Introspection
-
-  - Enabled the account contract to self-identify using the SRC-5 standard.
-
-  - The `supports_interface` function was added to the public interface for external queries about the contract's capabilities.
-
-- Public Key Accessibility
-
-  - Enhanced transparency by making the public key of the account contract's signer accessible.
-
-- Final Implementation
-
-  - Final Implementation of the account contract.
+* SNIP-6 Implementation
+  * The account contract is designed to adhere to the `ISRC6` trait, which dictates the structure of an account contract.
+* Protecting Protocol-Only Functions
+  * `__validate__` and `__execute__` functions were restricted to be accessed only by the Starknet protocol.
+  * `is_valid_signature` was exposed for external interactions.
+  * Private function `only_protocol` was introduced to enforce this restriction.
+* Signature Validation
+  * Public key associated with signer of account contract was stored to facilitate transaction signature validation.
+  * `constructor` method was defined to capture the public key's value during deployment.
+  * The `is_valid_signature` function was implemented to validate signatures, returning `VALID` or `0`.
+  * The helper function `is_valid_signature_bool` was introduced to return a boolean result.
+* Validation of Declare and Deploy Functions
+  * The `__validate_declare__` function was setup to validate signature of `declare` function.
+  * The `__validate_deploy__` function was designed for counterfactual deployment.
+  * The core validation logic was abstracted to a private function named `validate_transaction`.
+* Transaction Execution
+  * Introduced multicall functionality via the `__execute__` function.
+  * Implemented `execute_single_call` and `execute_multiple_calls` to manage individual and multiple calls respectively.
+* Transaction Version Support
+  * Implemented a versioning system to ensure backward compatibility with evolving Starknet functionalities.
+  * Created `SUPPORTED_TX_VERSION` module to define supported versions for various transaction types.
+  * Introduced `only_supported_tx_version` to validate transaction versions.
+* Handling Simulated Transactions
+  * Adjusted the `only_supported_tx_version` function to recognize both actual and simulated transaction versions.
+* Introspection
+  * Enabled the account contract to self-identify using the SRC-5 standard.
+  * The `supports_interface` function was added to the public interface for external queries about the contract's capabilities.
+* Public Key Accessibility
+  * Enhanced transparency by making the public key of the account contract's signer accessible.
+* Final Implementation
+  * Final Implementation of the account contract.
 
 Coming up, we'll use Starkli to deploy to testnet the account created, and use it to interact with other smart contracts.

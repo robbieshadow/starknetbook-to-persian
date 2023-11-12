@@ -1,42 +1,15 @@
-# Examples
+# مثال ها
 
-Here, we will explore numerous examples, elucidating the principles and
-techniques to effectively design and implement Account contracts.
+در اینجا، نمونه‌های متعددی را بررسی می‌کنیم و اصول و تکنیک‌های طراحی و اجرای مؤثر قراردادهای حساب را توضیح می‌دهیم.
 
-Before delving into the examples, we would like to issue a disclaimer:
-the contracts discussed in this chapter are for illustrative and
-educational purposes, and they have not undergone formal auditing. This
-signifies that, while we strive to provide accurate and informative
-content, the implementation of these contracts in a live environment
-should be approached with due diligence. We encourage users to
-thoroughly test and validate these contracts before their deployment on
-the mainnet.
+قبل از پرداختن به مثال‌ها، می‌خواهیم سلب مسئولیتی را صادر کنیم: قراردادهای مورد بحث در این فصل برای اهداف توضیحی و آموزشی هستند و تحت حسابرسی رسمی قرار نگرفته‌اند. این نشان می دهد که در حالی که ما در تلاش برای ارائه محتوای دقیق و آموزنده هستیم، اجرای این قراردادها در یک محیط زنده باید با دقت لازم انجام شود. ما کاربران را تشویق می کنیم که این قراردادها را قبل از استقرار در شبکه اصلی به طور کامل آزمایش و تأیید کنند.
 
-The goal of this chapter is not only to furnish a library of contract
-examples but also to foster collaboration and knowledge sharing among
-the Starknet community. We believe that the exchange of ideas and
-constructive feedback is instrumental in advancing our collective
-understanding and expertise.
+هدف این فصل نه تنها ارائه کتابخانه ای از نمونه های قرارداد، بلکه تقویت همکاری و اشتراک دانش در میان جامعه استارک نت است. ما معتقدیم که تبادل نظر و بازخورد سازنده در پیشبرد درک و تخصص جمعی ما مؤثر است.
 
-If you’ve developed or come across an innovative contract that could
-serve as a valuable learning resource for others, we invite you to
-contribute. Here are a few guidelines for your contribution:
+اگر قراردادی نوآورانه ایجاد کرده‌اید یا به آن برخورد کرده‌اید که می‌تواند به عنوان یک منبع یادگیری ارزشمند برای دیگران باشد، از شما دعوت می‌کنیم که مشارکت کنید. در اینجا چند دستورالعمل برای مشارکت شما وجود دارد:
 
-1.  **Open a PR:** To submit a contract example or suggest changes to
-    existing ones, simply open a Pull Request. Ensure that your PR
-    contains a thorough explanation of the contract, its use cases, and
-    its functionality.
+1. باز کردن یک PR: برای ارسال نمونه قرارداد یا پیشنهاد تغییرات در موارد موجود، به سادگی یک Pull Request را باز کنید. اطمینان حاصل کنید که روابط عمومی شما حاوی توضیح کاملی از قرارداد، موارد استفاده و عملکرد آن است.
+2. استانداردهای کد: لطفاً مطمئن شوید که کد ارسالی به خوبی مستند شده و مطابق با قوانین استاندارد کد Starknet است. این امر روند بررسی را تسهیل می کند و خوانایی و قابل فهم بودن قرارداد را افزایش می دهد.
+3. توضیح تفصیلی: کد خود را با توضیح دقیق منطق قرارداد همراه کنید. تا جایی که ممکن است، از نمودارها، فلوچارت ها یا شبه کدها برای نشان دادن مکانیسم های پیچیده یا گردش کار استفاده کنید.
 
-2.  **Code Standards:** Please ensure that the submitted code is
-    well-documented and adheres to the standard code conventions of
-    Starknet. This will facilitate the review process and enhance the
-    readability and comprehensibility of the contract.
-
-3.  **Detailed Explanation:** Accompany your code with a detailed
-    explanation of the contract logic. Wherever possible, use diagrams,
-    flowcharts, or pseudocode to illustrate complex mechanisms or
-    workflows.
-
-As we expand this repertoire of contract examples, we hope to equip the
-Starknet community with a robust toolset and inspire further exploration
-and innovation in the realm of custom account contracts.
+همانطور که ما این مجموعه از نمونه های قرارداد را گسترش می دهیم، امیدواریم که جامعه Starknet را به مجموعه ابزار قوی مجهز کنیم و الهام بخش کاوش و نوآوری بیشتر در حوزه قراردادهای حساب سفارشی باشیم.

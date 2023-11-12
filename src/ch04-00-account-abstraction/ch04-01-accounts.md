@@ -1,10 +1,10 @@
-# Account Contracts
+# قراردادهای حساب
 
-With a clearer understanding of the AA concept, let's proceed to code it in Starknet.
+با درک واضح تری از مفهوم AA، اجازه دهید به کدنویسی آن در Starknet ادامه دهیم.
 
-## Account Contract Interface
+### رابط قرارداد حساب
 
-Account contracts, being a type of smart contracts, are distinguished by specific methods. A smart contract becomes an account contract when it follows the public interface outlined in SNIP-6 ([Starknet Improvement Proposal-6: Standard Account Interface](https://github.com/ericnordelo/SNIPs/blob/feat/standard-account/SNIPS/snip-6.md)). This standard draws inspiration from SRC-6 and SRC-5, similar to Ethereum's ERCs, which establish application conventions and contract standards.
+قراردادهای حساب، که نوعی قرارداد هوشمند هستند، با روش های خاصی متمایز می شوند. یک قرارداد هوشمند زمانی به یک قرارداد حساب تبدیل می شود که از رابط عمومی که در SNIP-6 (پیشنهاد بهبود Starknet-6: رابط استاندارد حساب) مشخص شده است، پیروی کند. این استاندارد از SRC-6 و SRC-5 الهام گرفته است، مشابه ERCهای اتریوم، که قراردادهای کاربردی و استانداردهای قرارداد را ایجاد می کنند.
 
 ```rust
 /// @title Represents a call to a target contract
@@ -46,18 +46,15 @@ trait ISRC5 {
 
 ```
 
-From the proposal, an account contract should have the `__execute__`, `__validate__`, and `is_valid_signature` methods from the `ISRC6` trait.
+از پیشنهاد، یک قرارداد حساب باید دارای روش های **execute**، **validate**، و is\_valid\_signature از ویژگی ISRC6 باشد.
 
-The provided functions serve these purposes:
+توابع ارائه شده در خدمت این اهداف هستند:
 
-- `__validate__`: Validates a list of calls intended for execution based on the contract's rules. Instead of a boolean, it returns a short string like 'VALID' within a `felt252` to convey validation results. In Cairo, this short string is the ASCII representation of a single felt. If verification fails, any felt other than 'VALID' can be returned. Often, `0` is chosen.
-- `is_valid_signature`: Confirms the authenticity of a transaction's signature. It takes a transaction data hash and a signature, and compares it against a public key or another method chosen by the contract's author. The result is a short 'VALID' string within a `felt252`.
-- `__execute__`: After validation, `__execute__` carries out a series of contract calls (as `Call` structs). It gives back an array of `Span<felt252>` structs, showing the return values of those calls.
+* **validate**: فهرستی از تماس های در نظر گرفته شده برای اجرا را بر اساس قوانین قرارداد تایید می کند. به جای یک بولی، یک رشته کوتاه مانند "VALID" را در یک felt252 برمی گرداند تا نتایج اعتبار سنجی را منتقل کند. در قاهره، این رشته کوتاه نشان دهنده ASCII یک نمد است. اگر تأیید ناموفق باشد، هر نمدی غیر از «VALID» را می توان برگرداند. اغلب، 0 انتخاب می شود.
+* is\_valid\_signature: صحت امضای تراکنش را تایید می کند. یک هش داده تراکنش و یک امضا می گیرد و آن را با یک کلید عمومی یا روش دیگری انتخاب شده توسط نویسنده قرارداد مقایسه می کند. نتیجه یک رشته کوتاه 'VALID' در یک فلم252 است.
+* **execute**: پس از تایید اعتبار، **execute** یک سری فراخوانی قرارداد (همانطور که Call struct) انجام می دهد. آرایه ای از ساختارهای Span را برمی گرداند و مقادیر بازگشتی آن فراخوان ها را نشان می دهد.
 
-Moreover, the `SNIP-5` (Standard Interface Detection) trait needs to be
-defined with a function called `supports_interface`. This function
-verifies whether a contract supports a specific interface, receiving an
-interface ID and returning a boolean.
+علاوه بر این، ویژگی SNIP-5 (تشخیص رابط استاندارد) باید با تابعی به نام supports\_interface تعریف شود. این تابع بررسی می کند که آیا یک قرارداد از یک رابط خاص پشتیبانی می کند، یک شناسه رابط دریافت می کند و یک بولی را برمی گرداند.
 
 ```rust
     trait ISRC5 {
@@ -65,9 +62,9 @@ interface ID and returning a boolean.
     }
 ```
 
-In essence, when a user dispatches an `invoke` transaction, the protocol initiates by invoking the `__validate__` method. This verifies the associated signer's authenticity. For security reasons, particularly to safeguard the Sequencer from Denial of Service (DoS) attacks [1], there are constraints on the operations within the `__validate__` method. If the signature is verified, the method yields a `'VALID'` `felt252` value. If not, it returns 0.
+در اصل، زمانی که کاربر یک تراکنش فراخوانی را ارسال می کند، پروتکل با فراخوانی متد **validate** آغاز می شود. این اصالت امضاکننده مرتبط را تأیید می کند. به دلایل امنیتی، به ویژه برای محافظت از Sequencer در برابر حملات Denial of Service (DoS) \[1]، محدودیت هایی بر روی عملیات در روش **validate** وجود دارد. اگر امضا تأیید شود، روش مقدار Feel252 'VALID' را به دست می دهد. اگر نه، 0 را برمی گرداند.
 
-After the protocol verifies the signer, it proceeds to invoke the `__execute__` function, passing an array of all desired operations—referred to as "calls"—as an argument. Each of these calls specifies a target smart contract address (`to`), the method to be executed (`selector`), and the arguments this method requires (`calldata`).
+پس از اینکه پروتکل امضاکننده را تأیید کرد، تابع **execute** را فراخوانی می‌کند و آرایه‌ای از تمام عملیات‌های مورد نظر را که به آن «تماس‌ها» گفته می‌شود، به عنوان آرگومان ارسال می‌کند. هر یک از این فراخوانی ها یک آدرس قرارداد هوشمند هدف (to)، روشی که باید اجرا شود (انتخاب کننده)، و آرگومان های مورد نیاز این روش (calldata) را مشخص می کند.
 
 ```rust
 struct Call {
@@ -87,11 +84,11 @@ trait ISRC6 {
 }
 ```
 
-Executing a `Call` may yield a return value from the target smart contract. Whether it's a felt252, boolean, or a more intricate data structure like a struct or array, Starknet protocol serializes the return using `Span<felt252>`. Since `Span` captures a segment of an Array [2], the `__execute__` function outputs an array of `Span<felt252>` elements. This array signifies the serialized feedback from every operation in the multicall.
+اجرای یک تماس ممکن است مقدار بازگشتی را از قرارداد هوشمند هدف به دست آورد. پروتکل Starknet خواه یک Feel252، Boolean یا یک ساختار داده پیچیده‌تر مانند ساختار یا آرایه باشد، با استفاده از Span بازگشت را سریال می‌کند. از آنجایی که Span قطعه ای از آرایه \[2] را می گیرد، تابع **execute** آرایه ای از عناصر Span را خروجی می دهد. این آرایه نشان دهنده بازخورد سریالی از هر عملیات در چند تماس است.
 
-The `is_valid_signature` method isn't mandated or employed by the Starknet protocol. Instead, it's a convention within the Starknet developer community. Its purpose is to facilitate user authentication in web3 applications. For instance, consider a user attempting to log into an NFT marketplace using their digital wallet. The web application prompts the user to sign a message, then it uses the `is_valid_signature` function to confirm the authenticity of the associated wallet address.
+روش is\_valid\_signature توسط پروتکل Starknet اجباری یا استفاده نشده است. در عوض، این یک کنوانسیون در جامعه توسعه دهندگان Starknet است. هدف آن تسهیل احراز هویت کاربر در برنامه های web3 است. به عنوان مثال، کاربری را در نظر بگیرید که سعی دارد با استفاده از کیف پول دیجیتال خود وارد بازار NFT شود. برنامه وب از کاربر می خواهد پیامی را امضا کند، سپس از تابع is\_valid\_signature برای تأیید صحت آدرس کیف پول مرتبط استفاده می کند.
 
-To ensure other smart contracts recognize the compliance of an account contract with the SNIP-6 public interface, developers should incorporate the `supports_interface` method from the `ISRC5` introspection trait. This method requires the Interface ID of SNIP-6 as its argument.
+برای اطمینان از اینکه سایر قراردادهای هوشمند انطباق یک قرارداد حساب با رابط عمومی SNIP-6 را تشخیص می دهند، توسعه دهندگان باید روش supports\_interface را از ویژگی درون نگری ISRC5 بگنجانند. این روش به شناسه رابط SNIP-6 به عنوان آرگومان نیاز دارد.
 
 ```rust
 struct Call {
@@ -109,9 +106,9 @@ trait ISRC5 {
 }
 ```
 
-The `interface_id` corresponds to the aggregated hash of the trait's selectors, as detailed in Ethereum's ERC165 [3]. Developers can either compute the ID using the `src5-rs` utility [4] or rely on the pre-calculated ID: `1270010605630597976495846281167968799381097569185364931397797212080166453709`.
+Interface\_id مطابق با هش انبوه انتخابگرهای صفت است، همانطور که در ERC165 اتریوم \[3] توضیح داده شده است. توسعه دهندگان می توانند شناسه را با استفاده از ابزار src5-rs \[4] محاسبه کنند یا به شناسه از پیش محاسبه شده تکیه کنند:`1270010605630597976495846281167968799381097569185364931397797212080166453709`.
 
-The fundamental structure for the account contract, aligning with the SNIP-G Interface standard, looks like this:
+ساختار اساسی برای قرارداد حساب، که با استاندارد رابط SNIP-G همسو می شود، به این صورت است:
 
 ```rust
 struct Call {
@@ -131,21 +128,21 @@ trait ISRC5 {
 }
 ```
 
-## Expanding the Interface
+### گسترش رابط
 
-While the components mentioned earlier lay the foundation for an account contract in alignment with the SNIP-6 standard, developers can introduce more features to enhance the contract's capabilities.
+در حالی که مؤلفه‌هایی که قبلاً ذکر شد، پایه و اساس یک قرارداد حساب در راستای استاندارد SNIP-6 را ایجاد می‌کنند، توسعه‌دهندگان می‌توانند ویژگی‌های بیشتری را برای افزایش قابلیت‌های قرارداد معرفی کنند.
 
-For example, integrate the `__validate_declare__` function if the contract declares other contracts and handles the corresponding gas fees. This offers a way to authenticate the contract declaration. For those keen on counterfactual smart contract deployment, the `__validate_deploy__` function can be included.
+به عنوان مثال، اگر قرارداد سایر قراردادها را اعلام می کند و هزینه های گاز مربوطه را مدیریت می کند، تابع **validate\_declare** را ادغام کنید. این روشی برای تأیید اعتبار اظهارنامه قرارداد ارائه می دهد. برای کسانی که مشتاق استقرار قرارداد هوشمند خلاف واقع هستند، تابع **validate\_deploy** را می توان گنجاند.
 
-Counterfactual deployment lets developers set up an account contract without depending on another account contract for gas fees. This method is valuable when there's no desire to link a new account contract with its deploying address, ensuring a fresh start.
+استقرار خلاف واقع به توسعه دهندگان این امکان را می دهد تا یک قرارداد حساب بدون وابستگی به قرارداد حساب دیگری برای هزینه گاز تنظیم کنند. این روش زمانی ارزشمند است که تمایلی به پیوند قرارداد حساب جدید با آدرس استقرار آن وجود نداشته باشد و شروعی تازه را تضمین کند.
 
-This approach involves:
+این رویکرد شامل:
 
-1. Locally determining the potential address of our account contract without actual deployment, feasible with the Starkli [5] tool.
-2. Transferring sufficient ETH to the predicted address to cover the deployment costs.
-3. Sending a `deploy_account` transaction to Starknet containing our contract's compiled code. The sequencer then activates the account contract at the estimated address, compensating its gas fees from the transferred ETH. No `declare` action is needed beforehand.
+1. تعیین آدرس بالقوه قرارداد حساب ما بدون استقرار واقعی، با ابزار Starkli \[5] امکان پذیر است.
+2. انتقال ETH کافی به آدرس پیش بینی شده برای پوشش هزینه های استقرار.
+3. ارسال یک تراکنش deploy\_account به Starknet حاوی کد کامپایل شده قرارداد ما. سپس ترتیب‌دهنده قرارداد حساب را در آدرس تخمینی فعال می‌کند و هزینه‌های گاز خود را از ETH منتقل شده جبران می‌کند. هیچ اقدام اعلامی از قبل لازم نیست.
 
-For better compatibility with tools like Starkli later on, expose the signer's `public_key` through a view function in the public interface. Below is the augmented account contract interface:
+برای سازگاری بهتر با ابزارهایی مانند Starkli بعداً، کلید عمومی امضاکننده را از طریق یک تابع view در رابط عمومی در معرض دید قرار دهید. در زیر رابط قرارداد حساب افزوده شده است:
 
 ```rust
 /// @title IAccountAddon - Extended account contract interface
@@ -168,7 +165,7 @@ trait IAccountAddon {
 }
 ```
 
-In conclusion, a comprehensive account contract incorporates the **SNIP-5**, **SNIP-6**, and the Addon interfaces.
+در نتیجه، یک قرارداد حساب جامع شامل رابط های SNIP-5، SNIP-6 و Addon است.
 
 ```rust
 // Cheat sheet
@@ -197,20 +194,16 @@ trait IAccountAddon {
 
 ```
 
-## Recap
+#### خلاصه
 
-We've broken down the distinctions between account contracts and basic smart contracts, particularly focusing on the methods laid out in SNIP-6.
+ما تمایزات بین قراردادهای حساب و قراردادهای هوشمند اولیه را تجزیه کرده ایم، به ویژه با تمرکز بر روش های ارائه شده در SNIP-6.
 
-- Introduced the `ISRC6` trait, spotlighting essential functions:
+* ویژگی ISRC6 را معرفی کرد و عملکردهای اساسی را برجسته کرد:
+  * **validate**: تراکنش ها را تایید می کند.
+  * is\_valid\_signature: امضاها را تایید می کند.
+  * **execute**: تماس های قراردادی را اجرا می کند.
+* ویژگی ISRC5 را مورد بحث قرار داد و اهمیت تابع supports\_interface در تأیید پشتیبانی رابط را برجسته کرد.
+* ساختار Call را برای نشان دادن یک فراخوان قرارداد منفرد توضیح داد و اجزای آن را توضیح داد: به، انتخابگر، و calldata.
+* ویژگی‌های پیشرفته قراردادهای حساب، مانند توابع **validate\_declare** و **validate\_deploy** را لمس کرد.
 
-  - `__validate__`: Validates transactions.
-  - `is_valid_signature`: Verifies signatures.
-  - `__execute__`: Executes contract calls.
-
-- Discussed the `ISRC5` trait and highlighted the importance of the `supports_interface` function in confirming interface support.
-
-- Detailed the `Call` struct to represent a single contract call, explaining its components: `to`, `selector`, and `calldata`.
-
-- Touched on advanced features for account contracts, such as the `__validate_declare__` and `__validate_deploy__` functions.
-
-Coming up, we'll craft a basic account contract and deploy it on Starknet, offering hands-on insight into their functionality and interactions.
+در آینده، ما یک قرارداد حساب پایه ایجاد می کنیم و آن را در Starknet مستقر می کنیم و بینش عملی در مورد عملکرد و تعاملات آنها ارائه می دهیم.

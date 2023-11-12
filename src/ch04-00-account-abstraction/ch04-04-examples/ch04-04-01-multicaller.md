@@ -1,27 +1,27 @@
-# MultiCaller Account
+# حساب MultiCaller
 
-**NOTE:** **THIS CHAPTER NEEDS TO BE UPDATED TO REFLECT THE NEW SYNTAX FOR ACCOUNT CONTRACTS. PLEASE DO NOT USE THIS CHAPTER AS A REFERENCE UNTIL THIS NOTE IS REMOVED.**
+توجه: این فصل برای انعکاس نحو جدید برای قراردادهای حساب باید به روز شود. لطفاً تا زمانی که این یادداشت حذف نشده است، از این فصل به عنوان مرجع استفاده نکنید.
 
-**CONTRIBUTE: This subchapter is missing an example of declaration, deployment and interaction with the contract. We would love to see your contribution! Please submit a PR.**
+مشارکت: این فصل فرعی نمونه ای از اعلام، استقرار و تعامل با قرارداد را ندارد. ما دوست داریم مشارکت شما را ببینیم! لطفا یک PR ارسال کنید.
 
-[Multicall](https://github.com/joshstevens19/ethereum-multicall#readme) is a powerful technique that allows multiple constant smart contract function calls to be aggregated into a single call, resulting in a consolidated output. With Starknet’s account abstraction feature, multicalls can be seamlessly integrated into account contracts.
+Multicall یک تکنیک قدرتمند است که به چندین تماس تابع قرارداد هوشمند اجازه می دهد تا در یک تماس واحد جمع شوند و در نتیجه خروجی تلفیقی ایجاد شود. با ویژگی انتزاع حساب Starknet، تماس های چندگانه را می توان به طور یکپارچه در قراردادهای حساب ادغام کرد.
 
-## Why Multicalls?
+### چرا چند تماس؟
 
-Multicalls come handy in several scenarios. Here are some examples:
+چند تماس در چندین سناریو مفید است. در اینجا چند نمونه آورده شده است:
 
-1. **Token Swapping on Decentralized Exchanges**: In a typical token swap operation on a decentralized exchange (DEX), you first need to approve the spending of the tokens and then initiate the swap. Executing these operations separately could be cumbersome from a user experience perspective. With multicall, these calls can be combined into a single transaction, simplifying the user’s task.
-2. **Fetching Blockchain Data**: When you want to query the prices of two different tokens from the blockchain, it’s beneficial to have them both come from the same block for consistency. Multicall returns the latest block number along with the aggregated results, providing this consistency.
+1. تعویض توکن در صرافی های غیرمتمرکز: در یک عملیات تعویض توکن معمولی در یک صرافی غیرمتمرکز (DEX)، ابتدا باید هزینه توکن ها را تأیید کنید و سپس مبادله را آغاز کنید. اجرای جداگانه این عملیات از دیدگاه تجربه کاربر می تواند دشوار باشد. با چند تماس، این تماس‌ها را می‌توان در یک تراکنش ترکیب کرد و کار کاربر را ساده‌تر کرد.
+2. واکشی داده‌های بلاک چین: زمانی که می‌خواهید قیمت دو توکن مختلف را از بلاک چین جویا شوید، مفید است که هر دو از یک بلوک برای یکپارچگی تهیه شوند. Multicall آخرین شماره بلوک را به همراه نتایج جمع آوری شده برمی گرداند و این سازگاری را فراهم می کند.
 
-The benefits of multicall transactions can be realized more in the context of account abstraction.
+مزایای تراکنش های چند تماسی را می توان در زمینه انتزاع حساب بیشتر متوجه شد.
 
-## Multicall Functionality in Account Contracts
+### قابلیت چند تماس در قراردادهای حساب
 
-To facilitate multicalls, we can introduce specific functions in the account contract. Here are two core functions:
+برای تسهیل تماس‌های چندگانه، می‌توانیم عملکردهای خاصی را در قرارداد حساب معرفی کنیم. در اینجا دو عملکرد اصلی وجود دارد:
 
-### `_execute_calls` Function
+### تابع \_execute\_calls
 
-The `_execute_calls` function is responsible for executing the multicalls. It iterates over an array of calls, executes them, and aggregates the results.
+تابع \_execute\_calls مسئول اجرای چند تماس است. روی آرایه ای از فراخوانی ها تکرار می شود، آنها را اجرا می کند و نتایج را جمع می کند.
 
 ```rust
     fn _execute_calls(mut calls: Array<AccountCall>, mut res:Array::<Array::<felt>>) -> Array::<Array::<felt>> {
@@ -38,13 +38,13 @@ The `_execute_calls` function is responsible for executing the multicalls. It it
     }
 ```
 
-Apart from the traditional **`execute`** function, adding the **`_execute_calls`** function to your account contract can ensure that you can make a multicall using your smart contract account.
+جدا از عملکرد سنتی execute، افزودن تابع \_execute\_calls به قرارداد حساب شما می تواند اطمینان حاصل کند که می توانید با استفاده از حساب قرارداد هوشمند خود یک تماس چندگانه برقرار کنید.
 
-The above code is a simple example snippet where the **"return **_**execute\_calls(calls, res);"**_** statement makes recursive calls to the `_execute_calls` function thereby bundling the calls together. The final result will be aggregated and returned in the \***res\*\*\* variable.
+کد بالا یک نمونه ساده است که در آن "return execute\_calls(calls, res);" دستور فراخوانی بازگشتی با تابع \_execute\_calls برقرار می کند و در نتیجه تماس ها را با هم جمع می کند. نتیجه نهایی در متغیر _res_\*\* جمع شده و برگردانده می شود.
 
-### `_call_contract` Function
+### تابع \_call\_contract
 
-The `_call_contract` function is a helper function used to make individual contract calls.
+تابع \_call\_contract یک تابع کمکی است که برای برقراری تماس های قراردادی فردی استفاده می شود.
 
 ```rust
     fn _call_contract(call: AccountCall) -> Array::<felt> {
@@ -54,11 +54,11 @@ The `_call_contract` function is a helper function used to make individual contr
     }
 ```
 
-## Considerations
+### ملاحظات
 
-While multicall provides significant benefits in terms of UX and data consistency, it’s important to note that it may not significantly reduce gas fees compared to individual calls. However, the primary advantage of using multicall is that it ensures results are derived from the same block, providing a much-improved user experience.
+در حالی که Multicall مزایای قابل توجهی از نظر UX و سازگاری داده دارد، مهم است که توجه داشته باشید که ممکن است به طور قابل توجهی هزینه های گاز را در مقایسه با تماس های فردی کاهش ندهد. با این حال، مزیت اصلی استفاده از چند تماس این است که تضمین می‌کند نتایج از یک بلوک مشتق شده‌اند و تجربه کاربری بسیار بهبود یافته‌ای را ارائه می‌دهند.
 
-The Book is a community-driven effort created for the community.
+کتاب یک تلاش جامعه محور است که برای جامعه ایجاد شده است.
 
-* If you’ve learned something, or not, please take a moment to provide feedback through [this 3-question survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
-* If you discover any errors or have additional suggestions, don’t hesitate to open an [issue on our GitHub repository](https://github.com/starknet-edu/starknetbook/issues).
+* اگر چیزی یاد گرفته‌اید یا نه، لطفاً چند لحظه وقت بگذارید و از طریق این نظرسنجی 3 سؤالی بازخورد خود را ارائه دهید.
+* در صورت کشف هرگونه خطا یا پیشنهادات اضافی، در باز کردن مشکل در مخزن GitHub ما تردید نکنید.

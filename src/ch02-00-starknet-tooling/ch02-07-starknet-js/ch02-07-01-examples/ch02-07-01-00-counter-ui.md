@@ -1,18 +1,18 @@
-# Counter Smart Contract UI Integration
+# یکپارچه سازی رابط کاربری قرارداد هوشمند ضد
 
-This guide walks readers through integrating a simple counter smart contract with a frontend. By the end of this guide, readers will understand how to:
+این راهنما خوانندگان را از طریق یکپارچه سازی یک قرارداد هوشمند پیشخوان ساده با یک فرانت اند راهنمایی می کند. در پایان این راهنما، خوانندگان متوجه خواهند شد که چگونه:
 
-- Connect the frontend to a smart contract.
-- Initiate transactions, such as incrementing or decrementing the counter.
-- Read and display data, such as showing the counter value on the frontend.
+* قسمت جلویی را به یک قرارداد هوشمند وصل کنید.
+* تراکنش هایی مانند افزایش یا کاهش شمارنده را آغاز کنید.
+* خواندن و نمایش داده ها، مانند نشان دادن مقدار شمارنده در قسمت جلو.
 
-For a visual walkthrough, do check out the [Basecamp frontend session](https://drive.google.com/file/d/1Dtb3Ol_BVoNV4w-_MKV8aeyyRra8nRtz/view). This comprehensive session delves deeper into the nuances of the concepts we've touched upon, presenting a mix of theoretical explanations and hands-on demonstrations.
+برای یک راهنما بصری، جلسه Frontend Basecamp را بررسی کنید. این جلسه جامع با ارائه ترکیبی از توضیحات نظری و تظاهرات عملی، عمیق‌تر به تفاوت‌های ظریف مفاهیمی که به آنها اشاره کرده‌ایم می‌پردازد.
 
-## Tools Used
+### ابزارهای مورد استفاده
 
-- [Reactjs](https://react.dev/learn/start-a-new-react-project): A frontend building framework.
-- [@argent/get-starknet](https://www.npmjs.com/package/@argent/get-starknet): A wrapper for **[starknet.js](https://github.com/0xs34n/starknet.js)**, aiding interaction with wallet extensions.
-- [starknet](https://www.npmjs.com/package/starknet): A JavaScript library for Starknet.
+* [Reactjs](https://react.dev/learn/start-a-new-react-project): A frontend building framework.
+* [@argent/get-starknet](https://www.npmjs.com/package/@argent/get-starknet): A wrapper for [**starknet.js**](https://github.com/0xs34n/starknet.js), aiding interaction with wallet extensions.
+* [starknet](https://www.npmjs.com/package/starknet): A JavaScript library for Starknet.
 
 ## Setting Up the Environment
 
@@ -71,8 +71,8 @@ const connectWallet = async() => {
 }
 ```
 
-- Initiates the connection using the **`connect`** method from the **`@argent/get-starknet`** library, targeting Starknet.
-- Upon a successful connection, updates the React component's state with details of the **`connection`**, **`account`**, and **`selectedAddress`**.
+* Initiates the connection using the **`connect`** method from the **`@argent/get-starknet`** library, targeting Starknet.
+* Upon a successful connection, updates the React component's state with details of the **`connection`**, **`account`**, and **`selectedAddress`**.
 
 ### `disconnectWallet`
 
@@ -87,11 +87,11 @@ const disconnectWallet = async() => {
 }
 ```
 
-- It utilizes the **`disconnect`** function, possibly from an external library, and handles the operation asynchronously with **`await`**.
-- Post-disconnection, the state of the React component is updated:
-  - **`setConnection`** is set to **`undefined`**.
-  - **`setAccount`** is set to **`undefined`**.
-  - **`setAddress`** is cleared with an empty string.
+* It utilizes the **`disconnect`** function, possibly from an external library, and handles the operation asynchronously with **`await`**.
+* Post-disconnection, the state of the React component is updated:
+  * **`setConnection`** is set to **`undefined`**.
+  * **`setAccount`** is set to **`undefined`**.
+  * **`setAddress`** is cleared with an empty string.
 
 ### `EagerlyConnect`
 
@@ -115,9 +115,9 @@ useEffect(() => {
 }, []);
 ```
 
-- Inside the **`useEffect`**, the **`connectToStarknet`** function is defined, aiming to establish an asynchronous connection using the **`connect`** function. Parameters like **`modalMode`** and **`webWalletUrl`** are passed to guide the connection process.
-- If successful in connecting (**`connection && connection.isConnected`**), the state updates with details of the connection, the account, and the selected address using **`setConnection`**, **`setAccount`**, and **`setAddress`**.
-- The **`connectToStarknet`** function is executed immediately after its definition.
+* Inside the **`useEffect`**, the **`connectToStarknet`** function is defined, aiming to establish an asynchronous connection using the **`connect`** function. Parameters like **`modalMode`** and **`webWalletUrl`** are passed to guide the connection process.
+* If successful in connecting (**`connection && connection.isConnected`**), the state updates with details of the connection, the account, and the selected address using **`setConnection`**, **`setAccount`**, and **`setAddress`**.
+* The **`connectToStarknet`** function is executed immediately after its definition.
 
 ## Important Refresher on Smart Contract Interactions
 
@@ -127,18 +127,18 @@ For effective interaction with a smart contract on the network, it's crucial to 
 
 ABI is a standardized bridge between two binary program modules. It is essential for:
 
-- Interacting with smart contracts on the blockchain.
-- Specifying the structure of functions, events, and variables for software applications.
-- Enabling smooth communication with the smart contract, detailing function signatures, input/output types, event formats, and variable types.
-- Facilitating invocation of functions and data retrieval from the contract.
+* Interacting with smart contracts on the blockchain.
+* Specifying the structure of functions, events, and variables for software applications.
+* Enabling smooth communication with the smart contract, detailing function signatures, input/output types, event formats, and variable types.
+* Facilitating invocation of functions and data retrieval from the contract.
 
 ### Signer
 
 The Signer plays a pivotal role in:
 
-- Signing transactions.
-- Authorizing actions on the blockchain.
-- Bearing the fees associated with blockchain operations.
+* Signing transactions.
+* Authorizing actions on the blockchain.
+* Bearing the fees associated with blockchain operations.
 
 Signers are especially linked to write operations that change the state of the blockchain. These operations need cryptographic signing for security and validity.
 
@@ -146,9 +146,9 @@ Signers are especially linked to write operations that change the state of the b
 
 The Provider acts as the medium for:
 
-- Communication with the blockchain.
-- Creating transactions.
-- Fetching data from the blockchain.
+* Communication with the blockchain.
+* Creating transactions.
+* Fetching data from the blockchain.
 
 To initiate a write transaction, the connected account (signer) must be provided. This signer then signs the transaction, bearing the necessary fee for execution.
 
@@ -230,8 +230,8 @@ Here's a quick recap:
 1. **Establishing Connection**: With the **`connectWallet`** function, we made seamless connections to the blockchain, paving the way for interactions with our smart contract.
 2. **Terminating Connection**: The **`disconnectWallet`** function ensures that users can safely terminate their active connections to the blockchain, maintaining security and control.
 3. **Interacting with the Smart Contract**: Using the **`increaseCounter`**, **`decreaseCounter`**, and **`getCounter`** functions, we explored how to:
-   - Initiate transactions
-   - Adjust the counter value (increment or decrement)
-   - Fetch data from the blockchain
+   * Initiate transactions
+   * Adjust the counter value (increment or decrement)
+   * Fetch data from the blockchain
 
-For a visual walkthrough, do check out the [Basecamp frontend session](https://drive.google.com/file/d/1Dtb3Ol_BVoNV4w-_MKV8aeyyRra8nRtz/view). This comprehensive session delves deeper into the nuances of the concepts we've touched upon, presenting a mix of theoretical explanations and hands-on demonstrations.
+For a visual walkthrough, do check out the [Basecamp frontend session](https://drive.google.com/file/d/1Dtb3Ol\_BVoNV4w-\_MKV8aeyyRra8nRtz/view). This comprehensive session delves deeper into the nuances of the concepts we've touched upon, presenting a mix of theoretical explanations and hands-on demonstrations.

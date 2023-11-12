@@ -1,52 +1,31 @@
-# Multi-Signature Accounts
+# حساب های چند امضایی
 
-**NOTE:**
-**THIS CHAPTER NEEDS TO BE UPDATED TO REFLECT THE NEW SYNTAX FOR ACCOUNT CONTRACTS. PLEASE DO NOT USE THIS CHAPTER AS A REFERENCE UNTIL THIS NOTE IS REMOVED.**
+توجه: این فصل برای انعکاس نحو جدید برای قراردادهای حساب باید به روز شود. لطفاً تا زمانی که این یادداشت حذف نشده است، از این فصل به عنوان مرجع استفاده نکنید.
 
-**CONTRIBUTE: This subchapter is missing an example of declaration, deployment and interaction with the contract. We would love to see your contribution! Please submit a PR.**
+مشارکت: این فصل فرعی نمونه ای از اعلام، استقرار و تعامل با قرارداد را ندارد. ما دوست داریم مشارکت شما را ببینیم! لطفا یک PR ارسال کنید.
 
-Multisignature (multisig) technology is an integral part of the modern
-blockchain landscape. It enhances security by requiring multiple
-signatures to confirm a transaction, hence reducing the risk of
-fraudulent transactions and increasing control over asset management.
+فناوری Multisignature (multisig) بخشی جدایی ناپذیر از چشم انداز بلاک چین مدرن است. این امر امنیت را با نیاز به چندین امضا برای تأیید یک تراکنش افزایش می‌دهد و از این رو خطر معاملات متقلبانه را کاهش می‌دهد و کنترل بر مدیریت دارایی را افزایش می‌دهد.
 
-In Starknet, the concept of multisig accounts is abstracted at the
-protocol level, allowing developers to implement custom account
-contracts that embody this concept. In this chapter, we’ll delve into
-the workings of a multisig account and see how it’s created in Starknet
-using an account contract.
+در استارک‌نت، مفهوم حساب‌های چند علامتی در سطح پروتکل انتزاع می‌شود و به توسعه‌دهندگان اجازه می‌دهد تا قراردادهای حساب سفارشی که این مفهوم را تجسم می‌دهند، پیاده‌سازی کنند. در این فصل، به کارکرد یک حساب multisig می پردازیم و می بینیم که چگونه در Starknet با استفاده از قرارداد حساب ایجاد می شود.
 
-## What is a Multisig Account?
+### حساب Multisig چیست؟
 
-A multisig account is an account that requires more than one signature
-to authorize transactions. This significantly enhances security,
-requiring multiple entities' consent to transact funds or perform
-critical actions.
+حساب مولتی سایگ حسابی است که برای تأیید تراکنش ها به بیش از یک امضا نیاز دارد. این امر به طور قابل توجهی امنیت را افزایش می دهد و به رضایت چندین نهاد برای انجام معاملات وجوه یا انجام اقدامات مهم نیاز دارد.
 
-Key specifications of a multisig account include:
+مشخصات کلیدی یک حساب مولتی سیگ عبارتند از:
 
-- Public keys that form the account
+* کلیدهای عمومی که حساب را تشکیل می دهند
+* تعداد آستانه امضا لازم است
 
-- Threshold number of signatures required
+تراکنش امضا شده توسط یک حساب multisig باید به صورت جداگانه توسط کلیدهای مختلف مشخص شده برای حساب امضا شود. اگر تعداد امضاهای مورد نیاز کمتر از حد آستانه وجود داشته باشد، چند امضای حاصل نامعتبر تلقی می شود.
 
-A transaction signed by a multisig account must be individually signed
-by the different keys specified for the account. If fewer than the
-threshold number of signatures needed are present, the resultant
-multisignature is considered invalid.
+در استارک نت، حساب ها انتزاعی هایی هستند که در سطح پروتکل ارائه می شوند. بنابراین، برای ایجاد یک حساب multisig، باید منطق را در یک قرارداد حساب رمزگذاری کرده و آن را مستقر کنید.
 
-In Starknet, accounts are abstractions provided at the protocol level.
-Therefore, to create a multisig account, one needs to code the logic
-into an account contract and deploy it.
+قرارداد زیر به عنوان نمونه ای از قرارداد حساب مولتی سیگ عمل می کند. هنگامی که مستقر می شود، می تواند یک حساب multisig بومی با استفاده از مفهوم انتزاع حساب ایجاد کند. لطفاً توجه داشته باشید که این یک مثال ساده شده است و فاقد بررسی‌ها و اعتبارسنجی‌های جامعی است که در یک قرارداد چندثانی درجه تولید وجود دارد.
 
-The contract below serves as an example of a multisig account contract.
-When deployed, it can create a native multisig account using the concept
-of account abstraction. Please note that this is a simplified example
-and lacks comprehensive checks and validations found in a
-production-grade multisig contract.
+### قرارداد حساب Multisig
 
-## Multisig Account Contract
-
-This is the Rust code for a multisig account contract:
+این کد Rust برای یک قرارداد حساب multisig است:
 
 ```rust
     #[account_contract]
@@ -245,34 +224,22 @@ This is the Rust code for a multisig account contract:
     }
 ```
 
-## Multisig Transaction Flow
+### جریان تراکنش چند رقمی
 
-The flow of a multisig transaction includes the following steps:
+جریان یک تراکنش چند رقمی شامل مراحل زیر است:
 
-1.  Submitting a transaction: Any of the owners can submit a transaction
-    from the account.
+1. ارسال تراکنش: هر یک از مالکان می توانند تراکنش را از حساب ارسال کنند.
+2. تایید تراکنش: مالکی که تراکنش ارسال نکرده است می تواند تراکنش را تایید کند.
 
-2.  Confirming the transaction: The owner who hasn’t submitted a
-    transaction can confirm the transaction.
+اگر تعداد تاییدات (از جمله امضای ارسال کننده) بیشتر یا مساوی با تعداد آستانه امضاها باشد، تراکنش با موفقیت انجام می شود، در غیر این صورت شکست می خورد. این مکانیسم تأیید تضمین می‌کند که هیچ یک از طرفین نمی‌توانند به‌طور یک‌جانبه اقدامات حیاتی را انجام دهند، در نتیجه امنیت حساب را افزایش می‌دهند.
 
-The transaction will be successfully executed if the number of
-confirmations (including the submitter’s signature) is greater than or
-equal to the threshold number of signatures, else it fails. This
-mechanism of confirmation ensures that no single party can unilaterally
-perform critical actions, thereby enhancing the security of the account.
+### کاوش توابع Multisig
 
-## Exploring Multisig Functions
+بیایید نگاهی دقیق تر به توابع مختلف مرتبط با عملکرد چند علامتی در قرارداد ارائه شده بیندازیم.
 
-Let’s take a closer look at the various functions associated with
-multisig functionality in the provided contract.
+### تابع \_set\_owners
 
-### `_set_owners` Function
-
-This is an internal function designed to add the public keys of the
-account owners to a permanent storage. Ideally, a multisig account
-structure should permit adding and deleting owners as per the agreement
-of the account owners. However, each change should be a transaction
-requiring the threshold number of signatures.
+این یک عملکرد داخلی است که برای افزودن کلیدهای عمومی صاحبان حساب به یک حافظه دائمی طراحی شده است. در حالت ایده‌آل، ساختار حساب multisig باید طبق توافق صاحبان حساب اجازه اضافه و حذف مالکان را بدهد. با این حال، هر تغییر باید معامله ای باشد که به تعداد آستانه امضا نیاز دارد.
 
 ```rust
     //INTERNAL FUNCTION
@@ -287,13 +254,9 @@ requiring the threshold number of signatures.
     }
 ```
 
-### `submit_tx` Function
+### تابع submit\_tx
 
-This external function allows the owners of the account to submit
-transactions. Upon submission, the function checks the validity of the
-transaction, ensures the caller is one of the account owners, and adds
-the transaction to the transactions map. It also increments the current
-transaction index.
+این عملکرد خارجی به صاحبان حساب اجازه می دهد تا تراکنش ها را ارسال کنند. پس از ارسال، این تابع اعتبار تراکنش را بررسی می‌کند، مطمئن می‌شود که تماس‌گیرنده یکی از صاحبان حساب است و تراکنش را به نقشه تراکنش‌ها اضافه می‌کند. همچنین شاخص تراکنش فعلی را افزایش می دهد.
 
 ```rust
     #[external]
@@ -325,11 +288,9 @@ transaction index.
     }
 ```
 
-### `confirm_tx` Function
+### تابع confirm\_tx
 
-Similarly, the **_`confirm_tx`_** function provides a way to record
-confirmations for each transaction. An account owner, who did not submit
-the transaction, can confirm it, increasing its confirmation count.
+به طور مشابه، تابع confirm\_tx راهی برای ثبت تاییدیه برای هر تراکنش فراهم می کند. صاحب حسابی که تراکنش را ارسال نکرده است، می‌تواند آن را تأیید کند و تعداد تأیید آن را افزایش دهد.
 
 ```rust
         #[external]
@@ -365,12 +326,9 @@ the transaction, can confirm it, increasing its confirmation count.
         }
 ```
 
-### _`execute`_ Function
+### اجرای تابع
 
-The _execute_ function serves as the final step in the transaction
-process. It checks the validity of the transaction, whether it has been
-previously executed, and if the threshold number of signatures has been
-reached. The transaction is executed if all the checks pass.
+تابع execute به عنوان آخرین مرحله در فرآیند تراکنش عمل می کند. اعتبار تراکنش را بررسی می کند، اینکه آیا قبلاً انجام شده است یا خیر، و اینکه آیا تعداد آستانه امضاها رسیده است یا خیر. معامله در صورتی انجام می شود که تمام چک ها پاس شوند.
 
 ```rust
     #[external]
@@ -401,20 +359,11 @@ reached. The transaction is executed if all the checks pass.
         }
 ```
 
-## Closing Thoughts
+### افکار بسته
 
-This chapter has introduced you to the concept of multisig accounts in
-Starknet and illustrated how they can be implemented using an account
-contract. However, it’s important to note that this is a simplified
-example, and a production-grade multisig contract should contain
-additional checks and validations for robustness and security.
+این فصل شما را با مفهوم حساب‌های چند علامتی در Starknet آشنا کرده و نحوه پیاده‌سازی آن‌ها را با استفاده از قرارداد حساب نشان می‌دهد. با این حال، مهم است که توجه داشته باشید که این یک مثال ساده شده است، و یک قرارداد چند علامتی درجه تولید باید شامل بررسی‌ها و تاییدیه‌های اضافی برای استحکام و امنیت باشد.
 
-The Book is a community-driven effort created for the community.
+کتاب یک تلاش جامعه محور است که برای جامعه ایجاد شده است.
 
-- If you’ve learned something, or not, please take a moment to provide
-  feedback through [this 3-question
-  survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
-
-- If you discover any errors or have additional suggestions, don’t
-  hesitate to open an [issue on our GitHub
-  repository](https://github.com/starknet-edu/starknetbook/issues).
+* اگر چیزی یاد گرفته‌اید یا نه، لطفاً چند لحظه وقت بگذارید و از طریق این نظرسنجی 3 سؤالی بازخورد خود را ارائه دهید.
+* در صورت کشف هرگونه خطا یا پیشنهادات اضافی، در باز کردن مشکل در مخزن GitHub ما تردید نکنید.
