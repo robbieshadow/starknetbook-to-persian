@@ -33,7 +33,7 @@
     * [Provers](src/ch03-00-architecture/ch03-03-provers.md)
     * [Nodes](src/ch03-00-architecture/ch03-04-nodes.md)
     * [Layer 3 (App Chains)](src/ch03-00-architecture/ch03-05-layer-3.md)
-    * [Solidity Verifier](src/ch03-00-architecture/ch03-06-solidity-verifier.md)
+    * [تایید کننده استحکام](src/ch03-00-architecture/ch03-06-solidity-verifier.md)
     * [Decentralization 🚧](src/ch03-00-architecture/ch03-07-decentralization.md)
   * [انتزاع حساب](src/ch04-00-account-abstraction/README.md)
     * [قراردادهای حساب](src/ch04-00-account-abstraction/ch04-01-accounts.md)
