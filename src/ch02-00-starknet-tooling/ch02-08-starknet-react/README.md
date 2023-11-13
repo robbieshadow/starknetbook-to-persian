@@ -1,403 +1,324 @@
 # Starknet-React: React Integration
 
-Several tools exist in the starknet ecosystem to build the front-end for
-your application. The most popular ones are:
+ابزارهای متعددی در اکوسیستم starknet وجود دارد که می‌توانند قسمت جلویی برنامه شما را بسازند. محبوب ترین آنها عبارتند از:
 
-- [starknet-react](https://github.com/apibara/starknet-react)
-  ([documentation](https://apibara.github.io/starknet-react)):
-  Collection of React hooks for Starknet. It is inspired by
-  [wagmi](https://github.com/tmm/wagmi), powered by
-  [starknet.js](https://github.com/0xs34n/starknet.js).
+* starknet-react (مستند): مجموعه ای از قلاب های React برای Starknet. این برنامه از wagmi الهام گرفته شده است که توسط starknet.js طراحی شده است.
+* starknet.js: یک کتابخانه جاوا اسکریپت برای تعامل با قراردادهای Starknet. این معادل web3.js برای اتریوم خواهد بود.
 
-- [starknet.js](https://github.com/0xs34n/starknet.js): A JavaScript
-  library for interacting with Starknet contracts. It would be the
-  equivalent of [web3.js](https://web3js.org/) for Ethereum.
+برای توسعه دهندگان Vue، vue-stark-boil که توسط تیم Don’t Panic DAO ایجاد شده است، گزینه بسیار خوبی است. برای درک عمیق تر از Vue، از وب سایت آنها بازدید کنید. صفحه دیگ بخار vue-stark-boil عملکردهای مختلفی مانند اتصال به کیف پول، گوش دادن به تغییرات حساب و برقراری قرارداد را امکان پذیر می کند.
 
-For Vue developers, vue-stark-boil, created by the team at [Don’t Panic
-DAO](https://github.com/dontpanicdao), is a great option. For a deeper
-understanding of Vue, visit their [website](https://vuejs.org/). The
-vue-stark-boil boilerplate enables various functionalities, such as
-connecting to a wallet, listening for account changes, and calling a
-contract.
+Starknet React که توسط تیم Apibara نوشته شده است مجموعه ای منبع باز از ارائه دهندگان React و قلاب هایی است که به طور دقیق برای Starknet طراحی شده اند.
 
-Authored by the [Apibara](https://github.com/apibara/) team, [Starknet
-React](https://github.com/apibara/starknet-react/) is an open-source
-collection of React providers and hooks meticulously designed for
-Starknet.
+برای غوطه ور شدن در برنامه دنیای واقعی Starknet React، توصیه می کنیم نمونه جامع پروژه dApp را در starknet-demo-dapp بررسی کنید.
 
-To immerse in the real-world application of Starknet React, we recommend
-exploring the comprehensive example dApp project at
-[starknet-demo-dapp](https://github.com/finiam/starknet-demo-dapp/).
+### ادغام Starknet React
 
-## Integrating Starknet React
+شروع سفر Starknet React شما نیاز به ادغام وابستگی های حیاتی دارد. بیایید با اضافه کردن آنها به پروژه خود شروع کنیم.
 
-Embarking on your Starknet React journey necessitates the incorporation
-of vital dependencies. Let’s start by adding them to your project.
+```
+yarn add @starknet-react/core starknet get-starknet
+```
 
-    yarn add @starknet-react/core starknet get-starknet
+Starknet.js یک SDK ضروری است که تعامل با Starknet را تسهیل می کند. در مقابل، get-starknet بسته ای است که در مدیریت اتصالات کیف پول ماهر است.
 
-[Starknet.js](https://www.starknetjs.com/) is an essential SDK
-facilitating interactions with Starknet. In contrast,
-[get-starknet](https://github.com/starknet-io/get-starknet/) is a
-package adept at managing wallet connections.
+با قنداق کردن برنامه خود در مولفه StarknetConfig ادامه دهید. این عمل پوشاننده درجه ای از پیکربندی را ارائه می دهد، در حالی که همزمان یک زمینه React را برای برنامه زیر برای استفاده از داده ها و قلاب های مشترک ارائه می دهد. مؤلفه StarknetConfig یک پایه اتصال دهنده را می پذیرد که امکان تعریف گزینه های اتصال کیف پول را برای کاربر فراهم می کند.
 
-Proceed by swaddling your app within the `StarknetConfig` component.
-This enveloping action offers a degree of configuration, while
-simultaneously providing a React Context for the application beneath to
-utilize shared data and hooks. The `StarknetConfig` component accepts a
-connectors prop, allowing the definition of wallet connection options
-available to the user.
+```
+const connectors = [
+  new InjectedConnector({ options: { id: "braavos" } }),
+  new InjectedConnector({ options: { id: "argentX" } }),
+];
 
-    const connectors = [
-      new InjectedConnector({ options: { id: "braavos" } }),
-      new InjectedConnector({ options: { id: "argentX" } }),
-    ];
+return (
+    <StarknetConfig
+      connectors={connectors}
+      autoConnect
+    >
+      <App />
+    </StarknetConfig>
+)
+```
 
-    return (
-        <StarknetConfig
-          connectors={connectors}
-          autoConnect
+### ایجاد اتصال و مدیریت حساب
+
+هنگامی که کانکتورها در پیکربندی تعریف شدند، مرحله تنظیم می شود تا از یک قلاب برای دسترسی به این کانکتورها استفاده کند و کاربران را قادر می سازد کیف پول خود را به هم متصل کنند:
+
+```
+export default function Connect() {
+  const { connect, connectors, disconnect } = useConnectors();
+
+  return (
+    <div>
+      {connectors.map((connector) => (
+        <button
+          key={connector.id}
+          onClick={() => connect(connector)}
+          disabled={!connector.available()}
         >
-          <App />
-        </StarknetConfig>
-    )
+          Connect with {connector.id}
+        </button>
+      ))}
+    </div>
+  );
+}
+```
 
-## Establishing Connection and Managing Account
+تابع قطع اتصال را که هنگام فراخوانی اتصال را قطع می کند، مشاهده کنید. اتصال پست، دسترسی به حساب متصل از طریق قلاب useAccount فراهم می‌شود و بینشی از وضعیت فعلی اتصال ارائه می‌دهد:
 
-Once the connectors are defined in the config, the stage is set to use a
-hook to access these connectors, enabling users to connect their
-wallets:
+```
+const { address, isConnected, isReconnecting, account } = useAccount();
 
-    export default function Connect() {
-      const { connect, connectors, disconnect } = useConnectors();
+return (
+    <div>
+      {isConnected ? (
+          <p>Hello, {address}</p>
+      ) : (
+        <Connect />
+      )}
+    </div>
+);
+```
 
-      return (
-        <div>
-          {connectors.map((connector) => (
-            <button
-              key={connector.id}
-              onClick={() => connect(connector)}
-              disabled={!connector.available()}
-            >
-              Connect with {connector.id}
-            </button>
-          ))}
-        </div>
-      );
-    }
+مقادیر حالت، مانند isConnected و isReconnecting، به‌روزرسانی‌های خودکار را دریافت می‌کنند و به‌روزرسانی‌های شرطی UI را ساده می‌کنند. این الگوی مناسب هنگام برخورد با فرآیندهای ناهمزمان می درخشد، زیرا نیازی به مدیریت دستی حالت در اجزای شما را از بین می برد.
 
-Observe the `disconnect` function that terminates the connection when
-invoked. Post connection, access to the connected account is provided
-through the `useAccount` hook, offering insight into the current state
-of connection:
+پس از برقراری ارتباط، امضای پیام‌ها با استفاده از مقدار حساب بازگردانده شده از قلاب useAccount به سرعت تبدیل می‌شود. برای تجربه‌ای ساده‌تر، قلاب useSignTypedData در اختیار شماست.
 
-    const { address, isConnected, isReconnecting, account } = useAccount();
+```
+const { data, signTypedData } = useSignTypedData(typedMessage)
 
-    return (
-        <div>
-          {isConnected ? (
-              <p>Hello, {address}</p>
-          ) : (
-            <Connect />
-          )}
-        </div>
-    );
+return (
+  <>
+    <p>
+      <button onClick={signTypedData}>Sign</button>
+    </p>
+    {data && <p>Signed: {JSON.stringify(data)}</p>}
+  </>
+)
+```
 
-The state values, such as `isConnected` and `isReconnecting`, receive
-automatic updates, simplifying UI conditional updates. This convenient
-pattern shines when dealing with asynchronous processes, as it
-eliminates the need to manually manage the state within your components.
+Starknet React از امضای آرایه ای از مقادیر BigNumberish یا یک شی پشتیبانی می کند. هنگام امضای یک شی، اطمینان از مطابقت داده ها با نوع EIP712 بسیار مهم است. برای راهنمای جامع تر در مورد امضا، به مستندات Starknet.js مراجعه کنید: اینجا.
 
-Having established a connection, signing messages becomes a breeze using
-the account value returned from the `useAccount` hook. For a more
-streamlined experience, the `useSignTypedData` hook is at your disposal.
+### نمایش StarkName
 
-    const { data, signTypedData } = useSignTypedData(typedMessage)
+پس از اتصال یک حساب، می توان از قلاب useStarkName برای بازیابی StarkName این حساب متصل استفاده کرد. مربوط به Starknet.id اجازه می دهد تا آدرس کاربر را به روشی کاربر پسندتر نمایش دهد.
 
-    return (
-      <>
-        <p>
-          <button onClick={signTypedData}>Sign</button>
-        </p>
-        {data && <p>Signed: {JSON.stringify(data)}</p>}
-      </>
-    )
+```
+const { data, isError, isLoading, status } = useStarkName({ address });
+// You can track the status of the request with the status variable ('idle' | 'error' | 'loading' | 'success')
 
-Starknet React supports signing an array of `BigNumberish` values or an
-object. While signing an object, it is crucial to ensure that the data
-conforms to the EIP712 type. For a more comprehensive guide on signing,
-refer to the Starknet.js documentation:
-[here](https://www.starknetjs.com/docs/guides/signature/).
+if (isLoading) return <p>Loading...</p>
+return <p>Account: {isError ? address : data}</p>
+```
 
-## Displaying StarkName
+شما همچنین اطلاعات بیشتری دارید که می توانید از این قلاب دریافت کنید → خطا، isIdle، isFetching، isSuccess، isFetched، isFetchedAfterMount، isRefetching، refetch که می تواند اطلاعات دقیق تری در مورد آنچه اتفاق می افتد به شما بدهد.
 
-After an account has been connected, the `useStarkName` hook can be used
-to retrieve the StarkName of this connected account. Related to
-[Starknet.id](https://www.starknet.id/) it permits to display the user
-address in a more user friendly way.
+### در حال واکشی آدرس از StarkName
 
-    const { data, isError, isLoading, status } = useStarkName({ address });
-    // You can track the status of the request with the status variable ('idle' | 'error' | 'loading' | 'success')
+همچنین می‌توانید یک آدرس مربوط به StarkName را بازیابی کنید. برای این منظور می توانید از قلاب useAddressFromStarkName استفاده کنید.
 
-    if (isLoading) return <p>Loading...</p>
-    return <p>Account: {isError ? address : data}</p>
+```
+const { data, isLoading, isError } = useAddressFromStarkName({ name: 'vitalik.stark' })
 
-You also have additional information you can get from this hook →
-**error**, **isIdle**, **isFetching**, **isSuccess**, **isFetched**,
-**isFetchedAfterMount**, **isRefetching**, **refetch** which can give
-you more precise information on what is happening.
+if (isLoading) return <p>Loading...</p>
+if (isError) return <p>Something went wrong</p>
+return <p>Address: {data}</p>
+```
 
-## Fetching address from StarkName
+اگر نام ارائه شده دارای آدرس مرتبط نباشد، "0x0" را برمی گرداند.
 
-You could also want to retrieve an address corresponding to a StarkName.
-For this purpose, you can use the `useAddressFromStarkName` hook.
+### پیمایش در شبکه
 
-    const { data, isLoading, isError } = useAddressFromStarkName({ name: 'vitalik.stark' })
+علاوه بر مدیریت کیف پول و حساب، Starknet React توسعه دهندگان را به قلاب هایی برای تعاملات شبکه مجهز می کند. به عنوان مثال، useBlock بازیابی آخرین بلوک را فعال می کند:
 
-    if (isLoading) return <p>Loading...</p>
-    if (isError) return <p>Something went wrong</p>
-    return <p>Address: {data}</p>
+```
+const { data, isError, isFetching } = useBlock({
+    refetchInterval: 10_000,
+    blockIdentifier: "latest",
+});
 
-If the provided name does not have an associated address, it will return
-**"0x0"**
+if (isError) {
+  return (
+    <p>Something went wrong</p>
+  )
+}
 
-## Navigating the Network
+return (
+    <p>Current block: {isFetching ? "Loading..." : data?.block_number}<p>
+)
+```
 
-In addition to wallet and account management, Starknet React equips
-developers with hooks for network interactions. For instance, useBlock
-enables the retrieval of the latest block:
+در کد فوق، refetchInterval فرکانس واکشی مجدد داده ها را کنترل می کند. در پشت صحنه، Starknet React از react-query برای مدیریت وضعیت و کوئری ها استفاده می کند. علاوه بر useBlock، Starknet React قلاب‌های دیگری مانند useContractRead و useWaitForTransaction را ارائه می‌دهد که می‌توانند برای به‌روزرسانی در فواصل زمانی منظم پیکربندی شوند.
 
-    const { data, isError, isFetching } = useBlock({
-        refetchInterval: 10_000,
-        blockIdentifier: "latest",
-    });
+قلاب useStarknet دسترسی مستقیم به ProviderInterface را فراهم می کند:
 
-    if (isError) {
-      return (
-        <p>Something went wrong</p>
-      )
-    }
+```
+const { library } = useStarknet();
 
-    return (
-        <p>Current block: {isFetching ? "Loading..." : data?.block_number}<p>
-    )
+// library.getClassByHash(...)
+// library.getTransaction(...)
+```
 
-In the aforementioned code, refetchInterval controls the frequency of
-data refetching. Behind the scenes, Starknet React harnesses
-[react-query](https://github.com/TanStack/query/) for managing state and
-queries. In addition to useBlock, Starknet React offers other hooks like
-useContractRead and useWaitForTransaction, which can be configured to
-update at regular intervals.
+### پیگیری تغییرات کیف پول
 
-The useStarknet hook provides direct access to the ProviderInterface:
+برای بهبود تجربه کاربری dApp خود، می توانید تغییرات کیف پول کاربر را ردیابی کنید، به خصوص زمانی که کاربر حساب کیف پول را تغییر می دهد (یا وصل/قطع می شود). اما همچنین زمانی که کاربر شبکه را تغییر می دهد. می‌توانید وقتی کاربر حساب را تغییر می‌دهد، موجودی‌های صحیح را دوباره بارگیری کنید، یا وقتی کاربر شبکه را تغییر می‌دهد، وضعیت dApp خود را بازنشانی کنید. برای انجام این کار، می توانید از یک قلاب قبلی که قبلاً به آن نگاه کرده بودیم استفاده کنید: useAccount و یک مورد جدید useNetwork.
 
-    const { library } = useStarknet();
+قلاب useNetwork می تواند زنجیره شبکه ای را که در حال حاضر استفاده می شود در اختیار شما قرار دهد.
 
-    // library.getClassByHash(...)
-    // library.getTransaction(...)
+```
+const { chain: {id, name} } = useNetwork();
 
-## Tracking Wallet changes
+return (
+    <>
+        <p>Connected chain: {name}</p>
+        <p>Connected chain id: {id}</p>
+    </>
+)
+```
 
-To improve your dApp User Experience, you can track the user wallet
-changes, especially when the user changes the wallet account (or
-connects/disconnects). But also when the user changes the network. You
-could want to reload correct balances when the user changes the account,
-or to reset the state of your dApp when the user changes the network. To
-do so, you can use a previous hook we already looked at: `useAccount`
-and a new one `useNetwork`.
+شما همچنین اطلاعات بیشتری دارید که می توانید از این قلاب ← blockExplorer، شبکه آزمایشی دریافت کنید که می تواند اطلاعات دقیق تری در مورد شبکه فعلی مورد استفاده به شما بدهد.
 
-The `useNetwork` hook can provide you with the network chain currently
-in use.
+پس از دانستن این موضوع، تمام آنچه را که برای ردیابی تعامل کاربر در حساب کاربری و شبکه نیاز دارید دارید. می‌توانید از قلاب useEffect برای انجام برخی تغییرات استفاده کنید.
 
-    const { chain: {id, name} } = useNetwork();
+```
+const { chain } = useNetwork();
+const { address } = useAccount();
 
-    return (
-        <>
-            <p>Connected chain: {name}</p>
-            <p>Connected chain id: {id}</p>
-        </>
-    )
-
-You also have additional information you can get from this hook →
-**blockExplorer**, **testnet** which can give you more precise
-information about the current network being used.
-
-After knowing this you have all you need to track user interaction on
-the using account and network. You can use the `useEffect` hook to do
-some work on changes.
-
-    const { chain } = useNetwork();
-    const { address } = useAccount();
-
-    useEffect(() => {
-        if(address) {
-            // Do some work when the user changes the account on the wallet
-            // Like reloading the balances
-        }else{
-            // Do some work when the user disconnects the wallet
-            // Like reseting the state of your dApp
-        }
-    }, [address]);
-
-    useEffect(() => {
-        // Do some work when the user changes the network on the wallet
+useEffect(() => {
+    if(address) {
+        // Do some work when the user changes the account on the wallet
+        // Like reloading the balances
+    }else{
+        // Do some work when the user disconnects the wallet
         // Like reseting the state of your dApp
-    }, [chain]);
-
-## Contract Interactions
-
-### Read Functions
-
-Starknet React presents useContractRead, a specialized hook for invoking
-read functions on contracts, akin to wagmi. This hook functions
-independently of the user’s connection status, as read operations do not
-necessitate a signer.
-
-    const { data: balance, isLoading, isError, isSuccess } = useContractRead({
-        abi: abi_erc20,
-        address: CONTRACT_ADDRESS,
-        functionName: "allowance",
-        args: [owner, spender],
-        // watch: true <- refresh at every block
-    });
-
-For ERC20 operations, Starknet React offers a convenient useBalance
-hook. This hook exempts you from passing an ABI and returns a suitably
-formatted balance value.
-
-      const { data, isLoading } = useBalance({
-        address,
-        token: CONTRACT_ADDRESS, // <- defaults to the ETH token
-        // watch: true <- refresh at every block
-      });
-
-      return (
-        <p>Balance: {data?.formatted} {data?.symbol}</p>
-      )
-
-### Write Functions
-
-The useContractWrite hook, designed for write operations, deviates
-slightly from wagmi. The unique architecture of Starknet facilitates
-multicall transactions natively at the account level. This feature
-enhances the user experience when executing multiple transactions,
-eliminating the need to approve each transaction individually. Starknet
-React capitalizes on this functionality through the useContractWrite
-hook. Below is a demonstration of its usage:
-
-    const calls = useMemo(() => {
-        // compile the calldata to send
-        const calldata = stark.compileCalldata({
-          argName: argValue,
-        });
-
-        // return a single object for single transaction,
-        // or an array of objects for multicall**
-        return {
-          contractAddress: CONTRACT_ADDRESS,
-          entrypoint: functionName,
-          calldata,
-        };
-    }, [argValue]);
-
-
-    // Returns a function to trigger the transaction
-    // and state of tx after being sent
-    const { write, isLoading, data } = useContractWrite({
-        calls,
-    });
-
-    function execute() {
-      // trigger the transaction
-      write();
     }
+}, [address]);
 
-    return (
-      <button type="button" onClick={execute}>
-        Make a transaction
-      </button>
-    )
+useEffect(() => {
+    // Do some work when the user changes the network on the wallet
+    // Like reseting the state of your dApp
+}, [chain]);
+```
 
-The code snippet begins by compiling the calldata using the
-compileCalldata utility provided by Starknet.js. This calldata, along
-with the contract address and entry point, are passed to the
-useContractWrite hook. The hook returns a write function that is
-subsequently used to execute the transaction. The hook also provides the
-transaction’s hash and state.
+### تعاملات قراردادی
 
-### A Single Contract Instance
+توابع را بخوانید
 
-In certain use cases, working with a single contract instance may be
-preferable to specifying the contract address and ABI in each hook.
-Starknet React accommodates this requirement with the useContract hook:
+Starknet React useContractRead را ارائه می کند، یک قلاب تخصصی برای فراخوانی توابع خواندن در قراردادها، شبیه به wagmi. این قلاب مستقل از وضعیت اتصال کاربر عمل می کند، زیرا عملیات خواندن نیازی به امضا کننده ندارد.
 
-    const { contract } = useContract({
-        address: CONTRACT_ADDRESS,
-        abi: abi_erc20,
+```
+const { data: balance, isLoading, isError, isSuccess } = useContractRead({
+    abi: abi_erc20,
+    address: CONTRACT_ADDRESS,
+    functionName: "allowance",
+    args: [owner, spender],
+    // watch: true <- refresh at every block
+});
+```
+
+برای عملیات ERC20، Starknet React یک قلاب استفاده مناسب برای تعادل ارائه می دهد. این قلاب شما را از گذراندن یک ABI معاف می‌کند و مقدار تعادل با فرمت مناسب را برمی‌گرداند.
+
+```
+  const { data, isLoading } = useBalance({
+    address,
+    token: CONTRACT_ADDRESS, // <- defaults to the ETH token
+    // watch: true <- refresh at every block
+  });
+
+  return (
+    <p>Balance: {data?.formatted} {data?.symbol}</p>
+  )
+```
+
+### توابع را بنویسید
+
+قلاب useContractWrite که برای عملیات نوشتن طراحی شده است، کمی از wagmi منحرف می شود. معماری منحصر به فرد Starknet تراکنش های چند تماسی را به صورت بومی در سطح حساب تسهیل می کند. این ویژگی تجربه کاربر را هنگام اجرای چندین تراکنش افزایش می دهد و نیازی به تایید هر تراکنش به صورت جداگانه را از بین می برد. Starknet React از طریق قلاب useContractWrite از این قابلیت استفاده می کند. در زیر نمایشی از کاربرد آن است:
+
+```
+const calls = useMemo(() => {
+    // compile the calldata to send
+    const calldata = stark.compileCalldata({
+      argName: argValue,
     });
 
-    // Call functions directly on contract
-    // contract.transfer(...);
-    // contract.balanceOf(...);
+    // return a single object for single transaction,
+    // or an array of objects for multicall**
+    return {
+      contractAddress: CONTRACT_ADDRESS,
+      entrypoint: functionName,
+      calldata,
+    };
+}, [argValue]);
 
-## Tracking Transactions
 
-The useTransaction hook allows for the tracking of transaction states
-given a transaction hash. This hook maintains a cache of all
-transactions, thereby minimizing redundant network requests.
+// Returns a function to trigger the transaction
+// and state of tx after being sent
+const { write, isLoading, data } = useContractWrite({
+    calls,
+});
 
-    const { data, isLoading, error } = useTransaction({ hash: txHash });
+function execute() {
+  // trigger the transaction
+  write();
+}
 
-    return (
-      <pre>
-        {JSON.stringify(data?.calldata)}
-      </pre>
-    )
+return (
+  <button type="button" onClick={execute}>
+    Make a transaction
+  </button>
+)
+```
 
-The full array of available hooks can be discovered in the Starknet
-React documentation, accessible here:
-<https://apibara.github.io/starknet-react/>.
+قطعه کد با کامپایل کردن calldata با استفاده از ابزار compileCalldata ارائه شده توسط Starknet.js آغاز می شود. این فراخوانی، همراه با آدرس قرارداد و نقطه ورود، به قلاب useContractWrite منتقل می شود. هوک یک تابع نوشتن را برمی گرداند که متعاقباً برای اجرای تراکنش استفاده می شود. هوک همچنین هش و وضعیت تراکنش را ارائه می دهد.
+
+### یک نمونه قرارداد واحد
+
+در موارد استفاده خاص، کار با یک نمونه قرارداد ممکن است به تعیین آدرس قرارداد و ABI در هر هوک ترجیح داده شود. Starknet React این نیاز را با قلاب useContract برآورده می کند:
+
+```
+const { contract } = useContract({
+    address: CONTRACT_ADDRESS,
+    abi: abi_erc20,
+});
+
+// Call functions directly on contract
+// contract.transfer(...);
+// contract.balanceOf(...);
+```
+
+### ردیابی تراکنش ها
+
+قلاب useTransaction امکان ردیابی وضعیت های تراکنش را با توجه به هش تراکنش فراهم می کند. این قلاب یک کش از تمام تراکنش ها را حفظ می کند و در نتیجه درخواست های اضافی شبکه را به حداقل می رساند.
+
+```
+const { data, isLoading, error } = useTransaction({ hash: txHash });
+
+return (
+  <pre>
+    {JSON.stringify(data?.calldata)}
+  </pre>
+)
+```
+
+آرایه کامل قلاب‌های موجود را می‌توانید در مستندات Starknet React، در اینجا پیدا کنید: https://apibara.github.io/starknet-react/.
 
 ## Conclusion
 
-The Starknet React library offers a comprehensive suite of React hooks
-and providers, purpose-built for Starknet and the Starknet.js SDK. By
-taking advantage of these well-crafted tools, developers can build
-robust decentralized applications that harness the power of the Starknet
-network.
+کتابخانه Starknet React مجموعه جامعی از قلاب‌ها و ارائه‌دهندگان React را ارائه می‌دهد که به‌طور هدفمند برای Starknet و Starknet.js SDK ساخته شده‌اند. با بهره‌گیری از این ابزارهای خوش ساخت، توسعه‌دهندگان می‌توانند برنامه‌های غیرمتمرکز قوی بسازند که از قدرت شبکه Starknet بهره می‌برد.
 
-Through the diligent work of dedicated developers and contributors,
-Starknet React continues to evolve. New features and optimizations are
-regularly added, fostering a dynamic and growing ecosystem of
-decentralized applications.
+Starknet React از طریق کار مجدانه توسعه دهندگان و مشارکت کنندگان اختصاصی به تکامل خود ادامه می دهد. ویژگی‌ها و بهینه‌سازی‌های جدید مرتباً اضافه می‌شوند و اکوسیستم پویا و رو به رشدی از برنامه‌های غیرمتمرکز را تقویت می‌کنند.
 
-It’s a fascinating journey, filled with innovative technology, endless
-opportunities, and a growing community of passionate individuals. As a
-developer, you’re not only building applications, but contributing to
-the advancement of a global, decentralized network.
+این یک سفر جذاب، پر از فناوری نوآورانه، فرصت های بی پایان، و جامعه رو به رشدی از افراد پرشور است. به‌عنوان یک توسعه‌دهنده، شما نه تنها برنامه‌های کاربردی می‌سازید، بلکه به پیشرفت یک شبکه جهانی و غیرمتمرکز کمک می‌کنید.
 
-Have questions or need help? The Starknet community is always ready to
-assist. Join the [Starknet Discord](https://discord.gg/starknet) or
-explore the [StarknetBook’s GitHub
-repository](https://github.com/starknet-edu/starknetbook) for resources
-and support.
+سوال دارید یا به کمک احتیاج دارید؟ انجمن Starknet همیشه آماده کمک است. به Starknet Discord بپیوندید یا مخزن GitHub StarknetBook را برای منابع و پشتیبانی کاوش کنید.
 
-## Further Reading
+### بیشتر خواندن
 
-- [Starknet.js](https://starknet.js.org)
+* [Starknet.js](https://starknet.js.org)
+* [Starknet React Docs](https://www.apibara.com/starknet-react-docs)
+* [Mastering Ethereum](https://github.com/ethereumbook/ethereumbook)
+* [Mastering Bitcoin](https://github.com/bitcoinbook/bitcoinbook)
 
-- [Starknet React Docs](https://www.apibara.com/starknet-react-docs)
+کتاب یک تلاش جامعه محور است که برای جامعه ایجاد شده است.
 
-- [Mastering Ethereum](https://github.com/ethereumbook/ethereumbook)
-
-- [Mastering Bitcoin](https://github.com/bitcoinbook/bitcoinbook)
-
-The Book is a community-driven effort created for the community.
-
-- If you’ve learned something, or not, please take a moment to provide
-  feedback through [this 3-question
-  survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
-
-- If you discover any errors or have additional suggestions, don’t
-  hesitate to open an [issue on our GitHub
-  repository](https://github.com/starknet-edu/starknetbook/issues).
+* اگر چیزی یاد گرفته‌اید یا نه، لطفاً چند لحظه وقت بگذارید و از طریق این نظرسنجی 3 سؤالی بازخورد خود را ارائه دهید.
+* در صورت کشف هرگونه خطا یا پیشنهادات اضافی، در باز کردن مشکل در مخزن GitHub ما تردید نکنید.

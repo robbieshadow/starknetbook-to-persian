@@ -1,29 +1,29 @@
-# Million Dollar Homepage
+# صفحه اصلی میلیون دلاری
 
-[Starknet Homepage](https://github.com/dbejarano820/starknet\_homepage) is a decentralized application on the Starknet blockchain. It provides a virtual space where users can claim and personalize sections of a 100x100 grid, known as "Starknet Homepage". Each section is a 10x10 pixel area. Users can acquire these sections by minting non-fungible tokens (NFTs) and then personalizing them with images and other content.
+Starknet Homepage یک برنامه غیرمتمرکز در بلاک چین استارک نت است. این یک فضای مجازی فراهم می کند که در آن کاربران می توانند بخش هایی از یک شبکه 100x100 را که به عنوان "صفحه اصلی Starknet" شناخته می شود، ادعا و شخصی سازی کنند. هر بخش یک منطقه 10x10 پیکسل است. کاربران می‌توانند این بخش‌ها را با برش توکن‌های غیرقابل تعویض (NFT) و سپس شخصی‌سازی آن‌ها با تصاویر و محتوای دیگر به دست آورند.
 
-View the live app on testnet [here](https://starknet-homepage-kappa.vercel.app/).
+برنامه زنده را در testnet [اینجا ](https://starknet-homepage-kappa.vercel.app/)مشاهده کنید.
 
 ![homepage](../../../img/ch02-starknet-homepage.jpg)
 
-This initiative is an adaptation of the renowned Million Dollar Homepage and was conceived at the Starknet Summit 2023 Hacker House in Palo Alto, California. The following is a guide to understanding how this project was developed using the available tools in the ecosystem.
+این ابتکار اقتباسی از صفحه اصلی میلیون دلاری مشهور است و در خانه هکرها در Starknet Summit 2023 در پالو آلتو، کالیفرنیا طراحی شده است. در زیر راهنمایی برای درک چگونگی توسعه این پروژه با استفاده از ابزارهای موجود در اکوسیستم ارائه شده است.
 
-### Tools Utilized:
+### ابزارهای مورد استفاده:
 
 * [Starknet-react](https://github.com/apibara/starknet-react)
 * [Starknet.js](https://github.com/0xs34n/starknet.js)
 * [OpenZeppelin Cairo Contracts](https://github.com/OpenZeppelin/cairo-contracts)
 * [MaterialUI](https://mui.com/material-ui/)
 
-## Initial Setup
+### راه اندازی اولیه
 
-The `Starknet-react` app offers a command to initialize a Starknet app. This command sets up the foundational structure needed for a NextJS application.
+برنامه Starknet-react دستوری برای مقداردهی اولیه برنامه Starknet ارائه می دهد. این دستور ساختار اساسی مورد نیاز برای برنامه NextJS را تنظیم می کند.
 
 ```shell
 npx create-starknet
 ```
 
-The `StarknetConfig` component accepts a `connectors` prop, which defines wallet connection options for the user. Additionally, it can take a `defaultProvider` to set the network the application should connect to by default.
+مؤلفه StarknetConfig یک پایه اتصال دهنده را می پذیرد که گزینه های اتصال کیف پول را برای کاربر تعریف می کند. علاوه بر این، می‌تواند شبکه‌ای را که برنامه باید به‌طور پیش‌فرض به آن متصل شود، به یک پیش‌فرض‌دهنده نیاز دارد.
 
 ```javascript
 const connectors = [
@@ -48,11 +48,11 @@ return (
 );
 ```
 
-Both `CacheProvider` and `ThemeProvider` are components that facilitate the seamless integration of MaterialUI with NextJS. For a comprehensive setup guide on these components, please refer to [this link](https://blog.logrocket.com/getting-started-with-mui-and-next-js/).
+هم CacheProvider و هم ThemeProvider اجزایی هستند که ادغام یکپارچه MaterialUI با NextJS را تسهیل می کنند. برای راهنمای راه اندازی جامع در مورد این قطعات، لطفاً به این لینک مراجعه کنید.
 
-## Main Functionality
+### عملکرد اصلی
 
-The core functionality of the Starknet Homepage centers around selecting a 4-sided region on a matrix, representing the desired 10x10 cells, and minting a token based on those cells. The responsibility of the smart contract is to validate whether the selected cells are available for minting. If a user owns Starknet Homepage tokens, they can access a dropdown to modify the token's content, including the associated image and link on the grid.
+عملکرد اصلی صفحه اصلی Starknet حول انتخاب یک منطقه 4 وجهی در یک ماتریس، نشان دهنده سلول های 10x10 مورد نظر، و برش توکن بر اساس آن سلول ها است. مسئولیت قرارداد هوشمند تأیید این است که آیا سلول های انتخاب شده برای ضرب در دسترس هستند یا خیر. اگر کاربر دارای نشانه‌های Starknet Homepage باشد، می‌تواند به یک منوی کشویی برای تغییر محتوای توکن، از جمله تصویر مرتبط و پیوند در شبکه دسترسی داشته باشد.
 
 The app's primary requirements are:
 
