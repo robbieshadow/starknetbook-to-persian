@@ -1,3 +1,7 @@
+---
+description: Translated by Robbieshadow
+---
+
 # کتاب استارکنت
 
 این مخزن حاوی منبع کتاب استارکنت است.
