@@ -1,36 +1,36 @@
-# Foundry Forge: Testing 🚧
+# Foundry Forge: تست 🚧
 
-[Starknet Foundry](https://github.com/foundry-rs/starknet-foundry) is a tool designed for testing and developing Starknet contracts. It is an adaptation of the Ethereum Foundry for Starknet, aiming to expedite the development process.
+Starknet Foundry ابزاری است که برای آزمایش و توسعه قراردادهای Starknet طراحی شده است. این یک اقتباس از Ethereum Foundry برای Starknet است که هدف آن تسریع روند توسعه است.
 
-The project consists of two primary components:
+این پروژه از دو جزء اصلی تشکیل شده است:
 
-- **Forge**: A testing tool specifically for Cairo contracts. This tool acts as a test runner and boasts features designed to enhance your testing process. Tests are written directly in Cairo, eliminating the need for other programming languages. Additionally, the Forge implementation uses Rust, mirroring Ethereum Foundry's choice of language.
-- **Cast**: This serves as a DevOps tool for Starknet, initially supporting a series of commands to interface with Starknet. In the future, Cast aims to offer deployment scripts for contracts and other DevOps functions.
+* فورج: ابزار آزمایشی مخصوص قراردادهای قاهره. این ابزار به عنوان یک تست کننده عمل می کند و دارای ویژگی هایی است که برای بهبود فرآیند تست شما طراحی شده اند. آزمون ها مستقیماً در قاهره نوشته می شوند و نیازی به زبان های برنامه نویسی دیگر را از بین می برند. علاوه بر این، پیاده‌سازی Forge از Rust استفاده می‌کند که منعکس‌کننده زبان انتخابی Ethereum Foundry است.
+* Cast: این ابزار به عنوان یک ابزار DevOps برای Starknet عمل می کند و در ابتدا از یک سری دستورات برای ارتباط با Starknet پشتیبانی می کند. در آینده، Cast قصد دارد اسکریپت‌های استقرار را برای قراردادها و سایر عملکردهای DevOps ارائه دهد.
 
-## Forge
+### ساختن
 
-Merely deploying contracts is not the end game. Many tools have offered this capability in the past. Forge sets itself apart by hosting a Cairo VM instance, enabling the sequential execution of tests. It employs Scarb for contract compilation.
+صرف استقرار قراردادها پایان بازی نیست. ابزارهای زیادی در گذشته این قابلیت را ارائه کرده اند. Forge خود را با میزبانی یک نمونه ماشین مجازی Cairo متمایز می کند و امکان اجرای متوالی آزمایش ها را فراهم می کند. از Scarb برای تدوین قرارداد استفاده می کند.
 
-To utilize Forge, define test functions and label them with test attributes. Users can either test standalone Cairo functions or integrate contracts, dispatchers, and test contract interactions on-chain.
+برای استفاده از Forge، توابع تست را تعریف کنید و آنها را با ویژگی های تست برچسب بزنید. کاربران می‌توانند عملکردهای مستقل قاهره را آزمایش کنند یا قراردادها، توزیع‌کننده‌ها و تعاملات قراردادی آزمایشی را در زنجیره ادغام کنند.
 
-## `snForge` Command-Line Usage
+### استفاده از خط فرمان snForge
 
-This section guides you through the Starknet Foundry `snforge` command-line tool. Learn how to set up a new project, compile the code, and execute tests.
+این بخش شما را از طریق ابزار خط فرمان Starknet Foundry snforge راهنمایی می کند. نحوه راه اندازی یک پروژه جدید، کامپایل کد و اجرای آزمایش ها را بیاموزید.
 
-To start a new project with Starknet Foundry, use the `--init` command and replace `project_name` with your project's name.
+برای شروع یک پروژه جدید با Starknet Foundry، از دستور --init استفاده کنید و نام پروژه خود را جایگزین project\_name کنید.
 
 ```shell
 snforge --init project_name
 ```
 
-Once you've set up the project, inspect its layout:
+هنگامی که پروژه را راه اندازی کردید، طرح آن را بررسی کنید:
 
 ```shell
 cd project_name
 tree . -L 1
 ```
 
-The project structure is as follows:
+ساختار پروژه به شرح زیر است:
 
 ```shell
 .
@@ -40,11 +40,11 @@ The project structure is as follows:
 └── tests
 ```
 
-- `src/` holds your contract source code.
-- `tests/` is the location of your test files.
-- `Scarb.toml` is for project and **`snforge`** configurations.
+* src/ کد منبع قرارداد شما را نگه می دارد.
+* tests/ محل فایل های تست شما است.
+* Scarb.toml برای پیکربندی پروژه و snforge است.
 
-Ensure the casm code generation is active in the `Scarb.toml` file:
+مطمئن شوید که تولید کد casm در فایل Scarb.toml فعال است:
 
 ```shell
 # ...
@@ -53,7 +53,7 @@ casm = true
 # ...
 ```
 
-To run tests using `snforge`:
+برای اجرای تست ها با استفاده از snforge:
 
 ```shell
 snforge
@@ -66,9 +66,9 @@ Running 2 test(s) from `tests/`
 Tests: 2 passed, 0 failed, 0 skipped
 ```
 
-## Integrating `snforge` with Existing Scarb Projects
+#### ادغام snforge با پروژه های Scarb موجود
 
-For those with an established Scarb project who wish to incorporate `snforge`, ensure the `snforge_std package` is declared as a dependency. Insert the line below in the [dependencies] section of your `Scarb.toml`:
+برای کسانی که پروژه Scarb دارند و مایل به ترکیب snforge هستند، مطمئن شوید که بسته snforge\_std به عنوان یک وابستگی اعلام شده است. خط زیر را در بخش \[وابستگی ها] Scarb.toml خود وارد کنید:
 
 ```shell
 # ...
@@ -76,33 +76,33 @@ For those with an established Scarb project who wish to incorporate `snforge`, e
 snforge_std = { git = "https://github.com/foundry-rs/starknet-foundry.git", tag = "[VERSION]" }
 ```
 
-Ensure the tag version corresponds with your `snforge` version. To verify your `snforge` version:
+اطمینان حاصل کنید که نسخه برچسب با نسخه snforge شما مطابقت دارد. برای تأیید نسخه snforge:
 
 ```sh
 snforge --version
 ```
 
-Or, add this dependency using the `scarb` command:
+یا با استفاده از دستور scarb این وابستگی را اضافه کنید:
 
 ```shell
 scarb add snforge_std --git https://github.com/foundry-rs/starknet-foundry.git --tag VERSION
 ```
 
-With these steps, your existing Scarb project is now **`snforge`**-ready.
+با این مراحل، پروژه Scarb موجود شما اکنون آماده snforge است.
 
-## Testing with `snforge`
+### تست با snforge
 
-Utilize Starknet Foundry's `snforge` command to efficiently run tests.
+از دستور snforge Starknet Foundry برای اجرای موثر تست ها استفاده کنید.
 
-### Executing Tests
+### اجرای تست ها
 
-Navigate to the package directory and issue this command to run tests:
+به دایرکتوری بسته بروید و این دستور را برای اجرای تست ها صادر کنید:
 
 ```shell
 snforge
 ```
 
-Sample output might resemble:
+خروجی نمونه ممکن است شبیه به:
 
 ```shell
 Collected 3 test(s) from `package_name` package
@@ -113,33 +113,33 @@ Running 3 test(s) from `src/`
 Tests: 3 passed, 0 failed, 0 skipped
 ```
 
-### Filter Tests
+#### تست های فیلتر
 
-Run specific tests using a filter string after the `snforge` command. Tests matching the filter based on their absolute module tree path will be executed:
+تست های خاصی را با استفاده از یک رشته فیلتر پس از دستور snforge اجرا کنید. آزمایش‌هایی که با فیلتر مطابقت دارند بر اساس مسیر درختی ماژول مطلق آن‌ها اجرا می‌شوند:
 
 ```shell
 $ snforge calling
 ```
 
-### Run a Specific Test
+### یک تست خاص را اجرا کنید
 
-Use the `--exact` flag and a fully qualified test name to run a particular test:
+از علامت --exact و یک نام آزمون کاملاً واجد شرایط برای اجرای یک آزمون خاص استفاده کنید:
 
 ```shell
 snforge package_name::calling --exact
 ```
 
-### Stop After First Test Failure
+#### توقف پس از اولین شکست تست
 
-To stop after the first test failure, add the `--exit-first` flag to the `snforge` command:
+برای توقف پس از اولین شکست تست، پرچم --exit-first را به دستور snforge اضافه کنید:
 
 ```shell
 snforge --exit-first
 ```
 
-## Basic Example
+### مثال پایه
 
-The example provided below demonstrates how to test a Starknet contract using `snforge`.
+مثال ارائه شده در زیر نحوه آزمایش قرارداد Starknet با استفاده از snforge را نشان می دهد.
 
 ```rust
 #[starknet::interface]
@@ -170,11 +170,11 @@ mod HelloStarknet {
 }
 ```
 
-Remember, the identifier following `mod` signifies the contract name. Here, the contract name is `HelloStarknet`.
+به یاد داشته باشید، شناسه زیر mod نشان دهنده نام قرارداد است. در اینجا، نام قرارداد HelloStarknet است.
 
-### Craft the Test
+#### تست را بسازید
 
-Below is a test for the **`HelloStarknet`** contract. This test deploys **`HelloStarknet`** and interacts with its functions:
+در زیر تستی برای قرارداد HelloStarknet وجود دارد. این تست HelloStarknet را مستقر کرده و با عملکردهای آن تعامل دارد:
 
 ```rust
 use snforge_std::{ declare, ContractClassTrait };
@@ -201,7 +201,7 @@ fn call_and_invoke() {
 }
 ```
 
-To run the test, execute the `snforge` command. The expected output is:
+برای اجرای تست، دستور snforge را اجرا کنید. خروجی مورد انتظار عبارت است از:
 
 ```shell
 Collected 1 test(s) from using_dispatchers package

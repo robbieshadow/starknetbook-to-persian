@@ -54,16 +54,16 @@ return (
 
 عملکرد اصلی صفحه اصلی Starknet حول انتخاب یک منطقه 4 وجهی در یک ماتریس، نشان دهنده سلول های 10x10 مورد نظر، و برش توکن بر اساس آن سلول ها است. مسئولیت قرارداد هوشمند تأیید این است که آیا سلول های انتخاب شده برای ضرب در دسترس هستند یا خیر. اگر کاربر دارای نشانه‌های Starknet Homepage باشد، می‌تواند به یک منوی کشویی برای تغییر محتوای توکن، از جمله تصویر مرتبط و پیوند در شبکه دسترسی داشته باشد.
 
-The app's primary requirements are:
+الزامات اولیه برنامه عبارتند از:
 
-* Wallet connectivity
-* Grid for displaying existing tokens
-* Cell selection capability
-* Multicall function for token approval and minting
-* Dropdown to view owned tokens
-* On-chain representation of the entire 1 million pixel grid
+* اتصال کیف پول
+* شبکه ای برای نمایش نشانه های موجود
+* قابلیت انتخاب سلول
+* عملکرد چند تماسی برای تایید و ضرب کردن رمز
+* کشویی برای مشاهده توکن های متعلق به
+* نمایش زنجیره ای کل شبکه 1 میلیون پیکسلی
 
-A significant aspect to consider is the string limitation in Cairo contracts. To store links of varying sizes, they are stored as arrays of `felt252`s. The contract uses the following logic for this purpose:
+یکی از جنبه های قابل توجه محدودیت رشته در قراردادهای قاهره است. برای ذخیره پیوندهایی با اندازه های مختلف، آنها به صورت آرایه هایی از felt252 ذخیره می شوند. قرارداد برای این منظور از منطق زیر استفاده می کند:
 
 ```rust
 impl StoreFelt252Array of Store<Array<felt252>> {
@@ -123,7 +123,7 @@ impl StoreFelt252Array of Store<Array<felt252>> {
 }
 ```
 
-The storage method for links in the contract state is structured as:
+روش ذخیره سازی پیوندها در حالت قرارداد به صورت زیر است:
 
 ```rust
 struct Cell {
@@ -137,7 +137,7 @@ struct Cell {
 }
 ```
 
-The OpenZeppelin Cairo Contracts library played a crucial role in speeding up the development of the ERC721 contract for Starknet Homepage. You can find the contract for review [here](https://github.com/dbejarano820/starknet\_homepage/blob/main/cairo\_contracts/src/ERC721.cairo). Once you have installed the library, you can refer to the following example for typical usage:
+کتابخانه OpenZeppelin Cairo Contracts نقش مهمی در سرعت بخشیدن به توسعه قرارداد ERC721 برای صفحه اصلی Starknet ایفا کرد. می توانید قرارداد را برای بررسی اینجا پیدا کنید. هنگامی که کتابخانه را نصب کردید، می توانید برای استفاده معمولی به مثال زیر مراجعه کنید:
 
 ```rust
 #[starknet::contract]
@@ -167,11 +167,11 @@ mod MyToken {
 }
 ```
 
-### Component Logic
+### منطق مؤلفه
 
 #### Grid
 
-The Grid component represents a 100x100 matrix, with each cell being 100 pixels. This layout corresponds to the data structure found in the smart contract. To showcase the tokens already minted on the Homepage, the app employs a React Hook from `starknet-react` to invoke the `getAllTokens` function from the contract.
+جزء Grid یک ماتریس 100x100 را نشان می دهد که هر سلول 100 پیکسل است. این طرح با ساختار داده موجود در قرارداد هوشمند مطابقت دارد. برای نمایش توکن هایی که قبلاً در صفحه اصلی ضرب شده اند، برنامه از یک React Hook از starknet-react برای فراخوانی تابع getAllTokens از قرارداد استفاده می کند.
 
 ```typescript
 const [allNfts, setAllNfts] = useState<any[]>([]);
@@ -191,7 +191,7 @@ useEffect(() => {
 }, [data, isLoading]);
 ```
 
-Deserialization ensures the data from the Starknet contract is aptly transformed for frontend use. This process involves decoding the array of `felt252`s into extensive strings.
+Deserialization تضمین می کند که داده های قرارداد Starknet به درستی برای استفاده از فرانت اند تغییر شکل داده شده است. این فرآیند شامل رمزگشایی آرایه از felt252s به رشته های گسترده است.
 
 ```typescript
 import { shortString, num } from "starknet";
@@ -208,17 +208,17 @@ link: deserializeFeltArray(tokenObject.link),
 ...
 ```
 
-Furthermore, the Grid component manages the cell selection process, leading to the minting of a corresponding token. Once an area is chosen, a modal appears displaying the mint details and other necessary inputs for the call data. The intricacies of the multicall will be addressed subsequently.
+علاوه بر این، مولفه Grid فرآیند انتخاب سلول را مدیریت می‌کند که منجر به ایجاد یک توکن مربوطه می‌شود. هنگامی که یک منطقه انتخاب می شود، یک مدال ظاهر می شود که جزئیات ضرابخانه و سایر ورودی های لازم برای داده های تماس را نشان می دهد. پیچیدگی های چند تماس متعاقباً مورد بررسی قرار خواهد گرفت.
 
 ![Wallets](../../../img/ch02-starknet-homepage-select.jpg)
 
-#### Modals
+#### مدال ها
 
-Modals offer a convenient means to present varied functionalities within the app, such as wallet connection, token minting, and token editing.
+Modals ابزاری مناسب برای ارائه عملکردهای متنوع در برنامه، مانند اتصال کیف پول، برش توکن و ویرایش توکن ارائه می دهد.
 
 ![Wallets](../../../img/ch02-starknet-homepage-wallets.jpg)
 
-A recognized best practice is to invoke the React hook for shared information at a top-level, ensuring components like the `WalletBar` remain streamlined and focused.
+بهترین روش شناخته شده این است که قلاب React را برای اطلاعات به اشتراک گذاشته شده در سطح بالا فراخوانی کنید تا اطمینان حاصل شود که اجزایی مانند WalletBar ساده و متمرکز باقی می مانند.
 
 ```typescript
 const { address } = useAccount();
@@ -230,7 +230,7 @@ return (
 )
 ```
 
-Below, the `WalletConnected` function displays the connected wallet's address, while the `ConnectWallet` function allows users to select and connect their wallet. The `WalletBar` function renders the appropriate modal based on the connection status.
+در زیر، تابع WalletConnected آدرس کیف پول متصل را نشان می دهد، در حالی که عملکرد ConnectWallet به کاربران اجازه می دهد تا کیف پول خود را انتخاب و متصل کنند. تابع WalletBar مودال مناسب را بر اساس وضعیت اتصال ارائه می کند.
 
 ```typescript
 function WalletConnected({ address }: { address: string }) {
@@ -314,9 +314,9 @@ export default function WalletBar({
 }
 ```
 
-#### Token Dropdown
+### کشویی نشانه
 
-The dropdown component is dedicated to showcasing the tokens associated with the currently connected wallet. To retrieve these tokens, a transaction like the one shown below can be executed. The sole argument for this function is the contract address of the intended owner.
+مؤلفه کشویی به نمایش توکن های مرتبط با کیف پول فعلی متصل اختصاص داده شده است. برای بازیابی این توکن ها، تراکنشی مانند شکل زیر می تواند اجرا شود. تنها استدلال برای این تابع آدرس قرارداد مالک مورد نظر است.
 
 ```typescript
 const readTx = useMemo(() => {
@@ -332,11 +332,11 @@ const readTx = useMemo(() => {
 const { data, isLoading } = useContractRead(readTx);
 ```
 
-### Multicall Contract Interaction
+### تعامل قرارداد چند تماسی
 
-The provided code offers an illustration of a multicall, specifically to approve a transaction for the mint price transfer followed by the actual minting action. Notably, the `shortString` module from `starknet.js` plays a pivotal role; it encodes and segments a lengthy string into an array of `felt252`s, the expected argument type for the contract on Starknet.
+کد ارائه شده تصویری از یک تماس چندگانه را ارائه می دهد، به ویژه برای تأیید تراکنش برای انتقال قیمت ضرابخانه و به دنبال آن عمل ضربات واقعی. قابل توجه، ماژول shortString از starknet.js نقش محوری دارد. یک رشته طولانی را به آرایه‌ای از felt252 کدگذاری کرده و بخش‌بندی می‌کند، نوع آرگومان مورد انتظار برای قرارداد در Starknet.
 
-The `useContractWrite` is a Hook dedicated to executing a Starknet multicall, which can be employed for a singular transaction or multiple ones.
+useContractWrite یک هوک است که برای اجرای یک تماس چندگانه Starknet اختصاص داده شده است که می تواند برای یک تراکنش منفرد یا چند تراکنش استفاده شود.
 
 ```typescript
 const calls = useMemo(() => {
@@ -369,9 +369,9 @@ const calls = useMemo(() => {
 const { writeAsync: writeMulti } = useContractWrite({ calls });
 ```
 
-Another crucial aspect to point out is the `calldata` of the approve function for the ether transfer: calldata: `[STARKNET_HOMEPAGE_ERC721_ADDRESS, '${price}', "0"],`. The amount argument is split into two parts because it's a `u256`, which is composed of two separate `felt252` values.
+یکی دیگر از جنبه های مهمی که باید به آن اشاره کرد، فراخوانی تابع تایید برای انتقال اتر است: calldata: \[STARKNET\_HOMEPAGE\_ERC721\_ADDRESS، '${price}'، "0"]،. آرگومان مقدار به دو قسمت تقسیم می‌شود، زیرا یک u256 است که از دو مقدار جداگانه felt252 تشکیل شده است.
 
-Once the multicall is prepared, the next step is to initiate the function and sign the transaction using the connected wallet.
+هنگامی که چند تماس آماده شد، مرحله بعدی شروع عملکرد و امضای تراکنش با استفاده از کیف پول متصل است.
 
 ```typescript
 const handleMintClick = async (): Promise<void> => {
@@ -391,13 +391,13 @@ const handleMintClick = async (): Promise<void> => {
 };
 ```
 
-### Conditional Multicall for Token Editing
+### چند فراخوانی شرطی برای ویرایش توکن
 
-Another instructive illustration of a conditional multicall setup is the modal used to modify the data associated with a token.
+یکی دیگر از نمونه های آموزنده تنظیم چند تماس شرطی، حالتی است که برای اصلاح داده های مرتبط با یک نشانه استفاده می شود.
 
 ![homepage](../../../img/ch02-starknet-homepage-edit.jpg)
 
-There are scenarios where the user may wish to alter just one attribute of the token, rather than both. Consequently, a conditional multicall configuration becomes necessary. It's essential to recall that the token id in the Cairo contract is defined as a `u256`, implying it comprises two `felt252` values.
+سناریوهایی وجود دارد که در آن کاربر ممکن است بخواهد به جای هر دو، فقط یک ویژگی نشانه را تغییر دهد. در نتیجه، یک پیکربندی چند فراخوانی شرطی ضروری می شود. یادآوری این نکته ضروری است که شناسه توکن در قرارداد قاهره به عنوان u256 تعریف شده است، به این معنی که شامل دو مقدار felt252 است.
 
 ```typescript
 const calls = useMemo(() => {
@@ -427,11 +427,11 @@ const calls = useMemo(() => {
 }, [nft, newImage, newLink]);
 ```
 
-## Starknet Homepage Overview
+#### نمای کلی صفحه اصلی Starknet
 
-* **Grid Component**: Represents a 100x100 matrix, allowing users to select cells and mint corresponding tokens. It fetches existing tokens using the `getAllTokens` function from the contract and displays them.
-* **Modals**: Serve as the user interface for actions like wallet connection, token minting, and token editing.
-* **Token Dropdown**: Displays tokens associated with a connected wallet. It retrieves these tokens using the `getTokensByOwner` function.
-* **Multicall Contract Interaction**: Enables token minting and editing. This process utilizes conditional multicalls based on user preferences, especially for editing token attributes.
+* Grid Component: یک ماتریس 100x100 را نشان می دهد که به کاربران اجازه می دهد سلول ها را انتخاب کرده و توکن های مربوطه را برش دهند. توکن های موجود را با استفاده از تابع getAllTokens از قرارداد دریافت می کند و آنها را نمایش می دهد.
+* Modals: به عنوان رابط کاربری برای اقداماتی مانند اتصال کیف پول، استخراج توکن و ویرایش توکن خدمت می کند.
+* Token Dropdown: توکن های مرتبط با کیف پول متصل را نمایش می دهد. این توکن ها را با استفاده از تابع getTokensByOwner بازیابی می کند.
+* تعامل قرارداد چند تماسی: ضرب و ویرایش توکن را فعال می کند. این فرآیند از تماس‌های چندگانه مشروط بر اساس ترجیحات کاربر، به‌ویژه برای ویرایش ویژگی‌های نشانه استفاده می‌کند.
 
-Throughout the platform, string limitations in Cairo contracts require encoding lengthy strings into arrays of `felt252`s. The OpenZeppelin Cairo Contracts library significantly expedites the development of the ERC721 contract for the Starknet Homepage.
+در سرتاسر پلتفرم، محدودیت‌های رشته در قراردادهای قاهره مستلزم رمزگذاری رشته‌های طولانی در آرایه‌های فلت252 است. کتابخانه OpenZeppelin Cairo Contracts توسعه قرارداد ERC721 را برای صفحه اصلی Starknet به طور قابل توجهی تسریع می کند.

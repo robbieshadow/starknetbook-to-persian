@@ -1,120 +1,120 @@
-# Architecture
+# معماری
 
-This is an introduction to Starknet’s Layer 2 architecture, designed for both beginners and experienced users. It focuses on the key components: Sequencers, Provers, and nodes.
+این مقدمه ای بر معماری لایه 2 Starknet است که برای کاربران مبتدی و با تجربه طراحی شده است. بر روی اجزای کلیدی تمرکز می کند: ترتیب دهنده ها، پروورها و گره ها.
 
-Starknet is a coordinated system, with each component—Sequencers, Provers, and nodes—playing a specific yet interconnected role. Although Starknet hasn’t fully decentralized yet, it’s actively moving toward that goal. This understanding of the roles and interactions within the system will help you better grasp the intricacies of the Starknet ecosystem.
+Starknet یک سیستم هماهنگ است که هر جزء - Sequencer ها، Provers و Node ها - نقشی خاص و در عین حال به هم پیوسته را ایفا می کند. اگرچه Starknet هنوز به طور کامل غیرمتمرکز نشده است، اما فعالانه به سمت این هدف حرکت می کند. این درک از نقش ها و تعاملات درون سیستم به شما کمک می کند تا پیچیدگی های اکوسیستم Starknet را بهتر درک کنید.
 
-## High-Level Overview
+### نمای کلی سطح بالا
 
-Starknet’s operation begins when a transaction is received by a gateway, which serves as the Mempool. This stage could also be managed by the Sequencer. The transaction is initially marked as "RECEIVED." The Sequencer then incorporates the transaction into the network state and tags it as "ACCEPTED\_ON\_L2." The final step involves the Prover, which executes the operating system on the new block, calculates its proof, and submits it to the Layer 1 (L1) for verification.
+عملیات Starknet زمانی شروع می شود که یک تراکنش توسط یک دروازه دریافت می شود که به عنوان Mempool عمل می کند. این مرحله همچنین می تواند توسط Sequencer مدیریت شود. تراکنش در ابتدا به عنوان "دریافت شده" علامت گذاری شده است. سپس Sequencer تراکنش را در وضعیت شبکه گنجانده و آن را با عنوان "ACCEPTED\_ON\_L2" برچسب گذاری می کند. مرحله آخر شامل Prover است که سیستم عامل را روی بلوک جدید اجرا می کند، اثبات آن را محاسبه می کند و آن را برای تأیید به لایه 1 (L1) ارسال می کند.
 
 ![Starknet Architecture](../img/ch03-architecture.png)
 
-Starknet architecture
+معماری Starknet
 
-In essence, Starknet’s architecture involves multiple components:
+در اصل، معماری Starknet شامل چندین مؤلفه است:
 
-* The Sequencer is responsible for receiving transactions, ordering them, and producing blocks. It operates similarly to validators in Ethereum or Bitcoin.
-* The Prover is tasked with generating proofs for the created blocks and transactions. It uses Cairo’s Virtual Machine to run provable programs, thereby creating execution traces necessary for generating STARK proofs.
-* Layer 1 (L1), in this case Ethereum, hosts a smart contract capable of verifying these STARK proofs. If the proofs are valid, Starknet’s state root on L1 is updated.
+* Sequencer مسئول دریافت تراکنش ها، سفارش آنها و تولید بلاک ها است. مانند اعتبار سنجی در اتریوم یا بیت کوین عمل می کند.
+* Prover وظیفه دارد برای بلوک‌ها و تراکنش‌های ایجاد شده مدارک ایجاد کند. از ماشین مجازی قاهره برای اجرای برنامه‌های قابل اثبات استفاده می‌کند و در نتیجه ردیابی‌های اجرایی لازم برای تولید اثبات‌های STARK ایجاد می‌کند.
+* لایه 1 (L1)، در این مورد اتریوم، میزبان یک قرارداد هوشمند است که می تواند این اثبات های STARK را تأیید کند. اگر شواهد معتبر باشند، ریشه حالت Starknet در L1 به روز می شود.
 
-Starknet’s state is a comprehensive snapshot maintained through Merkle trees, much like in Ethereum. This establishes the architecture of the validity roll-up and the roles of each component.
+وضعیت Starknet یک عکس فوری جامع است که از طریق درختان Merkle نگهداری می شود، دقیقاً مانند اتریوم. این معماری رول آپ اعتبار و نقش های هر جزء را ایجاد می کند.
 
-For a more in-depth look at each component, read on.
+برای نگاهی عمیق تر به هر جزء، ادامه مطلب را بخوانید.
 
-After exploring the introductory overview of the different components, delve deeper into their specific roles by referring to their dedicated subchapters in this Chapter.
+پس از کاوش در نمای کلی مقدماتی اجزای مختلف، با مراجعه به زیرفصل های اختصاصی آنها در این فصل، نقش های خاص آنها را عمیق تر کنید.
 
-## Sequencers
+### ترتیب دهنده ها
 
-Sequencers are the backbone of the Starknet network, akin to Ethereum’s validators. They usher transactions into the system.
+ترتیب‌دهنده‌ها ستون فقرات شبکه استارک‌نت هستند، مشابه اعتباردهنده‌های اتریوم. آنها تراکنش ها را وارد سیستم می کنند.
 
-Validity rollups excel at offloading some network chores, like bundling and processing transactions, to specialized players. This setup is somewhat like how Ethereum and Bitcoin delegate security to miners. Sequencing, like mining, demands hefty resources.
+مجموعه‌های اعتبار در بارگذاری برخی از کارهای شبکه، مانند بسته‌بندی و پردازش تراکنش‌ها، به بازیکنان تخصصی برتری دارند. این راه‌اندازی تا حدودی شبیه نحوه واگذاری امنیت اتریوم و بیت‌کوین به ماینرها است. توالی یابی، مانند استخراج، به منابع زیادی نیاز دارد.
 
-For networks like Starknet and other platforms utilizing Validity rollups, a similar parallel is drawn. These networks outsource transaction processing to specialized entities and then verify their work. These specialized entities in the context of Validity rollups are known as "Sequencers."
+برای شبکه‌هایی مانند Starknet و دیگر پلتفرم‌هایی که از Validity rollup استفاده می‌کنند، مشابهی مشابه ترسیم شده است. این شبکه ها پردازش تراکنش ها را به نهادهای تخصصی برون سپاری می کنند و سپس کار آنها را تأیید می کنند. این نهادهای تخصصی در زمینه گردآوری اعتبار به عنوان "Sequencer" شناخته می شوند.
 
-Instead of providing security, as miners do, Sequencers provide transaction capacity. They order (sequence) multiple transactions into a single batch, executes them, and produce a block that will later be proved by the Prover and submmited to the Layer 1 network as a single, compact proof, known as a "rollup." In other words, just as validators in Ethereum and miners in Bitcoin are specialized actors securing the network, Sequencers in Validity rollup-based networks are specialized actors that provide transaction capacity.
+Sequencer ها به جای ایجاد امنیت، همانطور که ماینرها انجام می دهند، ظرفیت تراکنش را فراهم می کنند. آنها چندین تراکنش را در یک دسته سفارش (توالی) می‌کنند، آنها را اجرا می‌کنند و بلوکی تولید می‌کنند که بعداً توسط Prover اثبات می‌شود و به عنوان یک اثبات منفرد و فشرده به شبکه Layer 1 ارسال می‌شود که به عنوان "rollup" شناخته می‌شود. به عبارت دیگر، همانطور که اعتبار سنجی ها در اتریوم و ماینرها در بیت کوین بازیگران تخصصی ایمن سازی شبکه هستند، شبکه های مبتنی بر جمع بندی روی اعتبارسنجی، بازیگران تخصصی هستند که ظرفیت تراکنش را فراهم می کنند.
 
-This mechanism allows Validity (or ZK) rollups to handle a higher volume of transactions while maintaining the security of the underlying Ethereum network. It enhances scalability without compromising on security.
+این مکانیسم به مجموعه‌های Validity (یا ZK) اجازه می‌دهد تا حجم بیشتری از تراکنش‌ها را انجام دهند و در عین حال امنیت شبکه زیربنایی اتریوم را حفظ کنند. مقیاس پذیری را بدون به خطر انداختن امنیت افزایش می دهد.
 
-Sequencers follow a systematic method for transaction processing:
+ترتیب دهنده ها از یک روش سیستماتیک برای پردازش تراکنش پیروی می کنند:
 
-1. Sequencing: They collect transactions from users and order (sequence) them.
-2. Executing: Sequencers then process these transactions.
-3. Batching: Transactions are grouped together in batches or blocks for efficiency.
-4. Block Production: Sequencers produce blocks that contain batches of processed transactions.
+1. ترتیب بندی: تراکنش ها را از کاربران جمع آوری می کنند و آنها را سفارش می دهند (توالی).
+2. اجرا: ترتیب دهنده ها سپس این تراکنش ها را پردازش می کنند.
+3. دسته بندی: تراکنش ها برای کارایی به صورت دسته ای یا بلوک ها گروه بندی می شوند.
+4. تولید بلوک: ترتیب دهنده ها بلوک هایی را تولید می کنند که شامل دسته ای از تراکنش های پردازش شده است.
 
-Sequencers must be reliable and highly available, as their role is critical to the network’s smooth functioning. They need powerful and well-connected machines to perform their role effectively, as they must process transactions rapidly and continuously.
+ترتیب دهنده ها باید قابل اعتماد و بسیار در دسترس باشند، زیرا نقش آنها برای عملکرد روان شبکه بسیار مهم است. آن‌ها به ماشین‌های قدرتمند و متصل نیاز دارند تا نقش خود را به طور مؤثر انجام دهند، زیرا باید تراکنش‌ها را سریع و پیوسته پردازش کنند.
 
-The current roadmap for Starknet includes decentralizing the Sequencer role. This shift towards decentralization will allow more participants to become Sequencers, contributing to the robustness of the network.
+نقشه راه فعلی Starknet شامل تمرکززدایی از نقش Sequencer است. این تغییر به سمت تمرکززدایی به شرکت‌کنندگان بیشتری اجازه می‌دهد تا Sequencer شوند و به استحکام شبکه کمک کنند.
 
-For more details in the Sequencer role, refer to the dedicated subchapter in this Chapter.
+برای جزئیات بیشتر در نقش Sequencer، به زیرفصل اختصاصی این فصل مراجعه کنید.
 
 ## Provers
 
-Provers serve as the second line of verification in the Starknet network. Their main task is to validate the work of the Sequencers (when they receive the block produced by the Sequencer) and to generate proofs that these processes were correctly performed.
+پروورها به عنوان خط دوم تأیید در شبکه Starknet عمل می کنند. وظیفه اصلی آنها اعتبارسنجی کار Sequencer ها (زمانی که آنها بلوک تولید شده توسط Sequencer را دریافت می کنند) و ایجاد شواهدی است که این فرآیندها به درستی انجام شده اند.
 
-The duties of a Prover include:
+وظایف یک پروور عبارتند از:
 
-1. Receiving Blocks: Provers obtain blocks of processed transactions from Sequencers.
-2. Processing: Provers process these blocks a second time, ensuring that all transactions within the block have been correctly handled.
-3. Proof Generation: After processing, Provers generate a proof of correct transaction processing.
-4. Sending Proof to Ethereum: Finally, the proof is sent to the Ethereum network for validation. If the proof is correct, the Ethereum network accepts the block of transactions.
+1. دریافت بلوک ها: پروورها بلوک هایی از تراکنش های پردازش شده را از Sequencers دریافت می کنند.
+2. پردازش: پروورها این بلوک ها را برای بار دوم پردازش می کنند و اطمینان حاصل می کنند که تمام تراکنش های درون بلوک به درستی انجام شده است.
+3. Proof Generation: پس از پردازش، Provers یک مدرک برای پردازش صحیح تراکنش ایجاد می کند.
+4. ارسال مدرک به اتریوم: در نهایت مدرک برای اعتبار سنجی به شبکه اتریوم ارسال می شود. اگر اثبات درست باشد، شبکه اتریوم بلوک تراکنش ها را می پذیرد.
 
-Provers need even more computational power than Sequencers because they have to calculate and generate proofs, a process that is computationally heavy. However, the work of Provers can be split into multiple parts, allowing for parallelism and efficient proof generation. The proof generation process is asynchronous, meaning it doesn’t have to occur immediately or in real-time. This flexibility allows for the workload to be distributed among multiple Provers. Each Prover can work on a different block, allowing for parallelism and efficient proof generation.
+اثبات‌کننده‌ها حتی به قدرت محاسباتی بیشتری نسبت به Sequencer نیاز دارند، زیرا آنها باید اثبات‌ها را محاسبه و تولید کنند، فرآیندی که از نظر محاسباتی سنگین است. با این حال، کار Provers را می توان به چندین بخش تقسیم کرد که امکان موازی سازی و تولید اثبات کارآمد را فراهم می کند. فرآیند تولید اثبات ناهمزمان است، به این معنی که لازم نیست فورا یا در زمان واقعی اتفاق بیفتد. این انعطاف‌پذیری اجازه می‌دهد تا حجم کار بین چندین Prover توزیع شود. هر Prover می‌تواند روی یک بلوک متفاوت کار کند، که امکان موازی‌سازی و تولید اثبات کارآمد را فراهم می‌کند.
 
-The design of Starknet relies on these two types of actors — Sequencers and Provers — working in tandem to ensure efficient processing and secure verification of transactions.
+طراحی Starknet متکی بر این دو نوع بازیگر - Sequencers و Provers - است که برای اطمینان از پردازش کارآمد و تأیید امن تراکنش‌ها به صورت پشت سر هم کار می‌کنند.
 
-For more details in the Prover role, refer to the dedicated subchapter in this Chapter.
+برای جزئیات بیشتر در نقش Prover، به زیرفصل اختصاصی این فصل مراجعه کنید.
 
-## Optimizing Sequencers and Provers: Debunking Common Misconceptions
+### بهینه‌سازی ترتیب‌دهنده‌ها و اثبات‌کننده‌ها: از بین بردن باورهای غلط رایج
 
-The relationship between Sequencers and Provers in blockchain technology often sparks debate. A common misunderstanding suggests that either the Prover or the Sequencer is the main bottleneck. To set the record straight, let’s discuss the optimization of both components.
+رابطه بین Sequencer و Prover در فناوری بلاک چین اغلب باعث ایجاد بحث می شود. یک سوء تفاهم رایج نشان می دهد که یا Prover یا Sequencer گلوگاه اصلی است. برای درست کردن رکورد، اجازه دهید در مورد بهینه سازی هر دو مؤلفه بحث کنیم.
 
-Starknet, utilizing the Cairo programming language, currently supports only sequential transactions. Plans are in place to introduce parallel transactions in the future. However, as of now, the Sequencer operates one transaction at a time, making it the bottleneck in the system.
+Starknet با استفاده از زبان برنامه نویسی قاهره، در حال حاضر فقط از تراکنش های متوالی پشتیبانی می کند. برنامه هایی برای معرفی تراکنش های موازی در آینده وجود دارد. با این حال، در حال حاضر، Sequencer یک تراکنش را در یک زمان اجرا می کند و آن را به گلوگاه در سیستم تبدیل می کند.
 
-In contrast, Provers operate asynchronously and can execute multiple tasks in parallel. The use of proof recursion allows for task distribution across multiple machines, making scalability less of an issue for Provers.
+در مقابل، Provers به صورت ناهمزمان عمل می کند و می تواند چندین کار را به صورت موازی اجرا کند. استفاده از بازگشت اثباتی امکان توزیع کار در چندین ماشین را فراهم می کند و مقیاس پذیری را برای Provers کمتر مشکل می کند.
 
-Given the asynchronous and scalable nature of Provers, focus in Starknet has shifted to enhancing the Sequencer’s efficiency. This explains why current development efforts are primarily aimed at the sequencing side of the equation.
+با توجه به ماهیت ناهمزمان و مقیاس پذیر Provers، تمرکز در Starknet به سمت افزایش کارایی Sequencer تغییر کرده است. این توضیح می‌دهد که چرا تلاش‌های توسعه کنونی عمدتاً در سمت توالی معادله است.
 
-## Nodes
+### گره ها
 
-When it comes to defining what nodes do in Bitcoin or Ethereum, people often misinterpret their role as keeping track of every transaction within the network. This, however, is not entirely accurate.
+وقتی صحبت از تعریف کاری که گره ها در بیت کوین یا اتریوم انجام می دهند به میان می آید، مردم اغلب نقش آنها را به عنوان پیگیری هر تراکنش در شبکه به اشتباه تعبیر می کنند. با این حال، این کاملاً دقیق نیست.
 
-Nodes serve as auditors of the network, maintaining the state of the network, such as how much Bitcoin each participant owns or the current state of a specific smart contract. They accomplish this by processing transactions and preserving a record of all transactions, but that’s a means to an end, not the end itself.
+گره ها به عنوان حسابرسان شبکه عمل می کنند و وضعیت شبکه را حفظ می کنند، مانند اینکه هر شرکت کننده چقدر بیت کوین دارد یا وضعیت فعلی یک قرارداد هوشمند خاص. آنها این کار را با پردازش تراکنش ها و حفظ رکورد همه تراکنش ها انجام می دهند، اما این وسیله ای برای رسیدن به هدف است، نه خود هدف.
 
-In Validity rollups and specifically within Starknet, this concept is somewhat reversed. Nodes don’t necessarily have to process transactions to get the state. In contrast to Ethereum or Bitcoin, Starknet nodes aren’t required to process all transactions to maintain the state of the network.
+در مجموعه Validity و به طور خاص در Starknet، این مفهوم تا حدودی معکوس شده است. گره ها لزوماً مجبور نیستند تراکنش ها را برای به دست آوردن وضعیت پردازش کنند. برخلاف اتریوم یا بیت‌کوین، گره‌های Starknet برای حفظ وضعیت شبکه نیازی به پردازش همه تراکنش‌ها ندارند.
 
-There are two main ways to access network state data: via an API gateway or using the RPC protocol to communicate with a node. Operating your own node is typically faster than using a shared architecture, like the gateway. Over time, Starknet plans to deprecate APIs and replace them with a JSON RPC standard, making it even more beneficial to operate your own node.
+دو راه اصلی برای دسترسی به داده های وضعیت شبکه وجود دارد: از طریق یک دروازه API یا استفاده از پروتکل RPC برای برقراری ارتباط با یک گره. کارکردن گره شخصی شما معمولاً سریعتر از استفاده از یک معماری مشترک مانند دروازه است. با گذشت زمان، Starknet قصد دارد API ها را منسوخ کند و آنها را با یک استاندارد JSON RPC جایگزین کند، و کارکردن گره خود را حتی سودمندتر کند.
 
-It’s worth noting that encouraging more people to run nodes increases the resilience of the network and prevents server flooding, which has been an issue in networks in other L2s.
+شایان ذکر است که تشویق افراد بیشتر به اجرای گره‌ها، انعطاف‌پذیری شبکه را افزایش می‌دهد و از سیل سرور جلوگیری می‌کند، که در شبکه‌های دیگر L2 وجود دارد.
 
-Currently, there are primarily three methods for a node to keep track of the network’s state and we can have nodes implement any of these methods:
+در حال حاضر، اساساً سه روش برای یک گره برای پیگیری وضعیت شبکه وجود دارد و می‌توانیم گره‌ها هر یک از این روش‌ها را پیاده‌سازی کنند:
 
-1. **Replaying Old Transactions**: Like Ethereum or Bitcoin, a node can take all the transactions and re-execute them. Although this approach is accurate, it isn’t scalable unless you have a powerful machine that’s capable of handling the load. If you can replay all transactions, you can become a Sequencer.
-2. **Relying on L2 Consensus**: Nodes can trust the Sequencer(s) to execute the network correctly. When the Sequencer updates the state and adds a new block, nodes accept the update as accurate.
-3. **Checking Proof Validation on L1**: Nodes can monitor the state of the network by observing L1 and ensuring that every time a proof is sent, they receive the updated state. This way, they don’t have to trust anyone and only need to keep track of the latest valid transaction for Starknet.
+1. بازپخش تراکنش های قدیمی: مانند اتریوم یا بیت کوین، یک گره می تواند تمام تراکنش ها را بگیرد و دوباره آنها را اجرا کند. اگرچه این روش دقیق است، اما مقیاس پذیر نیست مگر اینکه ماشین قدرتمندی داشته باشید که بتواند بار را مدیریت کند. اگر بتوانید همه تراکنش ها را دوباره پخش کنید، می توانید یک Sequencer شوید.
+2. تکیه بر اجماع L2: گره ها می توانند به ترتیب دهنده(های) برای اجرای صحیح شبکه اعتماد کنند. هنگامی که Sequencer وضعیت را به روز می کند و یک بلوک جدید اضافه می کند، گره ها به روز رسانی را دقیق می پذیرند.
+3. بررسی اعتبار اثبات در L1: گره ها می توانند با مشاهده L1 وضعیت شبکه را کنترل کنند و اطمینان حاصل کنند که هر بار که یک اثبات ارسال می شود، وضعیت به روز شده را دریافت می کنند. به این ترتیب، آنها مجبور نیستند به کسی اعتماد کنند و فقط باید آخرین تراکنش معتبر Starknet را پیگیری کنند.
 
-Each type of node setup comes with its own set of hardware requirements and trust assumptions.
+هر نوع تنظیم گره دارای مجموعه ای از الزامات سخت افزاری و مفروضات اعتماد خاص خود است.
 
-### Nodes That Replay Transactions
+### گره هایی که تراکنش ها را دوباره پخش می کنند
 
-Nodes that replay transactions require powerful machines to track and execute all transactions. These nodes don’t have trust assumptions; they rely solely on the transactions they execute, guaranteeing that the state at any given point is valid.
+گره هایی که تراکنش ها را دوباره پخش می کنند به ماشین های قدرتمندی برای ردیابی و اجرای تمام تراکنش ها نیاز دارند. این گره ها مفروضات اعتمادی ندارند. آنها تنها به تراکنش هایی که انجام می دهند متکی هستند و تضمین می کنند که وضعیت در هر نقطه معین معتبر است.
 
-### Nodes That Rely on L2 Consensus
+### گره هایی که به اجماع L2 متکی هستند
 
-Nodes relying on L2 consensus require less computational power. They need sufficient storage to keep the state but don’t need to process a lot of transactions. The trade-off here is a trust assumption. Currently, Starknet revolves around one Sequencer, so these nodes are trusting Starkware not to disrupt the network. However, once a consensus mechanism and leader election amongst Sequencers are in place, these nodes will only need to trust that a Sequencer who staked their stake to produce a block is not willing to lose it.
+گره های متکی بر اجماع L2 به توان محاسباتی کمتری نیاز دارند. آنها برای حفظ وضعیت به فضای ذخیره سازی کافی نیاز دارند اما نیازی به پردازش تراکنش های زیادی ندارند. مبادله در اینجا یک فرض اعتماد است. در حال حاضر، Starknet حول یک Sequencer می چرخد، بنابراین این گره ها به Starkware اعتماد دارند تا شبکه را مختل نکند. با این حال، هنگامی که مکانیزم اجماع و انتخاب رهبر در میان ترتیب‌دهندگان برقرار شد، این گره‌ها فقط باید اعتماد کنند که Sequencer که سهام خود را برای تولید یک بلوک به اشتراک گذاشته است، مایل به از دست دادن آن نیست.
 
-### Nodes That Check Proof Validation on L1
+### گره هایی که اعتبار سنجی اثبات را در L1 بررسی می کنند
 
-Nodes that only update their state based on proof validation on L1 require the least hardware. They have the same requirements as an Ethereum node, and once Ethereum light nodes become a reality, maintaining such a node could be as simple as using a smartphone. The only trade-off is latency. Proofs are not sent to Ethereum every block but intermittently, resulting in delayed state updates. Plans are in place to produce proofs more frequently, even if they are not sent to Ethereum immediately, allowing these nodes to reduce their latency. However, this development is still a way off in the Starknet roadmap.
+گره هایی که فقط وضعیت خود را بر اساس تأیید اعتبار در L1 به روز می کنند به کمترین سخت افزار نیاز دارند. آنها همان الزامات گره اتریوم را دارند و زمانی که گره های نور اتریوم به واقعیت تبدیل شوند، حفظ چنین گره ای می تواند به سادگی استفاده از یک گوشی هوشمند باشد. تنها معامله تاخیر است. اثبات‌ها در هر بلوک به اتریوم ارسال نمی‌شوند، بلکه به صورت متناوب و در نتیجه به‌روزرسانی‌های وضعیت با تأخیر انجام می‌شود. برنامه‌هایی برای تولید بیشتر اثبات‌ها وجود دارد، حتی اگر فوراً به اتریوم ارسال نشود و به این گره‌ها اجازه می‌دهد تأخیر خود را کاهش دهند. با این حال، این توسعه هنوز در نقشه راه Starknet فاصله دارد.
 
-## Conclusion
+### نتیجه
 
-Through this chapter, we delve into Starknet’s structure, uncovering the importance of Sequencers, Provers, and nodes. Each plays a unique role, but together, they create a highly scalable, efficient, and secure network that marks a significant step forward in Layer 2 solutions. As Starknet evolves towards decentralization, understanding these roles will provide valuable insight into the inner workings of this network.
+از طریق این فصل، ما به ساختار Starknet می پردازیم و اهمیت Sequencer ها، Provers و Node ها را کشف می کنیم. هر کدام نقش منحصر به فردی را ایفا می کنند، اما با هم، شبکه ای بسیار مقیاس پذیر، کارآمد و ایمن ایجاد می کنند که گام مهمی به جلو در راه حل های لایه 2 است. همانطور که Starknet به سمت تمرکززدایی تکامل می یابد، درک این نقش ها بینش ارزشمندی را در مورد عملکرد داخلی این شبکه ارائه می دهد.
 
-As we venture further into the Starknet universe, our next stop will be an exploration of the transaction lifecycle before we dive into the heart of coding with Cairo.
+همانطور که ما بیشتر به دنیای Starknet می رویم، توقف بعدی ما کاوش در چرخه حیات تراکنش قبل از فرو رفتن در قلب کدنویسی با قاهره خواهد بود.
 
-The Book is a community-driven effort created for the community.
+کتاب یک تلاش جامعه محور است که برای جامعه ایجاد شده است.
 
-* If you’ve learned something, or not, please take a moment to provide feedback through [this 3-question survey](https://a.sprig.com/WTRtdlh2VUlja09lfnNpZDo4MTQyYTlmMy03NzdkLTQ0NDEtOTBiZC01ZjAyNDU0ZDgxMzU=).
-* If you discover any errors or have additional suggestions, don’t hesitate to open an [issue on our GitHub repository](https://github.com/starknet-edu/starknetbook/issues).
+* اگر چیزی یاد گرفته‌اید یا نه، لطفاً چند لحظه وقت بگذارید و از طریق این نظرسنجی 3 سؤالی بازخورد خود را ارائه دهید.
+* در صورت کشف هرگونه خطا یا پیشنهادات اضافی، در باز کردن مشکل در مخزن GitHub ما تردید نکنید.

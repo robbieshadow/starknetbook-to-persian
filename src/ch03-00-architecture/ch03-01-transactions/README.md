@@ -1,22 +1,22 @@
-# Transactions
+# معاملات
 
-The journey of a Starknet transaction, from its beginning to its conclusion, involves specific steps. Each phase ensures the accurate transmission, processing, and storage of data within the network. This chapter discusses the Starknet transaction's path.
+سفر یک تراکنش Starknet، از آغاز تا پایان آن، شامل مراحل خاصی است. هر مرحله انتقال، پردازش و ذخیره سازی دقیق داده ها در شبکه را تضمین می کند. این فصل مسیر تراکنش Starknet را مورد بحث قرار می دهد.
 
-## Transaction Creation
+### ایجاد معامله
 
-A transaction starts with its preparation. The sender:
+یک معامله با آماده سازی آن شروع می شود. فرستنده:
 
-1. Queries their account nonce, which acts as a unique identifier for the transaction.
-2. Signs the transaction.
-3. Sends it to their Node.
+1. حساب آنها را یکسره جستجو می کند، که به عنوان یک شناسه منحصر به فرد برای تراکنش عمل می کند.
+2. معامله را امضا می کند.
+3. آن را به Node خود ارسال می کند.
 
-The Node, analogous to a post office, receives the transaction and broadcasts it on the Starknet network, primarily to the Sequencer. As the network evolves, the transaction will be broadcasted to multiple Sequencers.
+گره، مشابه یک اداره پست، تراکنش را دریافت می کند و آن را در شبکه Starknet پخش می کند، در درجه اول برای Sequencer. با تکامل شبکه، تراکنش برای چندین Sequencer پخش خواهد شد.
 
-It is worth mentioning that before broadcasting the transaction to the Sequencer, the gateways perform some validations, such as checking that the max fee exceeds a minimum fee and the account's balance is greater than the max fee. The transaction will be saved in the storage if the validation function passes.
+شایان ذکر است که قبل از پخش تراکنش به Sequencer، درگاه‌ها اعتبارسنجی‌هایی را انجام می‌دهند، مانند بررسی اینکه حداکثر کارمزد از حداقل کارمزد بیشتر است و موجودی حساب بیشتر از حداکثر کارمزد است. اگر تابع اعتبارسنجی عبور کند، تراکنش در حافظه ذخیره می شود.
 
-## The Sequencer's Role
+### نقش ترتیب ساز
 
-On receiving the transaction, the Sequencer acknowledges its receipt but hasn't processed it yet—similar to Ethereum's mempool state.
+پس از دریافت تراکنش، Sequencer دریافت آن را تأیید می کند اما هنوز آن را پردازش نکرده است - شبیه به حالت mempool اتریوم.
 
 Sequencer's Process:
 
@@ -65,38 +65,38 @@ It is considered to be an average of 6 blocks to reach the finality status; give
 
 Starknet, a Layer-2 (L2) solution on Ethereum, has a two-step transaction finality process. The first step is when the transaction gets accepted on Layer-2 (Starknet), and the second step is when the transaction gets accepted on Layer-1 (Ethereum).
 
-Accepted on L2: When a transaction is processed by the Sequencer and included in a block on Starknet, it reaches L2 finality. However, this finality relies on the L2 consensus and comes with a slight risk of collusion among Sequencers leading to transaction reversal. Accepted on L1: The absolute finality comes when the block containing the transaction gets a proof generated, the proof is validated by the Verifier contract on Ethereum, and the state is updated on Ethereum. At this point, the transaction is as secure as the Ethereum's PoW consensus can provide, meaning it becomes computationally infeasible to alter or reverse.
+پذیرش در L2: هنگامی که یک تراکنش توسط Sequencer پردازش می شود و در یک بلوک در Starknet گنجانده می شود، به L2 نهایی می رسد. با این حال، این قطعیت به اجماع L2 متکی است و با خطر جزئی تبانی بین Sequencer ها که منجر به برگشت تراکنش می شود، همراه است. پذیرش در L1: نهایی شدن مطلق زمانی حاصل می‌شود که بلوک حاوی تراکنش یک اثبات تولید می‌کند، اثبات توسط قرارداد Verifier در اتریوم تأیید می‌شود و وضعیت در اتریوم به‌روزرسانی می‌شود. در این مرحله، تراکنش به همان اندازه ایمن است که اجماع PoW اتریوم می تواند ارائه دهد، به این معنی که تغییر یا معکوس کردن آن از نظر محاسباتی غیرممکن می شود.
 
-### Comparison
+### مقایسه
 
-The main difference between Ethereum and Starknet's transaction finality lies in the stages of finality and their reliance on consensus mechanisms.
+تفاوت اصلی بین نهایی بودن تراکنش اتریوم و استارک نت در مراحل نهایی شدن و اتکای آنها به مکانیسم های اجماع است.
 
-Ethereum's transaction finality becomes increasingly unlikely to be reversed as more blocks are added. Starknet's finality process is two-fold. The initial finality (L2) is quicker but relies on L2 consensus and carries a small risk of collusion. The ultimate finality (L1) is slower, as it involves generation and validation of proofs and updates on Ethereum. However, once reached, it provides the same level of security as an Ethereum transaction.
+با اضافه شدن بلاک های بیشتر، احتمال معکوس شدن نهایی تراکنش اتریوم به طور فزاینده ای کم می شود. فرآیند نهایی استارک نت دوگانه است. نهایی شدن اولیه (L2) سریعتر است اما بر اجماع L2 متکی است و خطر تبانی کوچکی را به همراه دارد. نهایی شدن نهایی (L1) کندتر است، زیرا شامل تولید و تأیید مدارک و به روز رسانی در اتریوم است. با این حال، پس از رسیدن به آن، همان سطح امنیت تراکنش اتریوم را فراهم می کند.
 
-## Handling of Rejected Transactions
+### رسیدگی به تراکنش های رد شده
 
-In rare scenarios, a transaction can be rejected by the Sequencer if it's found to be invalid or erroneous, even if the gateways already validate it.
+در سناریوهای نادر، تراکنش می‌تواند توسط Sequencer رد شود، در صورتی که نامعتبر یا اشتباه باشد، حتی اگر دروازه‌ها قبلاً آن را تأیید کرده باشند.
 
-Transaction Status Transition
+انتقال وضعیت تراکنش
 
-1. Received -> Rejected (if invalid or erroneous)
+1. دریافت شد -> رد شد (در صورت نامعتبر یا اشتباه)
 
-## Handling of Reverted Transactions
+### رسیدگی به تراکنش های برگشتی
 
-A transaction can be reverted due to failed execution, the transaction will still be included in a block, and the account will be charged for the resources consumed.
+یک تراکنش می تواند به دلیل اجرای ناموفق برگردانده شود، تراکنش همچنان در یک بلوک قرار می گیرد و حساب برای منابع مصرف شده شارژ می شود.
 
-This adds a trust assumption for the Sequencer to be honest and non-censoring. In later versions, there will be an OS change that will enable the Sequencer to prove that a transaction failed and charge the correct amount of gas for it, thus making it censorship-resistant with provably failed transactions.
+این یک فرض اعتماد را برای Sequencer به صادق بودن و غیر سانسور بودن اضافه می کند. در نسخه‌های بعدی، یک تغییر سیستم‌عامل وجود خواهد داشت که Sequencer را قادر می‌سازد ثابت کند که یک تراکنش شکست خورده است و مقدار صحیح گاز را برای آن شارژ کند، بنابراین در برابر سانسور با تراکنش‌های شکست‌خورده مقاوم می‌شود.
 
-Transaction Status Transition
+انتقال وضعیت تراکنش
 
-1. Received -> Reverted
+1. دریافت شد -> برگردانده شد
 
-## Transaction Lifecycle Summary
+### خلاصه چرخه حیات تراکنش
 
-The following outlines the various steps in a transaction's lifecycle:
+موارد زیر مراحل مختلف چرخه عمر تراکنش را تشریح می کند:
 
 ![Transaction flow](../../img/ch03-transaction\_flow.png)
 
-## Conclusion
+### نتیجه
 
-The lifecycle of a Starknet transaction is a carefully curated journey, ensuring efficient, secure, and transparent transaction processing. It incorporates everything from transaction creation, Sequencer processing, Layer-2 and Layer-1 validation, to handling rejected and reverted transactions. By comprehending this lifecycle, developers and users can better navigate the Starknet ecosystem and leverage its capabilities to the fullest.
+چرخه حیات تراکنش استارک نت یک سفر با دقت تنظیم شده است که پردازش تراکنش کارآمد، ایمن و شفاف را تضمین می کند. این شامل همه چیز از ایجاد تراکنش، پردازش Sequencer، اعتبار سنجی لایه 2 و لایه 1، تا رسیدگی به تراکنش های رد شده و برگردانده شده است. با درک این چرخه حیات، توسعه دهندگان و کاربران می توانند بهتر در اکوسیستم Starknet حرکت کنند و از قابلیت های آن به طور کامل استفاده کنند.
